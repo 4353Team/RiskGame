@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Country {
+public class Territory {
     String name;
-    List<Country> neighbors = new ArrayList<Country>();
+    List<Territory> neighbors = new ArrayList<Territory>();
     Player controlledBy;
     int numArmies;
 
-    public void attack(Country country) throws AttackException {
-        if (country.getControlledBy() == this.controlledBy) {
+    public void attack(Territory territory) throws AttackException {
+        if (territory.getControlledBy() == this.controlledBy) {
             throw new SelfAttackException();
         }
     } // return type to be determined
