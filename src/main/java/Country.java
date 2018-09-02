@@ -6,4 +6,14 @@ public class Country {
     List<Country> neighbors = new ArrayList<Country>();
     Player controlledBy;
     int numArmies;
+
+    public void attack(Country country) throws AttackException {
+        if (country.getControlledBy() == this.controlledBy) {
+            throw new SelfAttackException();
+        }
+    } // return type to be determined
+
+    private Player getControlledBy() {
+        return this.controlledBy;
+    }
 }
