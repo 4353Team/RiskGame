@@ -7,7 +7,7 @@ public class Territory {
     Player controlledBy;
     int numArmies;
 
-    public void attack(Territory territory) throws AttackException {
+    public void attack(Territory territory) throws SelfAttackException {
         if (territory.getControlledBy() == this.controlledBy) {
             throw new SelfAttackException();
         }
