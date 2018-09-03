@@ -6,7 +6,7 @@ public class Country {
     private String name;
     private int troops;
     private Player owner;
-    public List<Country> neighbors;
+    private List<Country> neighbors;
     public Country(String name, int troops, Player owner) {
         this.name = name;
         this.troops = troops;
@@ -18,5 +18,12 @@ public class Country {
     }
     public Player getOwner() {
         return owner;
+    }
+    public String getName(){
+        return name;
+    }
+
+    public void setNeighbors(List<Country> neighbors) {
+        this.neighbors = neighbors;
     }
 }
