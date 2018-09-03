@@ -109,6 +109,7 @@ public class Map {
         countries.add(c41);
         countries.add(c42);
 
+        // north america
         List<Country> c1n = new ArrayList<Country>();
         c1n.add(c2);
         c1n.add(c4);
@@ -170,5 +171,241 @@ public class Map {
         c9n.add(c8);
         c9n.add(c10);
         c9.setNeighbors(c9n);
+
+        //south america
+        List<Country> c10n = new ArrayList<Country>();
+        c10n.add(c9);
+        c10n.add(c11);
+        c10n.add(c12);
+        c10.setNeighbors(c10n);
+
+        List<Country> c11n = new ArrayList<Country>();
+        c11n.add(c10);
+        c11n.add(c12);
+        c11n.add(c13);
+        c11.setNeighbors(c11n);
+
+        List<Country> c12n = new ArrayList<Country>();
+        c12n.add(c10);
+        c12n.add(c11);
+        c12n.add(c13);
+        c12n.add(c14);
+        c12.setNeighbors(c12n);
+
+        List<Country> c13n = new ArrayList<Country>();
+        c13n.add(c11);
+        c13n.add(c12);
+        c13.setNeighbors(c13n);
+
+        List<Country> c14n = new ArrayList<Country>();
+        c14n.add(c12);
+        c14n.add(c25);
+        c14n.add(c15);
+        c14n.add(c16);
+        c14n.add(c17);
+
+        // africa
+        c14.setNeighbors(c14n);
+
+        List<Country> c15n = new ArrayList<Country>();
+        c15n.add(c14);
+        c15n.add(c26);
+        c15n.add(c27);
+        c15n.add(c16);
+        c15.setNeighbors(c15n);
+
+        List<Country> c16n = new ArrayList<Country>();
+        c16n.add(c15);
+        c16n.add(c14);
+        c16n.add(c17);
+        c16n.add(c18);
+        c16n.add(c19);
+        c16n.add(c27);
+        c16.setNeighbors(c16n);
+
+        List<Country> c17n = new ArrayList<Country>();
+        c17n.add(c14);
+        c17n.add(c16);
+        c17n.add(c18);
+        c17.setNeighbors(c17n);
+
+        List<Country> c18n = new ArrayList<Country>();
+        c18n.add(c17);
+        c18n.add(c16);
+        c18n.add(c19);
+        c18.setNeighbors(c18n);
+
+        List<Country> c19n = new ArrayList<Country>();
+        c19n.add(c18);
+        c19n.add(c16);
+        c19.setNeighbors(c19n);
+
+        // europe
+
+        List<Country> c20n = new ArrayList<Country>();
+        c20n.add(c3);
+        c20n.add(c21);
+        c20n.add(c22);
+        c20.setNeighbors(c20n);
+
+        List<Country> c21n = new ArrayList<Country>();
+        c21n.add(c20);
+        c21n.add(c24);
+        c21n.add(c22);
+        c21n.add(c25);
+
+        c21.setNeighbors(c21n);
+
+        List<Country> c22n = new ArrayList<Country>();
+        c22n.add(c20);
+        c22n.add(c21);
+        c22n.add(c24);
+        c22n.add(c23);
+        c22.setNeighbors(c22n);
+
+        List<Country> c23n = new ArrayList<Country>();
+        c23n.add(c22);
+        c23n.add(c24);
+        c23n.add(c26);
+        c23n.add(c27);
+        c23n.add(c28);
+        c23n.add(c33);
+        c23.setNeighbors(c23n);
+
+        List<Country> c24n = new ArrayList<Country>();
+        c24n.add(c21);
+        c24n.add(c22);
+        c24n.add(c25);
+        c24n.add(c26);
+        c24n.add(c23);
+        c24.setNeighbors(c24n);
+
+        List<Country> c25n = new ArrayList<Country>();
+        c25n.add(c24);
+        c25n.add(c26);
+        c25n.add(c14);
+        c25n.add(c21);
+        c25.setNeighbors(c25n);
+
+        List<Country> c26n = new ArrayList<Country>();
+        c26n.add(c24);
+        c26n.add(c25);
+        c26n.add(c15);
+        c26n.add(c27);
+        c26n.add(c23);
+        c26.setNeighbors(c26n);
+
+        List<Country> c27n = new ArrayList<Country>();
+        c27n.add(c23);
+        c27n.add(c26);
+        c27n.add(c15);
+        c27n.add(c16);
+        c27n.add(c28);
+        c27n.add(c29);
+        c27.setNeighbors(c27n);
+
+        List<Country> c28n = new ArrayList<Country>();
+        c28n.add(c23);
+        c28n.add(c27);
+        c28n.add(c29);
+        c28n.add(c30);
+        c28n.add(c33);
+        c28.setNeighbors(c28n);
+
+        List<Country> c29n = new ArrayList<Country>();
+        c29n.add(c27);
+        c29n.add(c28);
+        c29n.add(c30);
+        c29n.add(c32);
+        c29.setNeighbors(c29n);
+
+        List<Country> c30n = new ArrayList<Country>();
+        c30n.add(c32);
+        c30n.add(c29);
+        c30n.add(c28);
+        c30n.add(c33);
+        c30n.add(c34);
+        c30n.add(c31);
+        c30.setNeighbors(c30n);
+
+        List<Country> c31n = new ArrayList<Country>();
+        c31n.add(c30);
+        c31n.add(c34);
+        c31n.add(c35);
+        c31n.add(c37);
+        c31n.add(c36);
+        c31.setNeighbors(c31n);
+
+        List<Country> c32n = new ArrayList<Country>();
+        c32n.add(c29);
+        c32n.add(c30);
+        c32n.add(c39);
+        c32.setNeighbors(c32n);
+
+        List<Country> c33n = new ArrayList<Country>();
+        c33n.add(c23);
+        c33n.add(c34);
+        c33n.add(c30);
+        c33n.add(c28);
+        c33.setNeighbors(c33n);
+
+        List<Country> c34n = new ArrayList<Country>();
+        c34n.add(c33);
+        c34n.add(c30);
+        c34n.add(c31);
+        c34n.add(c35);
+        c34n.add(c38);
+        c34.setNeighbors(c34n);
+
+        List<Country> c35n = new ArrayList<Country>();
+        c35n.add(c31);
+        c35n.add(c34);
+        c35n.add(c38);
+        c35n.add(c37);
+        c35.setNeighbors(c35n);
+
+        List<Country> c36n = new ArrayList<Country>();
+        c36n.add(c37);
+        c36n.add(c31);
+        c36.setNeighbors(c36n);
+
+        List<Country> c37n = new ArrayList<Country>();
+        c37n.add(c38);
+        c37n.add(c35);
+        c37n.add(c36);
+        c37n.add(c1);
+        c37n.add(c31);
+
+        c37.setNeighbors(c37n);
+
+        List<Country> c38n = new ArrayList<Country>();
+        c38n.add(c34);
+        c38n.add(c35);
+        c38n.add(c37);
+        c38.setNeighbors(c38n);
+
+        // australia
+        List<Country> c39n = new ArrayList<Country>();
+        c39n.add(c32);
+        c39n.add(c40);
+        c39n.add(c41);
+        c39.setNeighbors(c39n);
+
+        List<Country> c40n = new ArrayList<Country>();
+        c40n.add(c39);
+        c40n.add(c41);
+        c40n.add(c42);
+        c40.setNeighbors(c40n);
+
+        List<Country> c41n = new ArrayList<Country>();
+        c41n.add(c39);
+        c41n.add(c40);
+        c41n.add(c42);
+        c41.setNeighbors(c41n);
+
+        List<Country> c42n = new ArrayList<Country>();
+        c42n.add(c40);
+        c42n.add(c41);
+        c42.setNeighbors(c42n);
     }
 }

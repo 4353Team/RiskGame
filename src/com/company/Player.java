@@ -2,11 +2,13 @@ package com.company;
 
 public class Player {
     public String name;
-    public int id;
     public Card[] cards;
 
-    public Player(String name, int id) {
+    public Player(String name) {
         this.name = name;
-        this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 }

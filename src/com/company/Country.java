@@ -11,6 +11,11 @@ public class Country {
         this.name = name;
         this.troops = troops;
         this.owner = owner;
+        this.neighbors = null;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 
     public int getTroops() {
@@ -25,5 +30,8 @@ public class Country {
 
     public void setNeighbors(List<Country> neighbors) {
         this.neighbors = neighbors;
+    }
+    public List<Country> getNeighbors() {
+        return neighbors;
     }
 }
