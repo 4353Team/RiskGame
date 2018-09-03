@@ -9,7 +9,7 @@ public class Dice {
     }
     public void rollDice() {
         Random rand = new Random();
-        int n = rand.nextInt(5) + 1;
+        int n = rand.nextInt(6)+1;
         faceValue = n;
     }
     public int getFaceValue() {
