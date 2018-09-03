@@ -5,8 +5,12 @@ public class Territory {
     String name;
     List<Territory> neighbors = new ArrayList<Territory>();
     Player controlledBy;
-    int numArmies;
+    List<Army> armies = new ArrayList<Army>();
 
+//When for example:
+    public void addArmies(List armies){
+        this.armies.addAll(armies);
+    }
     public void attack(Territory territory) throws SelfAttackException {
         if (territory.getControlledBy() == this.controlledBy) {
             throw new SelfAttackException();
@@ -22,5 +26,3 @@ public class Territory {
     }
 
 }
-
-
