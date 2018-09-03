@@ -16,4 +16,11 @@ public class Territory {
     private Player getControlledBy() {
         return this.controlledBy;
     }
+
+    public class SelfAttackException extends RiskException{
+
+    }
+
 }
+
+
