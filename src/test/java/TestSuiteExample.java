@@ -18,6 +18,6 @@ public class TestSuiteExample {
             System.out.println("You may not attack yourself, test successful");
         }
 
-        assert test instanceof SelfAttackException;
+        assert test instanceof Territory.SelfAttackException;
     }
 }
