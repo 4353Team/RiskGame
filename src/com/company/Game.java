@@ -8,10 +8,15 @@ public class Game {
     public Map map;
     public List<Player> players;
     public Dice gameDice;
+    private Stack<Card> cardStack;
     public List<Card> cards;
     private int turn = 0;
+    private int phase = 0;
     private int numberOfPlayers = 0;
-
+    private int setsOfRiskCardsTraded = 0;
+    public enum GamePhase {
+        DRAFT, ATTACK, FORTIFY
+    }
     // initialize map
     public Game() {
         //load map
@@ -59,6 +64,9 @@ public class Game {
         Card c40 = new Card(new Country("Western Europe"), Card.TroopsType.ARTILLERY);
         Card c41 = new Card(new Country("Western United States"), Card.TroopsType.ARTILLERY);
         Card c42 = new Card(new Country("Yakutsk"), Card.TroopsType.CAVALRY);
+        Card c43 = new SpecialCard();
+        Card c44 = new SpecialCard();
+
         cards.add(c1);
         cards.add(c2);
         cards.add(c3);
@@ -101,14 +109,19 @@ public class Game {
         cards.add(c40);
         cards.add(c41);
         cards.add(c42);
-
+        cards.add(c43);
+        cards.add(c44);
+        Collections.shuffle(cards);
+        try {
+            cardStack.addAll(cards);
+        }catch (Exception e ) {};
 
         // create players for test purpose
         players = new ArrayList<Player>();
         players.add(new Player("Navin"));
         players.add(new Player("Sunada"));
         players.add(new Player("Jack"));
-        players.add(new Player("Mark"));
+
 
         numberOfPlayers = players.size();
 
@@ -174,7 +187,60 @@ public class Game {
         System.out.println(map.toString());
         System.out.println(map.getTotalTroops() +" troops across 42 countries, 6 continents");
 
+
+        for (Card c:cards) {
+            System.out.println((c.getClass() == new SpecialCard().getClass())?"Special":"Not so special");
+        }
+
+        Scanner scan = new Scanner(System.in);
+        //============ main game loop =================
+        while (true) {
+
+            //-----------------calculate bonus troops
+            // draft new troops
+                // get number of territories player occupies
+                Player player = players.get(turn);
+                System.out.println(player.getName() +"'s " + getGamePhase() + " phase");
+                player.setTotalInitialTroops((int)Math.floor(getTerritoriesOwnedBy(player).size()/3.0));
+                System.out.println(player.getName() + " controls " + getTerritoriesOwnedBy(player).size() + " territories, therefore receives " + player.getTotalInitialTroops() + " troops" );
+             //   System.out.println(player.getTotalInitialTroops());
+                // does this player control a continent , if so add respective value
+                // check matched RISK cards from a set of 3 cards this player has accumulated
+
+            //- draft phase
+
+
+
+
+
+
+             nextPhase();
+            // attack if you want by rolling dice
+            System.out.println(player.getName() +"'s " + getGamePhase() + " phase");
+
+
+
+
+            // fortify position
+            nextPhase();
+            System.out.println(player.getName() +"'s " + getGamePhase() + " phase");
+
+            scan.nextLine();
+            nextTurn();
+            nextPhase();
+        }
+
      }
+     private boolean controlsContinent(Player p) {
+
+
+        for (Country.Continent continet: Country.Continent.values()) {
+
+        }
+        return false;
+     }
+
+
      private boolean isOccupied(Country country) {
          for (Country c: map.countries) {
              if (c.getName() == country.getName())
@@ -192,6 +258,17 @@ public class Game {
         if (turn >= numberOfPlayers)
             turn = 0;
         return players.get(turn);
+     }
+     private void nextPhase() {
+        phase++;
+         if (phase >= 3)
+             phase = 0;
+     }
+     private GamePhase getGamePhase() {
+
+        if (phase == 0) return GamePhase.DRAFT;
+        else if (phase == 1) return GamePhase.ATTACK;
+        else return GamePhase.FORTIFY;
      }
      private List<Country> getTerritoriesOwnedBy(Player p) {
         List<Country> m = new ArrayList<Country>();

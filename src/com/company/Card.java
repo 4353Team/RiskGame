@@ -6,6 +6,9 @@ public class Card {
     public enum TroopsType {
         INFANTRY, CAVALRY, ARTILLERY
     }
+    public Card() {
+
+    }
     public Card(Country country, TroopsType troopsType) {
         this.territory = country;
         this.troopsType = troopsType;

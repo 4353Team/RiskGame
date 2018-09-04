@@ -51,4 +51,5 @@ public class Country {
         owner = p;
         p.setTotalInitialTroops(p.getTotalInitialTroops()-1);
     }
+
 }
