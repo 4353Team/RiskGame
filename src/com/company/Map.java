@@ -6,6 +6,7 @@ import java.util.List;
 public class Map {
 
     public List<Country> countries;
+
     public Map() {
 
         countries = new ArrayList<Country>();
@@ -13,58 +14,57 @@ public class Map {
         Player owner = null;
 
         // North America
-        Country c1 = new Country("Alaska",0, owner);
-        Country c2 = new Country("Northwest Territory",0, owner);
-        Country c3 = new Country("Greenland",0, owner);
-        Country c4 = new Country("Alberta",0, owner);
-        Country c5 = new Country("Ontario",0, owner);
-        Country c6 = new Country("Quebec",0, owner);
-        Country c7 = new Country("Western United States",0, owner);
-        Country c8 = new Country("Eastern United States",0, owner);
-        Country c9 = new Country("Central America",0, owner);
+        Country c1 = new Country("Alaska", Country.Continent.NORTH_AMERICA,0, owner);
+        Country c2 = new Country("Northwest Territory", Country.Continent.NORTH_AMERICA, 0, owner);
+        Country c3 = new Country("Greenland",Country.Continent.NORTH_AMERICA, 0, owner);
+        Country c4 = new Country("Alberta",Country.Continent.NORTH_AMERICA, 0, owner);
+        Country c5 = new Country("Ontario",Country.Continent.NORTH_AMERICA, 0, owner);
+        Country c6 = new Country("Quebec",Country.Continent.NORTH_AMERICA, 0, owner);
+        Country c7 = new Country("Western United States",Country.Continent.NORTH_AMERICA, 0, owner);
+        Country c8 = new Country("Eastern United States",Country.Continent.NORTH_AMERICA, 0, owner);
+        Country c9 = new Country("Central America",Country.Continent.NORTH_AMERICA, 0, owner);
 
         // South America
-        Country c10 = new Country("Venezuela",0, owner);
-        Country c11 = new Country("Peru",0, owner);
-        Country c12 = new Country("Brazil",0, owner);
-        Country c13 = new Country("Argentina",0, owner);
-
+        Country c10 = new Country("Venezuela",Country.Continent.SOUTH_AMERICA,0, owner);
+        Country c11 = new Country("Peru",Country.Continent.SOUTH_AMERICA,0, owner);
+        Country c12 = new Country("Brazil",Country.Continent.SOUTH_AMERICA,0, owner);
+        Country c13 = new Country("Argentina",Country.Continent.SOUTH_AMERICA,0, owner);
         // Africa
-        Country c14 = new Country("North Africa",0, owner);
-        Country c15 = new Country("Egypt",0, owner);
-        Country c16 = new Country("East Africa",0, owner);
-        Country c17 = new Country("Congo",0, owner);
-        Country c18 = new Country("South Africa",0, owner);
-        Country c19 = new Country("Madagascar",0, owner);
+        Country c14 = new Country("North Africa",Country.Continent.AFRICA,0, owner);
+        Country c15 = new Country("Egypt",Country.Continent.AFRICA,0, owner);
+        Country c16 = new Country("East Africa",Country.Continent.AFRICA,0, owner);
+        Country c17 = new Country("Congo",Country.Continent.AFRICA,0, owner);
+        Country c18 = new Country("South Africa",Country.Continent.AFRICA,0, owner);
+        Country c19 = new Country("Madagascar",Country.Continent.AFRICA,0, owner);
 
         // Europe
-        Country c20 = new Country("Iceland",0, owner);
-        Country c21 = new Country("Great Britain",0, owner);
-        Country c22 = new Country("Scandinavia",0, owner);
-        Country c23 = new Country("Ukraine",0, owner);
-        Country c24 = new Country("Northern Europe",0, owner);
-        Country c25 = new Country("Western Europe",0, owner);
-        Country c26 = new Country("Southern Europe",0, owner);
+        Country c20 = new Country("Iceland",Country.Continent.EUROPE,0, owner);
+        Country c21 = new Country("Great Britain",Country.Continent.EUROPE,0, owner);
+        Country c22 = new Country("Scandinavia",Country.Continent.EUROPE,0, owner);
+        Country c23 = new Country("Ukraine",Country.Continent.EUROPE,0, owner);
+        Country c24 = new Country("Northern Europe",Country.Continent.EUROPE,0, owner);
+        Country c25 = new Country("Western Europe",Country.Continent.EUROPE,0, owner);
+        Country c26 = new Country("Southern Europe",Country.Continent.EUROPE,0, owner);
 
         // Asia
-        Country c27 = new Country("Middle East",0, owner);
-        Country c28 = new Country("Afganistan",0, owner);
-        Country c29 = new Country("India",0, owner);
-        Country c30 = new Country("China",0, owner);
-        Country c31 = new Country("Mongolia",0, owner);
-        Country c32 = new Country("Southeast Asia",0, owner);
-        Country c33 = new Country("Ural",0, owner);
-        Country c34 = new Country("Siberia",0, owner);
-        Country c35 = new Country("Irkutsk",0, owner);
-        Country c36 = new Country("Japan",0, owner);
-        Country c37 = new Country("Kamchatka",0, owner);
-        Country c38 = new Country("Yakutsk",0, owner);
+        Country c27 = new Country("Middle East",Country.Continent.ASIA,0, owner);
+        Country c28 = new Country("Afganistan",Country.Continent.ASIA,0, owner);
+        Country c29 = new Country("India",Country.Continent.ASIA,0, owner);
+        Country c30 = new Country("China",Country.Continent.ASIA,0, owner);
+        Country c31 = new Country("Mongolia",Country.Continent.ASIA,0, owner);
+        Country c32 = new Country("Southeast Asia",Country.Continent.ASIA,0, owner);
+        Country c33 = new Country("Ural",Country.Continent.ASIA,0, owner);
+        Country c34 = new Country("Siberia",Country.Continent.ASIA,0, owner);
+        Country c35 = new Country("Irkutsk",Country.Continent.ASIA,0, owner);
+        Country c36 = new Country("Japan",Country.Continent.ASIA,0, owner);
+        Country c37 = new Country("Kamchatka",Country.Continent.ASIA,0, owner);
+        Country c38 = new Country("Yakutsk",Country.Continent.ASIA,0, owner);
 
         // Australia
-        Country c39 = new Country("Indonesia",0, owner);
-        Country c40 = new Country("New Guinea",0, owner);
-        Country c41 = new Country("Western Australia",0, owner);
-        Country c42 = new Country("Eastern Australia",0, owner);
+        Country c39 = new Country("Indonesia",Country.Continent.AUSTRALIA,0, owner);
+        Country c40 = new Country("New Guinea",Country.Continent.AUSTRALIA,0, owner);
+        Country c41 = new Country("Western Australia",Country.Continent.AUSTRALIA,0, owner);
+        Country c42 = new Country("Eastern Australia",Country.Continent.AUSTRALIA,0, owner);
 
         countries.add(c1);
         countries.add(c2);
@@ -407,5 +407,31 @@ public class Map {
         c42n.add(c40);
         c42n.add(c41);
         c42.setNeighbors(c42n);
+    }
+
+    @Override
+    public String toString() {
+        String output = "";
+        try {
+            for (Country d : countries) {
+                output = output + ((d.getOwner() != null)?d.getOwner().getName():"No one ")+ " owns " + d.getName() + " with " + d.getTroops() + " troops and borders ";
+                for (Country c : d.getNeighbors()) {
+                   output = output + c.getName() + " , ";
+                }
+                output = output + "\n";
+            }
+
+
+
+        } catch (Exception e) {
+        }
+        return output;
+    }
+    public int getTotalTroops() {
+        int t = 0;
+        for(Country c : countries) {
+            t = t + c.getTroops();
+        }
+        return t;
     }
 }
