@@ -17,110 +17,32 @@ public class Game {
     public enum GamePhase {
         DRAFT, ATTACK, FORTIFY
     }
+
+
     // initialize map
     public Game() {
-        //load map
-        map = new Map();
-        cards = new ArrayList<Card>();
-        Card c1 = new Card(new Country("Afganistan"), Card.TroopsType.CAVALRY);
-        Card c2 = new Card(new Country("Alaska"), Card.TroopsType.INFANTRY);
-        Card c3 = new Card(new Country("Alberta"), Card.TroopsType.CAVALRY);
-        Card c4 = new Card(new Country("Argentina"), Card.TroopsType.INFANTRY);
-        Card c5 = new Card(new Country("Brazil"), Card.TroopsType.ARTILLERY);
-        Card c6 = new Card(new Country("Central Africa"), Card.TroopsType.INFANTRY);
-        Card c7 = new Card(new Country("Central America"), Card.TroopsType.ARTILLERY);
-        Card c8 = new Card(new Country("China"), Card.TroopsType.INFANTRY);
-        Card c9 = new Card(new Country("East Africa"), Card.TroopsType.INFANTRY);
-        Card c10 = new Card(new Country("Eastern Australia"), Card.TroopsType.ARTILLERY);
-        Card c11 = new Card(new Country("Quebec"), Card.TroopsType.CAVALRY);
-        Card c12 = new Card(new Country("Eastern United States"), Card.TroopsType.ARTILLERY);
-        Card c13 = new Card(new Country("Egypt"), Card.TroopsType.INFANTRY);
-        Card c14 = new Card(new Country("Great Britain"), Card.TroopsType.ARTILLERY);
-        Card c15 = new Card(new Country("Greenland"), Card.TroopsType.CAVALRY);
-        Card c16 = new Card(new Country("Iceland"), Card.TroopsType.INFANTRY);
-        Card c17 = new Card(new Country("India"), Card.TroopsType.CAVALRY);
-        Card c18 = new Card(new Country("Indonesia"), Card.TroopsType.ARTILLERY);
-        Card c19 = new Card(new Country("Irkutsk"), Card.TroopsType.CAVALRY);
-        Card c20 = new Card(new Country("Japan"), Card.TroopsType.ARTILLERY);
-        Card c21 = new Card(new Country("Kamchatka"), Card.TroopsType.INFANTRY);
-        Card c22 = new Card(new Country("Madagascar"), Card.TroopsType.CAVALRY);
-        Card c23 = new Card(new Country("Middle East"), Card.TroopsType.INFANTRY);
-        Card c24 = new Card(new Country("Mongolia"), Card.TroopsType.INFANTRY);
-        Card c25 = new Card(new Country("New Guinea"), Card.TroopsType.INFANTRY);
-        Card c26 = new Card(new Country("North Africa"), Card.TroopsType.CAVALRY);
-        Card c27 = new Card(new Country("Northern Europe"), Card.TroopsType.ARTILLERY);
-        Card c28 = new Card(new Country("Northwest Territory"), Card.TroopsType.ARTILLERY);
-        Card c29 = new Card(new Country("Ontario"), Card.TroopsType.CAVALRY);
-        Card c30 = new Card(new Country("Peru"), Card.TroopsType.INFANTRY);
-        Card c31 = new Card(new Country("Russia"), Card.TroopsType.CAVALRY);
-        Card c32 = new Card(new Country("Scandinavia"), Card.TroopsType.CAVALRY);
-        Card c33 = new Card(new Country("Siberia"), Card.TroopsType.CAVALRY);
-        Card c34 = new Card(new Country("South Africa"), Card.TroopsType.ARTILLERY);
-        Card c35 = new Card(new Country("Southeast Asia"), Card.TroopsType.INFANTRY);
-        Card c36 = new Card(new Country("Southern Europe"), Card.TroopsType.ARTILLERY);
-        Card c37 = new Card(new Country("Ural"), Card.TroopsType.CAVALRY);
-        Card c38 = new Card(new Country("Venezuela"), Card.TroopsType.INFANTRY);
-        Card c39 = new Card(new Country("Western Australia"), Card.TroopsType.ARTILLERY);
-        Card c40 = new Card(new Country("Western Europe"), Card.TroopsType.ARTILLERY);
-        Card c41 = new Card(new Country("Western United States"), Card.TroopsType.ARTILLERY);
-        Card c42 = new Card(new Country("Yakutsk"), Card.TroopsType.CAVALRY);
-        Card c43 = new SpecialCard();
-        Card c44 = new SpecialCard();
+System.out.println(("\n" +
+        " ██▀███   ██▓  ██████  ██ ▄█▀\n" +
+        "▓██ ▒ ██▒▓██▒▒██    ▒  ██▄█▒ \n" +
+        "▓██ ░▄█ ▒▒██▒░ ▓██▄   ▓███▄░ \n" +
+        "▒██▀▀█▄  ░██░  ▒   ██▒▓██ █▄ \n" +
+        "░██▓ ▒██▒░██░▒██████▒▒▒██▒ █▄\n" +
+        "░ ▒▓ ░▒▓░░▓  ▒ ▒▓▒ ▒ ░▒ ▒▒ ▓▒\n" +
+        "  ░▒ ░ ▒░ ▒ ░░ ░▒  ░ ░░ ░▒ ▒░\n" +
+        "  ░░   ░  ▒ ░░  ░  ░  ░ ░░ ░ \n" +
+        "   ░      ░        ░  ░  ░   \n" + "\n"));
 
-        cards.add(c1);
-        cards.add(c2);
-        cards.add(c3);
-        cards.add(c4);
-        cards.add(c5);
-        cards.add(c6);
-        cards.add(c7);
-        cards.add(c8);
-        cards.add(c9);
-        cards.add(c10);
-        cards.add(c11);
-        cards.add(c12);
-        cards.add(c13);
-        cards.add(c14);
-        cards.add(c15);
-        cards.add(c16);
-        cards.add(c17);
-        cards.add(c18);
-        cards.add(c19);
-        cards.add(c20);
-        cards.add(c21);
-        cards.add(c22);
-        cards.add(c23);
-        cards.add(c24);
-        cards.add(c25);
-        cards.add(c26);
-        cards.add(c27);
-        cards.add(c28);
-        cards.add(c29);
-        cards.add(c30);
-        cards.add(c31);
-        cards.add(c32);
-        cards.add(c33);
-        cards.add(c34);
-        cards.add(c35);
-        cards.add(c36);
-        cards.add(c37);
-        cards.add(c38);
-        cards.add(c39);
-        cards.add(c40);
-        cards.add(c41);
-        cards.add(c42);
-        cards.add(c43);
-        cards.add(c44);
-        Collections.shuffle(cards);
-        try {
-            cardStack.addAll(cards);
-        }catch (Exception e ) {};
+
+        //load map
+        map = loadMap();
+
 
         // create players for test purpose
         players = new ArrayList<Player>();
         players.add(new Player("Navin"));
         players.add(new Player("Sunada"));
         players.add(new Player("Jack"));
+        players.add(new Player( "Mark"));
 
 
         numberOfPlayers = players.size();
@@ -156,19 +78,22 @@ public class Game {
         ArrayList<Integer> randomCountries = new ArrayList<Integer>();
         for (int i= 0; i < map.countries.size(); i++) {
             randomCountries.add(i);
+
         }
         Collections.shuffle(randomCountries);
 
          for (int i= 0; i < 42; i++) {
             map.countries.get(randomCountries.get(i)).addInfantry(players.get(turn));
+            //players.get(turn).addTerritory(map.countries.get(randomCountries.get(i)));
             nextTurn();
         }
-        for (int i = 0; i < initialInfantryCount - 42;i++) {
+        for (int i = 0; i < initialInfantryCount - 42; i++) {
             Player curr = players.get(turn);
             List<Country> c = getTerritoriesOwnedBy(curr);
             Random rand = new Random();
             int a = rand.nextInt(c.size());
-             c.get(a).addInfantry(curr);
+            c.get(a).addInfantry(curr);
+            curr.addTerritory(c.get(a));
             nextTurn();
         }
 
@@ -188,9 +113,9 @@ public class Game {
         System.out.println(map.getTotalTroops() +" troops across 42 countries, 6 continents");
 
 
-        for (Card c:cards) {
-            System.out.println((c.getClass() == new SpecialCard().getClass())?"Special":"Not so special");
-        }
+//        for (Card c:cards) {
+//            System.out.println((c.getClass() == new SpecialCard().getClass())?"Special":"Not so special");
+//        }
 
         Scanner scan = new Scanner(System.in);
         //============ main game loop =================
@@ -203,6 +128,7 @@ public class Game {
                 System.out.println(player.getName() +"'s " + getGamePhase() + " phase");
                 player.setTotalInitialTroops((int)Math.floor(getTerritoriesOwnedBy(player).size()/3.0));
                 System.out.println(player.getName() + " controls " + getTerritoriesOwnedBy(player).size() + " territories, therefore receives " + player.getTotalInitialTroops() + " troops" );
+
              //   System.out.println(player.getTotalInitialTroops());
                 // does this player control a continent , if so add respective value
                 // check matched RISK cards from a set of 3 cards this player has accumulated
@@ -210,8 +136,7 @@ public class Game {
             //- draft phase
 
 
-
-
+            System.out.println(player.getName() + " gets " + getContinentOccupationPoints(player) + " for occupying continents");
 
 
              nextPhase();
@@ -231,6 +156,42 @@ public class Game {
         }
 
      }
+
+
+    /** Does the player occupy one or more continent
+     * @param player to see if occpies the continet
+     * @return total points for each of the continent occupied
+     */
+    private int getContinentOccupationPoints(Player player){
+        java.util.Map<Country.Continent,Integer> points = new HashMap<>();
+        points.put(Country.Continent.SOUTH_AMERICA,2);
+        points.put(Country.Continent.NORTH_AMERICA,5);
+        points.put(Country.Continent.AFRICA,3);
+        points.put(Country.Continent.EUROPE,5);
+        points.put(Country.Continent.ASIA,7);
+        points.put(Country.Continent.AUSTRALIA,2);
+
+        int tp = 0;
+        java.util.Map<Country.Continent,List<Country>> m = new HashMap<>();
+
+        for (Country.Continent continent: // loop through all the continents
+        Country.Continent.values()){ //
+            List<Country> countries = new ArrayList<Country>();
+            for (Country c:
+                 map.countries) {
+                if (c.continent == continent) {
+                    countries.add(c);
+                }
+            }
+            m.put(continent,countries);
+            if (countries.containsAll(player.getTerritories()))
+                tp += points.get(continent);
+        }
+
+
+
+        return tp;
+    }
      private boolean controlsContinent(Player p) {
 
 
@@ -327,4 +288,102 @@ public class Game {
         return  numInitialInfantryCount;
     }
 
+    public Map loadMap() {
+        map = new Map();
+        cards = new ArrayList<Card>();
+        Card c1 = new Card(new Country("Afganistan"), Card.TroopsType.CAVALRY);
+        Card c2 = new Card(new Country("Alaska"), Card.TroopsType.INFANTRY);
+        Card c3 = new Card(new Country("Alberta"), Card.TroopsType.CAVALRY);
+        Card c4 = new Card(new Country("Argentina"), Card.TroopsType.INFANTRY);
+        Card c5 = new Card(new Country("Brazil"), Card.TroopsType.ARTILLERY);
+        Card c6 = new Card(new Country("Central Africa"), Card.TroopsType.INFANTRY);
+        Card c7 = new Card(new Country("Central America"), Card.TroopsType.ARTILLERY);
+        Card c8 = new Card(new Country("China"), Card.TroopsType.INFANTRY);
+        Card c9 = new Card(new Country("East Africa"), Card.TroopsType.INFANTRY);
+        Card c10 = new Card(new Country("Eastern Australia"), Card.TroopsType.ARTILLERY);
+        Card c11 = new Card(new Country("Quebec"), Card.TroopsType.CAVALRY);
+        Card c12 = new Card(new Country("Eastern United States"), Card.TroopsType.ARTILLERY);
+        Card c13 = new Card(new Country("Egypt"), Card.TroopsType.INFANTRY);
+        Card c14 = new Card(new Country("Great Britain"), Card.TroopsType.ARTILLERY);
+        Card c15 = new Card(new Country("Greenland"), Card.TroopsType.CAVALRY);
+        Card c16 = new Card(new Country("Iceland"), Card.TroopsType.INFANTRY);
+        Card c17 = new Card(new Country("India"), Card.TroopsType.CAVALRY);
+        Card c18 = new Card(new Country("Indonesia"), Card.TroopsType.ARTILLERY);
+        Card c19 = new Card(new Country("Irkutsk"), Card.TroopsType.CAVALRY);
+        Card c20 = new Card(new Country("Japan"), Card.TroopsType.ARTILLERY);
+        Card c21 = new Card(new Country("Kamchatka"), Card.TroopsType.INFANTRY);
+        Card c22 = new Card(new Country("Madagascar"), Card.TroopsType.CAVALRY);
+        Card c23 = new Card(new Country("Middle East"), Card.TroopsType.INFANTRY);
+        Card c24 = new Card(new Country("Mongolia"), Card.TroopsType.INFANTRY);
+        Card c25 = new Card(new Country("New Guinea"), Card.TroopsType.INFANTRY);
+        Card c26 = new Card(new Country("North Africa"), Card.TroopsType.CAVALRY);
+        Card c27 = new Card(new Country("Northern Europe"), Card.TroopsType.ARTILLERY);
+        Card c28 = new Card(new Country("Northwest Territory"), Card.TroopsType.ARTILLERY);
+        Card c29 = new Card(new Country("Ontario"), Card.TroopsType.CAVALRY);
+        Card c30 = new Card(new Country("Peru"), Card.TroopsType.INFANTRY);
+        Card c31 = new Card(new Country("Russia"), Card.TroopsType.CAVALRY);
+        Card c32 = new Card(new Country("Scandinavia"), Card.TroopsType.CAVALRY);
+        Card c33 = new Card(new Country("Siberia"), Card.TroopsType.CAVALRY);
+        Card c34 = new Card(new Country("South Africa"), Card.TroopsType.ARTILLERY);
+        Card c35 = new Card(new Country("Southeast Asia"), Card.TroopsType.INFANTRY);
+        Card c36 = new Card(new Country("Southern Europe"), Card.TroopsType.ARTILLERY);
+        Card c37 = new Card(new Country("Ural"), Card.TroopsType.CAVALRY);
+        Card c38 = new Card(new Country("Venezuela"), Card.TroopsType.INFANTRY);
+        Card c39 = new Card(new Country("Western Australia"), Card.TroopsType.ARTILLERY);
+        Card c40 = new Card(new Country("Western Europe"), Card.TroopsType.ARTILLERY);
+        Card c41 = new Card(new Country("Western United States"), Card.TroopsType.ARTILLERY);
+        Card c42 = new Card(new Country("Yakutsk"), Card.TroopsType.CAVALRY);
+        Card c43 = new SpecialCard();
+        Card c44 = new SpecialCard();
+
+        cards.add(c1);
+        cards.add(c2);
+        cards.add(c3);
+        cards.add(c4);
+        cards.add(c5);
+        cards.add(c6);
+        cards.add(c7);
+        cards.add(c8);
+        cards.add(c9);
+        cards.add(c10);
+        cards.add(c11);
+        cards.add(c12);
+        cards.add(c13);
+        cards.add(c14);
+        cards.add(c15);
+        cards.add(c16);
+        cards.add(c17);
+        cards.add(c18);
+        cards.add(c19);
+        cards.add(c20);
+        cards.add(c21);
+        cards.add(c22);
+        cards.add(c23);
+        cards.add(c24);
+        cards.add(c25);
+        cards.add(c26);
+        cards.add(c27);
+        cards.add(c28);
+        cards.add(c29);
+        cards.add(c30);
+        cards.add(c31);
+        cards.add(c32);
+        cards.add(c33);
+        cards.add(c34);
+        cards.add(c35);
+        cards.add(c36);
+        cards.add(c37);
+        cards.add(c38);
+        cards.add(c39);
+        cards.add(c40);
+        cards.add(c41);
+        cards.add(c42);
+        cards.add(c43);
+        cards.add(c44);
+        Collections.shuffle(cards);
+        try {
+            cardStack.addAll(cards);
+        }catch (Exception e ) {}
+        return map;
+    }
 }
