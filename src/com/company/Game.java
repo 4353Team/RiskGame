@@ -36,7 +36,6 @@ System.out.println(("\n" +
         //load map
         map = loadMap();
 
-
         // create players for test purpose
         players = new ArrayList<Player>();
         players.add(new Player("Navin"));
@@ -149,6 +148,7 @@ System.out.println(("\n" +
             System.out.println(player.getName() + " here is what you can do:");
             for (Country c:player.getTerritories()
                  ) {
+                if (c.getTroops() == 1) continue;
                 System.out.print("\tFrom " + c.getName() + "("+map.countries.indexOf(c)+") with "+c.getTroops()+" troops you can attack ");
                 for (Country d:c.getNeighbors()
                      ) {
@@ -171,7 +171,8 @@ System.out.println(("\n" +
             // fortify position
             nextPhase();
             System.out.println(player.getName() +"'s " + getGamePhase() + " phase");
-            nextTurn();
+            for (int i =0; i<numberOfPlayers;i++)
+                nextTurn();
             nextPhase();
         }
 
@@ -181,10 +182,13 @@ System.out.println(("\n" +
         Scanner scan = new Scanner(System.in);
         Player attacker = origin.getOwner();
         Player defender = destination.getOwner();
-        System.out.print(origin.getOwner().getName()+", how many dice you want to roll?, max "+((origin.getTroops()-1)>3?3:origin.getTroops()-1)+": ");
-        int attackDices = scan.nextInt();
-         System.out.print(destination.getOwner().getName()+", how many dice you want to roll?: max "+((destination.getTroops()>2)?2:1)+": ");
-         int defenseDices = scan.nextInt();
+       // Random rand = new Random();
+       // System.out.print(origin.getOwner().getName()+", how many dice you want to roll?, max "+((origin.getTroops()-1)>3?3:origin.getTroops()-1)+": ");
+  //      int attackDices = scan.nextInt();
+         int attackDices = (origin.getTroops()-1)>3?3:(origin.getTroops()-1);
+         //System.out.print(destination.getOwner().getName()+", how many dice you want to roll?: max "+((destination.getTroops()>2)?2:1)+": ");
+    //     int defenseDices = scan.nextInt();
+         int defenseDices = (destination.getTroops()>2)?2:1;
          List<Dice> defenseDiceRolls = new ArrayList<>();
          List<Dice> attackDiceRolls = new ArrayList<>();
          if (origin.getTroops()> attackDices && attackDices <= 3) {
@@ -209,22 +213,24 @@ System.out.println(("\n" +
              ik = defenseDiceRolls.size();
          }
          System.out.println("Comparing " + ik + " dices.");
+         int numberAttackersRemoved = 0;
          for (int i = 0; i < ik;i++) {
              if (attackDiceRolls.get(i).getFaceValue() > defenseDiceRolls.get(i).getFaceValue()) {
                  // attack winner
                  System.out.println(attacker.getName()+" wins");
-                destination.removeOneTroop();
+                destination.removeTroops(1);
                 if (destination.getTroops() == 0) { // if invaded
                     destination.setOwner(origin.getOwner());
                     // occupy territory
-                    System.out.println("Territory Captured!");
-                    System.out.print("How many troops do you want to move to the new territory?: ");
+                    System.out.println(origin.getName() + " captures "+destination.getName() + "!!");
+                    System.out.print(attacker.getName()+", how many troops do you want to move to the new territory? max "+ (origin.getTroops() - 1)+": ");
                     int movetroops = scan.nextInt(); // move troops has to be equal or move than attackDices
                     if (origin.getTroops() - movetroops >= 1) {
                         destination.setTroops(movetroops);
                         destination.setOwner(attacker);
                         attacker.addTerritory(destination);
                         defender.removeTerritory(destination);
+                        origin.removeTroops(movetroops);
                     }
                     else
                         System.out.println("Cannot move " + movetroops +". You need to leave at least one troop behind.");
@@ -232,7 +238,9 @@ System.out.println(("\n" +
              } else {
                  // defense winner
                  System.out.println(defender.getName() + " wins");
-                 origin.removeOneTroop();
+                 if (numberAttackersRemoved<2)
+                    origin.removeTroops(1);
+                 numberAttackersRemoved += 1;
              }
              map.toString();
          }
@@ -490,5 +498,81 @@ System.out.println(("\n" +
             cardStack.addAll(cards);
         }catch (Exception e ) {}
         return map;
+    }
+    private void render(Map map){
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (Exception e) {
+            System.out.println("Error clearing screen");}
+System.out.println("                        /--\\                                                                                                                                                                                                                                                                                                 \n" +
+        "                      /-    -----\\                                                                                                                                                                                                                                                                                           \n" +
+        "                     /            ----\\                                                                                                                                                                                                                                                                                      \n" +
+        "                    /                  -----\\                                                                                                                                                                                                                                                                                \n" +
+        "                  /-                         ----\\                                                                                                                                                                                                                                                                           \n" +
+        "                 /                                -----\\                                                                                                                                                                                                                                                                     \n" +
+        "                /                                       ----\\                                                                                                                                                                                                                                                                \n" +
+        "              /-                                             -----\\                                                                                                                                                                                                                                                          \n" +
+        "             /                here this is navin                   ----\\                                                                                                                                                                                                                                                     \n" +
+        "            /                                                           -----\\                                                                                                                                                                                                                                               \n" +
+        "          /-                                                                  ----\\                                                                                                                                                                                                                                          \n" +
+        "         /                                                                         -----\\                                                                                                                                                                                                                                    \n" +
+        "        /                                                                                ----\\                                                                                                                                                                                                                               \n" +
+        "      /-                                                                                      -----\\                                                                                                                                                                                                                         \n" +
+        "     /                                                                                              ----\\                                                                                                                                                            --                                                      \n" +
+        "    /                                                                                                    -----\\                                                                                                                                                   --/  \\                                                     \n" +
+        "  /-                                                                                                           ----\\                                                                                                                                          ---/      \\                                                    \n" +
+        "\\-                                                                                                                  -----\\                                                                                                                                 --/           \\                                                   \n" +
+        " \\                                                                                                                        ----\\                                                                                                                         --/               \\                                                  \n" +
+        "  -\\                                                                                                                           -----\\                                                                                                               ---/                   \\                                                 \n" +
+        "    \\                                                                                                                                ----\\                                                                                                       --/                        \\                                                \n" +
+        "     \\                                                                                                                                    -----\\                                                                                              --/                            \\                                               \n" +
+        "      \\                                                                                                                                         ----\\                                                                                     ---/                                \\                                              \n" +
+        "       -\\                                                                                                                                            -----\\                                                                            --/                                     \\                                             \n" +
+        "         \\                                                                                                                                                 ----\\                                                                    --/                                         \\                                            \n" +
+        "          \\                                                                                                                                                     -----\\                                                          ---/                                             \\                                           \n" +
+        "           \\                                                                                                                                                          ----\\                                                  --/                                                  \\                                          \n" +
+        "            \\                                                                                                                                                              -----\\                                         --/                                                      \\                                         \n" +
+        "             -\\                                                                                                                                                                  ----\\                                ---/                                                          \\                                        \n" +
+        "               \\                                                                                                                                                                      -----\\                       --/                                                               \\                                       \n" +
+        "                \\                                                                                                                                                                           ----\\               --/                                                                   \\                                      \n" +
+        "                 \\                                                                                                                                                                               -----\\     ---/                                                                       \\                                     \n" +
+        "                  -\\                                                                                                                                                                                   ----/                                                                            \\                                    \n" +
+        "                    \\                                                                                                                                                                                                                                                                    \\                                   \n" +
+        "                     \\                                                                                                                                                                                                                                                                    \\                                  \n" +
+        "                      \\                                                                                                                                                                                                                                                                    \\                                 \n" +
+        "                       -\\                                                                                                                                                                                                                                                                   \\                                \n" +
+        "                         \\                                                                                                                                                                                                                                                                   \\                               \n" +
+        "                          \\                                                                                                                                                                                                                                                                   \\                              \n" +
+        "                           \\                                                                                                                                                                                                                                                                   \\                             \n" +
+        "                            -\\                                                                                                                                                                                                                                                                  \\                            \n" +
+        "                              \\                                                                                                                                                                                                                                                                  \\                           \n" +
+        "                               \\                                                                                                                                                                                                                                                                  \\                          \n" +
+        "                                \\                                                                                                                                                                                                                                                                  \\                         \n" +
+        "                                 \\                                                                                                                                                                                                                                                                  \\                        \n" +
+        "                                  -\\                                                                                                                                                                                                                                                                 \\                       \n" +
+        "                                    \\                                                                                                                                                                                                                                                                 \\                      \n" +
+        "                                     \\                                                                                                                                                                                                                                                                 \\                     \n" +
+        "                                      \\                                                                                                                                                                                                                                                                 \\                    \n" +
+        "                                       -\\                                                                                                                                                                                                                                                                \\                   \n" +
+        "                                         \\                                                                                                                                                                                                                                                                \\                  \n" +
+        "                                          \\                                                                                                                                                                                                                                                                \\                 \n" +
+        "                                           \\                                                                                                                                                                                                                                                                \\                \n" +
+        "                                            -\\                                                                                                                                                                                                                                                               \\               \n" +
+        "                                              \\                                                                                                                                                                                                                                                               \\              \n" +
+        "                                               \\                                                                                                                                                                                                                                                               \\             \n" +
+        "                                                \\                                                                                                                                                                                                                                                               \\            \n" +
+        "                                                 -\\                                                                                                                                                                                                                                                              \\           \n" +
+        "                                                   \\                                                                                                                                                                                                                                                              \\          \n" +
+        "                                                    \\                                                                                                                                                                                                                                                              \\         \n" +
+        "                                                     \\                                                                                                                                                                                                                                                              \\        \n" +
+        "                                                      \\                                                                                                                                                                                                                                                              \\       \n" +
+        "                                                       -\\                                                                                                                                                                                                                                                             \\      \n" +
+        "                                                         \\                                                                                                                                                                                                                                                             \\     \n" +
+        "                                                          \\                                                                                                                                                                                                                                                             \\    \n" +
+        "                                                           \\                                                                                                                                                                                                                                                             \\   \n" +
+        "                                                            -\\                                                                                                                                                                                                                                                            \\  \n" +
+        "                                                              \\                                                                                                                               -------------------------------------------------------------------------------------------------------------------------------\n" +
+        "                                                               ------------------------------------------------------------------------------------------------------------------------------/                                                                                                                               \n" +
+        "                                                                   -                                                                                                                                                                                                                                                         ");
     }
 }
