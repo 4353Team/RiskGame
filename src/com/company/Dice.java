@@ -29,6 +29,7 @@ public class Dice implements Comparable<Dice>{
     public int getFaceValue() {
         return faceValue;
     }
-
+    public void render(int faceValue) {
+    }
 }
 

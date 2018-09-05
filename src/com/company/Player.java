@@ -1,8 +1,6 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Player {
     public String name;
@@ -28,13 +26,17 @@ public class Player {
     public void setTotalInitialTroops(int totalInitialTroops) {
         this.totalInitialTroops = totalInitialTroops;
     }
+    public void addToTotalInitialTroops(int newT) {
+        this.totalInitialTroops += newT;
+    }
+
 
     public List<Country> getTerritories() {
         return territories;
     }
 
-    public List<Country> getTerritoriesIn(Country.Continent continent, Map map) {
-        List<Country> countries = new ArrayList<Country>();
+    public Set<Country> getTerritoriesIn(Country.Continent continent, Map map) {
+        Set<Country> countries = new HashSet<Country>();
         for (Country c: map.countries
              ) {
             if (c.continent.equals(continent)) {
@@ -50,6 +52,10 @@ public class Player {
     public void addTerritory(Country country) {
         territories.add(country);
     }
+    public void removeTerritory(Country country) {
+        territories.remove(country);
+    }
+
 
     public List<Dice> rollDices(int numDicesToRoll) {
 

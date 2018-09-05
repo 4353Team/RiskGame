@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="acc4f961-9b8a-4b48-bc64-8bfabdd0a352" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RiskGame/com/company/Game.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RiskGame/com/company/Country.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RiskGame/com/company/Country.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RiskGame/com/company/Dice.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RiskGame/com/company/Dice.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RiskGame/com/company/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RiskGame/com/company/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Country.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/Dice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Dice.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Player.java" afterDir="false" />
     </list>
@@ -52,24 +56,24 @@
     <session id="1665664890">
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="22" />
+          <entry key="java" value="23" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="22" />
+          <entry key="JAVA" value="23" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="16066" />
-          <entry key="txt" value="211" />
+          <entry key="java" value="20085" />
+          <entry key="txt" value="416" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="16066" />
-          <entry key="PLAIN_TEXT" value="211" />
+          <entry key="JAVA" value="20085" />
+          <entry key="PLAIN_TEXT" value="416" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -92,7 +96,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/Card.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
+            <state>
               <caret line="16" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
@@ -101,7 +105,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
+            <state relative-caret-position="-7">
               <caret line="9" selection-start-line="9" selection-end-line="9" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -113,8 +117,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/company/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="551">
-              <caret line="139" column="12" selection-start-line="139" selection-start-column="12" selection-end-line="139" selection-end-column="12" />
+            <state relative-caret-position="463">
+              <caret line="229" column="50" lean-forward="true" selection-start-line="229" selection-start-column="50" selection-end-line="229" selection-end-column="50" />
               <folding>
                 <element signature="e#6415#6424#0" expanded="true" />
                 <element signature="method#controlsContinent#0;class#Game#0" />
@@ -129,19 +133,36 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/company/Player.java">
+        <entry file="file://$PROJECT_DIR$/src/com/company/SpecialCard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
+            <state relative-caret-position="-7">
+              <caret line="8" column="40" selection-start-line="8" selection-start-column="40" selection-end-line="8" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/company/Player.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="411">
+              <caret line="55" column="27" selection-start-line="55" selection-start-column="27" selection-end-line="55" selection-end-column="27" />
+              <folding>
+                <element signature="e#620#621#0" expanded="true" />
+                <element signature="e#680#681#0" expanded="true" />
+                <element signature="e#744#745#0" expanded="true" />
+                <element signature="e#804#805#0" expanded="true" />
                 <element signature="e#684#685#0" expanded="true" />
                 <element signature="e#718#719#0" expanded="true" />
-                <element signature="e#895#904#0" expanded="true" />
+                <element signature="e#1013#1022#0" expanded="true" />
                 <element signature="e#779#780#0" expanded="true" />
                 <element signature="e#825#826#0" expanded="true" />
                 <element signature="e#928#929#0" expanded="true" />
                 <element signature="e#960#961#0" expanded="true" />
+                <element signature="e#1374#1375#0" expanded="true" />
+                <element signature="e#1414#1415#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -150,10 +171,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/Country.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="783">
-              <caret line="53" selection-start-line="53" selection-end-line="53" />
+            <state relative-caret-position="594">
+              <caret line="55" column="71" selection-start-line="55" selection-start-column="71" selection-end-line="55" selection-end-column="71" />
               <folding>
                 <element signature="method#Country#0;class#Country#0" />
+                <element signature="method#addInfantry#0;class#Country#0" />
               </folding>
             </state>
           </provider>
@@ -162,8 +184,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/Dice.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+            <state relative-caret-position="185">
+              <caret line="30" column="5" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#compareTo#0;class#Dice#0" />
@@ -177,7 +199,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/Map.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
+            <state relative-caret-position="-7">
               <caret line="14" selection-start-line="14" selection-end-line="14" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -203,6 +225,14 @@
       <find>nextTurn</find>
       <find>getC</find>
       <find>cards</find>
+      <find>player</find>
+      <find>Scan</find>
+      <find>scan</find>
+      <find>attack</find>
+      <find>printDice</find>
+      <find>removeOneTroop</find>
+      <find>territo</find>
+      <find>map</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -214,10 +244,10 @@
         <option value="$PROJECT_DIR$/src/com/company/CountryMap.java" />
         <option value="$PROJECT_DIR$/src/com/company/Main.java" />
         <option value="$PROJECT_DIR$/src/com/company/DiceComparer.java" />
-        <option value="$PROJECT_DIR$/src/com/company/Dice.java" />
         <option value="$PROJECT_DIR$/src/com/company/Map.java" />
         <option value="$PROJECT_DIR$/src/com/company/Card.java" />
         <option value="$PROJECT_DIR$/src/com/company/SpecialCard.java" />
+        <option value="$PROJECT_DIR$/src/com/company/Dice.java" />
         <option value="$PROJECT_DIR$/src/com/company/Country.java" />
         <option value="$PROJECT_DIR$/src/com/company/Player.java" />
         <option value="$PROJECT_DIR$/src/com/company/Game.java" />
@@ -230,11 +260,9 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="2030" />
-    <option name="height" value="1400" />
+  <component name="ProjectFrameBounds">
+    <option name="width" value="3852" />
+    <option name="height" value="2092" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -285,7 +313,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ChangesTree.GroupingKeys" value="directory" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536119935553" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536175745081" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -368,34 +396,47 @@
       <option name="project" value="LOCAL" />
       <updated>1536078382816</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added initial points calculation for draft phase using continent occupancy points.">
+      <created>1536120058034</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1536120058034</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Implemented various methods for attack phase">
+      <created>1536131481055</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1536131481055</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="3456" height="1416" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="0" width="1926" height="1046" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8617694" visible="true" weight="0.06889535" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8617694" visible="true" weight="0.123953976" />
       <window_info id="Structure" order="1" sideWeight="0.13620071" side_tool="true" weight="0.24746667" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Designer" order="4" />
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" sideWeight="0.13823065" side_tool="true" weight="0.1560241" />
-      <window_info id="Version Control" order="7" sideWeight="0.41414142" weight="0.21013333" />
+      <window_info id="Version Control" order="7" sideWeight="0.41414142" weight="0.09930486" />
       <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.32436472" />
-      <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="bottom" id="Find" order="2" weight="0.3294025" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3294025" />
+      <window_info active="true" anchor="bottom" x="34" y="811" width="3396" height="603" id="Run" order="2" sideWeight="0.75300545" visible="true" weight="0.37284702" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39779875" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Message" order="4" />
+      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.25683892" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info active="true" anchor="bottom" x="34" y="811" width="3396" height="603" id="Run" order="9" sideWeight="0.75300545" visible="true" weight="0.34047267" />
+      <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.25683892" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="right" id="Coverage" order="0" sideWeight="0.24699454" side_tool="true" visible="true" weight="0.0" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="2" type="SLIDING" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
       <window_info anchor="right" id="Palette" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
@@ -470,7 +511,9 @@
     <MESSAGE value="All territories mapped!" />
     <MESSAGE value="Cards added, maps initialized" />
     <MESSAGE value="Implemented game loop with different phases for players." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented game loop with different phases for players." />
+    <MESSAGE value="Added initial points calculation for draft phase using continent occupancy points." />
+    <MESSAGE value="Implemented various methods for attack phase" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented various methods for attack phase" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -491,16 +534,6 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/com/company/CountryMap.java" />
     <entry file="file://$PROJECT_DIR$/src/com/company/DiceComparer.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/company/SpecialCard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="8" column="40" selection-start-line="8" selection-start-column="40" selection-end-line="8" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/java/util/Random.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="840">
@@ -521,24 +554,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Card.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
+        <state>
           <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/Map.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
+        <state relative-caret-position="-7">
           <caret line="9" selection-start-line="9" selection-end-line="9" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -546,27 +569,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/Player.java">
+    <entry file="file://$PROJECT_DIR$/src/com/company/SpecialCard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
+        <state relative-caret-position="-7">
+          <caret line="8" column="40" selection-start-line="8" selection-start-column="40" selection-end-line="8" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#684#685#0" expanded="true" />
-            <element signature="e#718#719#0" expanded="true" />
-            <element signature="e#895#904#0" expanded="true" />
-            <element signature="e#779#780#0" expanded="true" />
-            <element signature="e#825#826#0" expanded="true" />
-            <element signature="e#928#929#0" expanded="true" />
-            <element signature="e#960#961#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Dice.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        <state relative-caret-position="185">
+          <caret line="30" column="5" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#compareTo#0;class#Dice#0" />
@@ -578,18 +604,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Country.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="783">
-          <caret line="53" selection-start-line="53" selection-end-line="53" />
+        <state relative-caret-position="594">
+          <caret line="55" column="71" selection-start-line="55" selection-start-column="71" selection-end-line="55" selection-end-column="71" />
           <folding>
             <element signature="method#Country#0;class#Country#0" />
+            <element signature="method#addInfantry#0;class#Country#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="55" column="27" selection-start-line="55" selection-start-column="27" selection-end-line="55" selection-end-column="27" />
+          <folding>
+            <element signature="e#620#621#0" expanded="true" />
+            <element signature="e#680#681#0" expanded="true" />
+            <element signature="e#744#745#0" expanded="true" />
+            <element signature="e#804#805#0" expanded="true" />
+            <element signature="e#684#685#0" expanded="true" />
+            <element signature="e#718#719#0" expanded="true" />
+            <element signature="e#1013#1022#0" expanded="true" />
+            <element signature="e#779#780#0" expanded="true" />
+            <element signature="e#825#826#0" expanded="true" />
+            <element signature="e#928#929#0" expanded="true" />
+            <element signature="e#960#961#0" expanded="true" />
+            <element signature="e#1374#1375#0" expanded="true" />
+            <element signature="e#1414#1415#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="139" column="12" selection-start-line="139" selection-start-column="12" selection-end-line="139" selection-end-column="12" />
+        <state relative-caret-position="463">
+          <caret line="229" column="50" lean-forward="true" selection-start-line="229" selection-start-column="50" selection-end-line="229" selection-end-column="50" />
           <folding>
             <element signature="e#6415#6424#0" expanded="true" />
             <element signature="method#controlsContinent#0;class#Game#0" />

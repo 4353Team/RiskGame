@@ -51,5 +51,9 @@ public class Country {
         owner = p;
         p.setTotalInitialTroops(p.getTotalInitialTroops()-1);
     }
+    public void removeOneTroop() {
+        this.troops = this.troops - 1;
+        System.out.println("Removing " + 1 + " troop from " + getName());
+    }
 
 }

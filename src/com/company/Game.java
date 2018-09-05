@@ -84,7 +84,7 @@ System.out.println(("\n" +
 
          for (int i= 0; i < 42; i++) {
             map.countries.get(randomCountries.get(i)).addInfantry(players.get(turn));
-            //players.get(turn).addTerritory(map.countries.get(randomCountries.get(i)));
+            players.get(turn).addTerritory(map.countries.get(randomCountries.get(i)));
             nextTurn();
         }
         for (int i = 0; i < initialInfantryCount - 42; i++) {
@@ -93,7 +93,8 @@ System.out.println(("\n" +
             Random rand = new Random();
             int a = rand.nextInt(c.size());
             c.get(a).addInfantry(curr);
-            curr.addTerritory(c.get(a));
+            if (!(curr.getTerritories().contains(c.get(a))))
+                curr.addTerritory(c.get(a));
             nextTurn();
         }
 
@@ -125,8 +126,11 @@ System.out.println(("\n" +
             // draft new troops
                 // get number of territories player occupies
                 Player player = players.get(turn);
+
+                System.out.println();
                 System.out.println(player.getName() +"'s " + getGamePhase() + " phase");
-                player.setTotalInitialTroops((int)Math.floor(getTerritoriesOwnedBy(player).size()/3.0));
+                int t = (int)Math.floor(getTerritoriesOwnedBy(player).size()/3.0);
+                player.setTotalInitialTroops((t<3.0)?3:t);
                 System.out.println(player.getName() + " controls " + getTerritoriesOwnedBy(player).size() + " territories, therefore receives " + player.getTotalInitialTroops() + " troops" );
 
              //   System.out.println(player.getTotalInitialTroops());
@@ -137,26 +141,127 @@ System.out.println(("\n" +
 
 
             System.out.println(player.getName() + " gets " + getContinentOccupationPoints(player) + " for occupying continents");
-
+            players.get(turn).addToTotalInitialTroops(getContinentOccupationPoints(player));
 
              nextPhase();
             // attack if you want by rolling dice
             System.out.println(player.getName() +"'s " + getGamePhase() + " phase");
+            System.out.println(player.getName() + " here is what you can do:");
+            for (Country c:player.getTerritories()
+                 ) {
+                System.out.print("\tFrom " + c.getName() + "("+map.countries.indexOf(c)+") with "+c.getTroops()+" troops you can attack ");
+                for (Country d:c.getNeighbors()
+                     ) {
+                    if (!canAttack(c,d,player))
+                        continue;
+                    System.out.print( d.getName()+" (" + map.countries.indexOf(d)+ ")-"+d.getTroops()+" troops, ");
+                }
+                System.out.println();
+            }
+            System.out.print("YourTerritoryID EnemyTerritoryID --> ");
+            int or = scan.nextInt();
+            int desti = scan.nextInt();
 
-
-
-
+            if (canAttack(map.countries.get(or),map.countries.get(desti),player)) {
+                System.out.println(map.countries.get(or).getName() + " attacks " + map.countries.get(desti).getName());
+                attack(map.countries.get(or),map.countries.get(desti));
+            } else {
+                System.out.println("Cannot attack");
+            }
             // fortify position
             nextPhase();
             System.out.println(player.getName() +"'s " + getGamePhase() + " phase");
-
-            scan.nextLine();
             nextTurn();
             nextPhase();
         }
 
      }
 
+     private void attack(Country origin, Country destination) {
+        Scanner scan = new Scanner(System.in);
+        Player attacker = origin.getOwner();
+        Player defender = destination.getOwner();
+        System.out.print(origin.getOwner().getName()+", how many dice you want to roll?, max "+((origin.getTroops()-1)>3?3:origin.getTroops()-1)+": ");
+        int attackDices = scan.nextInt();
+         System.out.print(destination.getOwner().getName()+", how many dice you want to roll?: max "+((destination.getTroops()>2)?2:1)+": ");
+         int defenseDices = scan.nextInt();
+         List<Dice> defenseDiceRolls = new ArrayList<>();
+         List<Dice> attackDiceRolls = new ArrayList<>();
+         if (origin.getTroops()> attackDices && attackDices <= 3) {
+             System.out.println("Rolling " + attackDices + " dices for " + attacker.getName());
+             attackDiceRolls = attacker.rollDices(attackDices);
+             printDice(attackDiceRolls);
+         } else {
+             System.out.println("Cannot roll " + attackDices + " dices. Not enough troops");
+
+         }
+         if (defenseDices == 1 || (defenseDices == 2 && destination.getTroops()>=2)) {
+             System.out.println("Rolling " + defenseDices + " dices for " + defender.getName() );
+             defenseDiceRolls = defender.rollDices(defenseDices);
+             printDice(defenseDiceRolls);
+         } else {
+             System.out.println("Cannot roll " + defenseDices + " dices. Not allowed");
+         }
+         int ik = 0;
+         if (defenseDiceRolls.size() > attackDiceRolls.size()) {
+             ik = attackDiceRolls.size();
+         } else {
+             ik = defenseDiceRolls.size();
+         }
+         System.out.println("Comparing " + ik + " dices.");
+         for (int i = 0; i < ik;i++) {
+             if (attackDiceRolls.get(i).getFaceValue() > defenseDiceRolls.get(i).getFaceValue()) {
+                 // attack winner
+                 System.out.println(attacker.getName()+" wins");
+                destination.removeOneTroop();
+                if (destination.getTroops() == 0) { // if invaded
+                    destination.setOwner(origin.getOwner());
+                    // occupy territory
+                    System.out.println("Territory Captured!");
+                    System.out.print("How many troops do you want to move to the new territory?: ");
+                    int movetroops = scan.nextInt(); // move troops has to be equal or move than attackDices
+                    if (origin.getTroops() - movetroops >= 1) {
+                        destination.setTroops(movetroops);
+                        destination.setOwner(attacker);
+                        attacker.addTerritory(destination);
+                        defender.removeTerritory(destination);
+                    }
+                    else
+                        System.out.println("Cannot move " + movetroops +". You need to leave at least one troop behind.");
+                }
+             } else {
+                 // defense winner
+                 System.out.println(defender.getName() + " wins");
+                 origin.removeOneTroop();
+             }
+             map.toString();
+         }
+
+         //defender.rollDices(defenseDices);
+
+     }
+     private void printDice(List<Dice> list) {
+         for (Dice d:list
+              ) {
+             System.out.print(d.getFaceValue() + " ");
+
+         }
+         System.out.println();
+     }
+    private boolean canAttack(Country origin, Country destination, Player attacker) {
+        // cannot attack your own territories
+        boolean c1 = (origin.getOwner() == destination.getOwner()?false:true);
+
+        // cannot attack other territories if you only have one troop
+        boolean c2 = (origin.getTroops() <= 1?false:true);
+
+        // can only attack adjacent(touching) countries
+        boolean c3 = origin.getNeighbors().contains(destination);
+
+        // cannot attack from someone else's territory
+        boolean c4 = origin.getOwner() == attacker;
+        return c1 && c2 && c3 && c4;
+    }
 
     /** Does the player occupy one or more continent
      * @param player to see if occpies the continet
