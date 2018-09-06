@@ -1,7 +1,7 @@
 package com.company;
 import java.util.*;
 
-public class Game {
+public class Game  {
     private int maxPlayers = 6;
     private int minPlayers = 2;
     private int initialInfantryCount = 0;
@@ -21,6 +21,7 @@ public class Game {
 
     // initialize map
     public Game() {
+        System.out.println("Awesome");
 System.out.println(("\n" +
         " ██▀███   ██▓  ██████  ██ ▄█▀\n" +
         "▓██ ▒ ██▒▓██▒▒██    ▒  ██▄█▒ \n" +
@@ -146,26 +147,132 @@ System.out.println(("\n" +
             // attack if you want by rolling dice
             System.out.println(player.getName() +"'s " + getGamePhase() + " phase");
             System.out.println(player.getName() + " here is what you can do:");
+            List<Country> attackCountries = new ArrayList<>();
+            List<Country> destinationCountries = new ArrayList<>();
+
             for (Country c:player.getTerritories()
                  ) {
                 if (c.getTroops() == 1) continue;
+           //     if (c.getOwner() == player) continue;
+
                 System.out.print("\tFrom " + c.getName() + "("+map.countries.indexOf(c)+") with "+c.getTroops()+" troops you can attack ");
+
                 for (Country d:c.getNeighbors()
                      ) {
                     if (!canAttack(c,d,player))
                         continue;
                     System.out.print( d.getName()+" (" + map.countries.indexOf(d)+ ")-"+d.getTroops()+" troops, ");
+
                 }
+                attackCountries.add(c);
                 System.out.println();
             }
-            System.out.print("YourTerritoryID EnemyTerritoryID --> ");
-            int or = scan.nextInt();
-            int desti = scan.nextInt();
 
-            if (canAttack(map.countries.get(or),map.countries.get(desti),player)) {
-                System.out.println(map.countries.get(or).getName() + " attacks " + map.countries.get(desti).getName());
-                attack(map.countries.get(or),map.countries.get(desti));
+
+
+
+            //System.out.print("YourTerritoryID EnemyTerritoryID --> ");
+            //int or = scan.nextInt();
+
+
+
+            Random rand = new Random();
+            System.out.println("attackCountries.size():"+attackCountries.size());
+
+            int or;
+            Country orgi;
+            Country desti;
+            // loop until two random countries to attack are found
+            while(true){
+
+                // get a random number from 0 to numAttackCountries-1
+
+                if (attackCountries.size() == 0){
+                    System.out.println("Can't attack anymore.");
+                    for (Country c:map.countries
+                    ) {
+                        if(c.getOwner() == player)
+                            System.out.println(c.getName() + " (" + c.getTroops()+")");
+                    }
+                    System.exit(0);
+                }
+                orgi = attackCountries.get(rand.nextInt(attackCountries.size()));
+                int numNeighbor = orgi.getNeighbors().size();
+
+                //int desti = scan.nextInt();
+                System.out.println(map.countries.indexOf(orgi) + " " + orgi.getName());
+
+                // get and print neigher of attack country
+                boolean doneNow = true;
+                Country k = map.countries.get(0);
+                for (int i = 0; i < attackCountries.size(); i++){
+                    if (attackCountries.get(i).getOwner() != player)
+                        doneNow = false;
+                }
+
+                if (doneNow){
+                    try {
+                        attackCountries.remove(k);
+                    } catch (Exception e){};
+                }
+
+
+                System.out.println();
+
+                int hang = 0; // for debug purpose only
+
+
+                Random randm = new Random();
+
+
+                desti = orgi.getNeighbors().get(randm.nextInt(numNeighbor));
+
+                System.out.println(desti.getName());
+                // System.out.println("Neighbor of attacking countries :"+numNeighbor);
+                // System.out.println("Attacking countries :"+or);
+
+                if (canAttack(orgi,desti,player))
+                    break;
+                else {
+                    attackCountries.remove(orgi);
+
+                    System.out.println("Help");
+                    hang = hang+1;
+
+
+                    if (hang>100) {
+
+                        for (Country c:map.countries
+                             ) {
+                           if(c.getOwner() == player)
+                               System.out.println(c.getName() + " (" + c.getTroops()+")");
+                        }
+
+                            System.exit(-1);
+                    }
+
+
+                }
+            }
+            for (Country i:attackCountries
+            ) {
+                System.out.print(map.countries.indexOf(i));
+            }
+            System.out.println();
+
+            for (Country i:destinationCountries
+            ) {
+                System.out.print(map.countries.indexOf(i));
+            }
+            System.out.println();
+            System.out.println("Attacking Country: " + orgi.getName());
+            System.out.println("Defending Country: " + desti.getName());
+            System.out.println(canAttack(orgi,desti,player));
+            if (canAttack(orgi,desti,player)) {
+                System.out.println(orgi.getName() + " attacks " + desti.getName());
+                attack(orgi,desti);
             } else {
+                //attackCountries.remove(desti);
                 System.out.println("Cannot attack");
             }
             // fortify position
@@ -222,9 +329,11 @@ System.out.println(("\n" +
                 if (destination.getTroops() == 0) { // if invaded
                     destination.setOwner(origin.getOwner());
                     // occupy territory
-                    System.out.println(origin.getName() + " captures "+destination.getName() + "!!");
-                    System.out.print(attacker.getName()+", how many troops do you want to move to the new territory? max "+ (origin.getTroops() - 1)+": ");
-                    int movetroops = scan.nextInt(); // move troops has to be equal or move than attackDices
+                    System.out.println(origin.getName() + " captures " + destination.getName() + "!!");
+                    System.out.print(attacker.getName()+", how many troops do you want to move to the new territory? max " + (origin.getTroops() - 1)+": ");
+                    //                  //  int movetroops = scan.nextInt(); // move troops has to be equal or move than attackDices
+                    Random rand = new Random();
+                    int movetroops = 1 + rand.nextInt(origin.getTroops()-1);
                     if (origin.getTroops() - movetroops >= 1) {
                         destination.setTroops(movetroops);
                         destination.setOwner(attacker);
@@ -268,7 +377,24 @@ System.out.println(("\n" +
 
         // cannot attack from someone else's territory
         boolean c4 = origin.getOwner() == attacker;
-        return c1 && c2 && c3 && c4;
+        // cannot attack any country if all border states belongs to you
+        boolean c5 = false;
+        for (Country c:origin.getNeighbors()
+             ) {
+            if (c.getOwner()!=attacker)
+                c5 = true;
+        }
+//        if (!c1)
+//            System.out.print(" |cannot attack your own territories| ");
+//        else if (!c2)
+//            System.out.print("cannot attack other territories if you only have one troop");
+//        else if (!c3)
+//            System.out.print("can only attack adjacent(touching) countries");
+//        else if (!c4)
+//            System.out.print("cannot attack from someone else's territory");
+//        else
+//            System.out.print("");
+            return c1 && c2 && c3 && c4 && c5;
     }
 
     /** Does the player occupy one or more continent
