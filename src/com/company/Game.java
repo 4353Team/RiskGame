@@ -117,18 +117,38 @@ System.out.println(("\n" +
 //        for (Card c:cards) {
 //            System.out.println((c.getClass() == new SpecialCard().getClass())?"Special":"Not so special");
 //        }
-
+        boolean noAttackMoves[] ={false,false,false,false};
         Scanner scan = new Scanner(System.in);
         //============ main game loop =================
         while (true) {
+
+            System.out.println("Here ");
+            boolean exitNow = true;
+            for(int i =0;i<numberOfPlayers;i++){
+                System.out.println(noAttackMoves[i] + " for "+players.get(i).getName());
+                if (noAttackMoves[i] == false)
+                    exitNow = false;
+            }
+            if (exitNow) {
+                System.out.println();
+                System.out.println("Game is now at a stalemate!! That's what you want in a successful simulation");
+                System.out.println();
+                break;
+            }
 
             //-----------------calculate bonus troops
             // draft new troops
                 // get number of territories player occupies
                 Player player = players.get(turn);
 
+
+
                 System.out.println();
+
                 System.out.println(player.getName() +"'s " + getGamePhase() + " phase");
+                System.out.println("------------------------------");
+                System.out.println(player.getName().toUpperCase()+"'s TURN");
+                System.out.println("------------------------------");
                 int t = (int)Math.floor(getTerritoriesOwnedBy(player).size()/3.0);
                 player.setTotalInitialTroops((t<3.0)?3:t);
                 System.out.println(player.getName() + " controls " + getTerritoriesOwnedBy(player).size() + " territories, therefore receives " + player.getTotalInitialTroops() + " troops" );
@@ -138,7 +158,6 @@ System.out.println(("\n" +
                 // check matched RISK cards from a set of 3 cards this player has accumulated
 
             //- draft phase
-
 
 
             System.out.println(player.getName() + " gets " + getContinentOccupationPoints(player) + " for occupying continents");
@@ -151,16 +170,26 @@ System.out.println(("\n" +
             //Pick country to attack from
                 // get territories of current player
             List<Country> playerTerritoryThatCanAttack;
-            do {
+    //        do {
                 System.out.println();
                 List<Country> playerTerritory = getTerritoriesOwnedBy(player);
                 System.out.println("Countries owned by " + player.getName());
                 printList(playerTerritory);
+
+
                 // list of countries with more than 1 troop
                 System.out.println();
                 System.out.println("Countries player can attack from (1 troop contries ignored): ");
                 System.out.println();
                 playerTerritoryThatCanAttack = getContriesPlayerCanAttackFrom(playerTerritory,player);
+
+                if (playerTerritoryThatCanAttack.isEmpty()) {
+                    noAttackMoves[turn] = true;
+                    continue;
+                }
+
+
+
                 System.out.println();
                 printList(playerTerritoryThatCanAttack);
                 Random rand = new Random();
@@ -178,6 +207,7 @@ System.out.println(("\n" +
                 System.out.println();
                 if (neighboringCountryPlayerCanAttackTo.isEmpty()) {
                     playerTerritoryThatCanAttack.remove(attackingCountry);
+                    System.out.println("Removing " + attackingCountry.getName());
                     continue;
                 }
 
@@ -190,15 +220,21 @@ System.out.println(("\n" +
                 printList(neighboringCountryPlayerCanAttackTo);
                 System.out.println();
                 Country defendingCountry = neighboringCountryPlayerCanAttackTo.get(rand.nextInt(neighboringCountryPlayerCanAttackTo.size()));
+                System.out.println("Defending country" + defendingCountry.getName());
                 attack(attackingCountry,defendingCountry);
 
-            } while (!playerTerritoryThatCanAttack.isEmpty());
+    //        } while (!playerTerritoryThatCanAttack.isEmpty());
 
                 //
 
 
+            printList(getTerritoriesOwnedBy(player));
+            System.out.println();
+            System.out.println("We are done here. Final territory");
+         //   noAttackMoves[turn] = true;
 
 
+           // scan.nextLine();
 
             // -----------------------
 
@@ -206,8 +242,9 @@ System.out.println(("\n" +
             ;
             nextPhase();
 
-            for (int i =0; i<numberOfPlayers;i++)
-                nextTurn();
+//            for (int i =0; i<numberOfPlayers;i++)
+//                nextTurn();
+            nextTurn();
             nextPhase();
         }
 
@@ -461,7 +498,23 @@ System.out.println(("\n" +
         List<Country> contryPlayerCanAttackFrom = new ArrayList<>();
         for (Country c :
                 playerTerritory) {
-            if (c.getTroops() > 1) contryPlayerCanAttackFrom.add(c);
+            boolean add = false;
+            for (Country n :
+                    c.getNeighbors()) {
+                if (n.getOwner() != player) add = true;
+
+            }
+
+
+            if ((c.getTroops() > 1) && add) contryPlayerCanAttackFrom.add(c);
+            //
+
+
+
+
+
+            //
+
         }
         return contryPlayerCanAttackFrom;
     }
