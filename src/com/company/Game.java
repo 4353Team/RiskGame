@@ -11,6 +11,7 @@ public class Game  {
     private Stack<Card> cardStack;
     public List<Card> cards;
     private int turn = 0;
+    private static int totalTurnsCounter = 0;
     private int phase = 0;
     private int numberOfPlayers = 0;
     private int setsOfRiskCardsTraded = 0;
@@ -131,7 +132,7 @@ System.out.println(("\n" +
             }
             if (exitNow) {
                 System.out.println();
-                System.out.println("Game is now at a stalemate!! That's what you want in a successful simulation");
+                System.out.println("Game is now at a stalemate!! That's what you want in a successful simulation. It took "+totalTurnsCounter+" turns for the game to achieve stalemate.");
                 System.out.println();
                 break;
             }
@@ -185,6 +186,7 @@ System.out.println(("\n" +
 
                 if (playerTerritoryThatCanAttack.isEmpty()) {
                     noAttackMoves[turn] = true;
+                    nextTurn();
                     continue;
                 }
 
@@ -220,7 +222,7 @@ System.out.println(("\n" +
                 printList(neighboringCountryPlayerCanAttackTo);
                 System.out.println();
                 Country defendingCountry = neighboringCountryPlayerCanAttackTo.get(rand.nextInt(neighboringCountryPlayerCanAttackTo.size()));
-                System.out.println("Defending country" + defendingCountry.getName());
+                System.out.println("Defending country " + defendingCountry.getName());
                 attack(attackingCountry,defendingCountry);
 
     //        } while (!playerTerritoryThatCanAttack.isEmpty());
@@ -230,8 +232,8 @@ System.out.println(("\n" +
 
             printList(getTerritoriesOwnedBy(player));
             System.out.println();
-            System.out.println("We are done here. Final territory");
-         //   noAttackMoves[turn] = true;
+         //   System.out.println("We are done here. Final territory");
+           // noAttackMoves[turn] = true;
 
 
            // scan.nextLine();
@@ -415,6 +417,7 @@ System.out.println(("\n" +
         return false;
      }
      private Player nextTurn() {
+        totalTurnsCounter++;
         turn++;
         if (turn >= numberOfPlayers)
             turn = 0;

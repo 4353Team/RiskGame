@@ -16,7 +16,6 @@ public class Main extends JPanel {
 //            frame.setSize(1024,768);
 //            frame.setVisible(true);
 //            frame.add(m);
-
             Game g = new Game();
     }
 }

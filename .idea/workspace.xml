@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="acc4f961-9b8a-4b48-bc64-8bfabdd0a352" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RiskGame/com/company/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RiskGame/com/company/Game.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -61,14 +61,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="27756" />
-          <entry key="txt" value="580" />
+          <entry key="java" value="28049" />
+          <entry key="txt" value="641" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="27756" />
-          <entry key="PLAIN_TEXT" value="580" />
+          <entry key="JAVA" value="28049" />
+          <entry key="PLAIN_TEXT" value="641" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -94,11 +94,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="20" selection-start-line="20" selection-end-line="20" />
+            <state relative-caret-position="396">
+              <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -106,11 +106,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="127" column="75" selection-start-line="127" selection-start-column="75" selection-end-line="127" selection-end-column="75" />
+            <state relative-caret-position="447">
+              <caret line="134" column="183" selection-start-line="134" selection-start-column="183" selection-end-line="134" selection-end-column="183" />
               <folding>
                 <element signature="e#2511#2520#0" expanded="true" />
                 <element signature="e#14379#14388#0" expanded="true" />
@@ -135,7 +135,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/java/util/Random.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
+            <state relative-caret-position="435">
               <caret line="387" selection-start-line="387" selection-end-line="387" />
             </state>
           </provider>
@@ -227,8 +227,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>(0)</find>
-      <find>how many troop</find>
       <find>how many</find>
       <find>attac</find>
       <find>attackCoun</find>
@@ -250,13 +248,15 @@
       <find>scan</find>
       <find>-------------------------------</find>
       <find>nppp</find>
-      <find>nextTurn</find>
       <find>turn</find>
       <find>we are done here</find>
       <find>TURN</find>
       <find>MARK</find>
       <find>exit</find>
       <find>break</find>
+      <find>Defend</find>
+      <find>nextTurn</find>
+      <find>Game is now</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -278,8 +278,8 @@
         <option value="$PROJECT_DIR$/src/com/company/Player.java" />
         <option value="$PROJECT_DIR$/src/com/company/Country.java" />
         <option value="$PROJECT_DIR$/src/com/company/Map.java" />
-        <option value="$PROJECT_DIR$/src/com/company/Main.java" />
         <option value="$PROJECT_DIR$/src/com/company/Game.java" />
+        <option value="$PROJECT_DIR$/src/com/company/Main.java" />
       </list>
     </option>
   </component>
@@ -344,7 +344,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ChangesTree.GroupingKeys" value="directory" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536272341495" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536277018817" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -462,7 +462,14 @@
       <option name="project" value="LOCAL" />
       <updated>1536251639052</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Fixed attack. One more commit before working attack phase">
+      <created>1536272422215</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1536272422215</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TodoView">
@@ -475,10 +482,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="3456" height="1416" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8618907" visible="true" weight="0.1234375" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8618907" visible="true" weight="0.07005814" />
       <window_info id="Structure" order="1" sideWeight="0.13810931" side_tool="true" weight="0.06889535" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -487,14 +494,13 @@
       <window_info id="Favorites" order="6" sideWeight="0.13810931" side_tool="true" weight="0.06889535" />
       <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.32436472" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3294025" />
-      <window_info active="true" anchor="bottom" x="34" y="811" width="3396" height="603" id="Run" order="2" sideWeight="0.75300545" visible="true" weight="0.54325956" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3213752" />
-      <window_info anchor="bottom" id="Message" order="4" />
-      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.3293944" />
-      <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.25683892" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" weight="0.32997987" />
+      <window_info anchor="bottom" id="Debug" order="2" weight="0.3213752" />
+      <window_info anchor="bottom" id="Message" order="3" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="5" weight="0.3293944" />
+      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.25683892" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.32997987" />
       <window_info anchor="right" id="Coverage" order="0" sideWeight="0.24699454" side_tool="true" visible="true" weight="0.0" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24975173" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="2" type="SLIDING" weight="0.4" />
@@ -504,8 +510,9 @@
       <window_info anchor="right" id="Theme Preview" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Maven Projects" order="8" weight="0.32979977" />
-      <window_info anchor="right" id="Messages" order="9" weight="0.23020834" />
+      <window_info active="true" anchor="right" id="Messages" order="9" visible="true" weight="0.22994186" />
       <window_info anchor="right" id="Version Control" order="10" sideWeight="0.41414142" weight="0.10104167" />
+      <window_info anchor="right" x="34" y="811" width="3396" height="603" id="Run" order="11" sideWeight="0.75300545" weight="0.39854652" />
     </layout>
     <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8617694" visible="true" weight="0.06889535" />
@@ -584,7 +591,8 @@
     <MESSAGE value="Implemented attack phase logic" />
     <MESSAGE value="Fixed troops count after attack" />
     <MESSAGE value="Working on different version of attack strategy" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on different version of attack strategy" />
+    <MESSAGE value="Fixed attack. One more commit before working attack phase" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed attack. One more commit before working attack phase" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -661,16 +669,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Country.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
@@ -714,19 +712,29 @@
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/java/util/Random.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
+        <state relative-caret-position="435">
           <caret line="387" selection-start-line="387" selection-end-line="387" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="127" column="75" selection-start-line="127" selection-start-column="75" selection-end-line="127" selection-end-column="75" />
+        <state relative-caret-position="447">
+          <caret line="134" column="183" selection-start-line="134" selection-start-column="183" selection-end-line="134" selection-end-column="183" />
           <folding>
             <element signature="e#2511#2520#0" expanded="true" />
             <element signature="e#14379#14388#0" expanded="true" />
             <element signature="e#15782#15791#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
