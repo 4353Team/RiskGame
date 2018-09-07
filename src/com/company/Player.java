@@ -1,8 +1,12 @@
 package com.company;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Player {
+
+    private Color playerColor;
     public String name;
     public Card[] cards;
     private List<Country>territories;
@@ -10,9 +14,18 @@ public class Player {
     private int totalInitialTroops;
 
     public Player(String name) {
+
         totalInitialTroops = 0;
         this.name = name;
         territories = new ArrayList<>();
+    }
+
+    public Color getPlayerColor() {
+        return playerColor;
+    }
+
+    public void setPlayerColor(Color playerColor) {
+        this.playerColor = playerColor;
     }
 
     public String getName() {

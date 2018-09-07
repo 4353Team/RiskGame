@@ -1,13 +1,18 @@
 package com.company;
 
 import java.util.List;
+import java.util.Random;
 
 public class Country {
+    private Location coordinate;
+
     private String name;
+
     Continent continent;
     private int troops;
     private Player owner;
     private List<Country> neighbors;
+
 
     enum Continent {
         NORTH_AMERICA, SOUTH_AMERICA, AFRICA, EUROPE, ASIA, AUSTRALIA
@@ -18,7 +23,18 @@ public class Country {
         this.owner = owner;
         this.neighbors = null;
         this.continent = continent;
+        this.coordinate = new Location();
+
     }
+
+    public Location getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(Location coordinate) {
+        this.coordinate = coordinate;
+    }
+
     public Country(String name){
         this.name = name;
     }
