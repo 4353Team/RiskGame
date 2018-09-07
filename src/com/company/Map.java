@@ -14,57 +14,60 @@ public class Map {
         Player owner = null;
 
         // North America
-        Country c1 = new Country("Alaska", Country.Continent.NORTH_AMERICA,0, owner);
-        Country c2 = new Country("Northwest Territory", Country.Continent.NORTH_AMERICA, 0, owner);
-        Country c3 = new Country("Greenland",Country.Continent.NORTH_AMERICA, 0, owner);
-        Country c4 = new Country("Alberta",Country.Continent.NORTH_AMERICA, 0, owner);
-        Country c5 = new Country("Ontario",Country.Continent.NORTH_AMERICA, 0, owner);
-        Country c6 = new Country("Quebec",Country.Continent.NORTH_AMERICA, 0, owner);
-        Country c7 = new Country("Western United States",Country.Continent.NORTH_AMERICA, 0, owner);
-        Country c8 = new Country("Eastern United States",Country.Continent.NORTH_AMERICA, 0, owner);
-        Country c9 = new Country("Central America",Country.Continent.NORTH_AMERICA, 0, owner);
+        Country c1 = new Country("Alaska", Country.Continent.NORTH_AMERICA,0,owner, new Dimension(80,80),new Location(30,110));
+        Country c2 = new Country("Northwest Territory", Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(150,50),new Location(110,120));
+        Country c3 = new Country("Greenland",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(120,90),new Location(300,60));
+        Country c4 = new Country("Alberta",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(90,  70),new Location(110,170));
+        Country c5 = new Country("Ontario",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(70,70),new Location(200,170));
+        Country c6 = new Country("Quebec",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(70,60),new Location(270,180));
+        Country c7 = new Country("Western United States",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(100,70),new Location(120,240));
+        Country c8 = new Country("Eastern United States",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(80,95),new Location(220,240));
+        Country c9 = new Country("Central America",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(70,115),new Location(150,310));
 
         // South America
-        Country c10 = new Country("Venezuela",Country.Continent.SOUTH_AMERICA,0, owner);
-        Country c11 = new Country("Peru",Country.Continent.SOUTH_AMERICA,0, owner);
-        Country c12 = new Country("Brazil",Country.Continent.SOUTH_AMERICA,0, owner);
-        Country c13 = new Country("Argentina",Country.Continent.SOUTH_AMERICA,0, owner);
+        Country c10 = new Country("Venezuela",Country.Continent.SOUTH_AMERICA,0,owner, new Dimension(150,60),new Location(220,400));
+        Country c11 = new Country("Peru",Country.Continent.SOUTH_AMERICA,0,owner, new Dimension(90,100),new Location(210,460));
+        Country c12 = new Country("Brazil",Country.Continent.SOUTH_AMERICA,0,owner, new Dimension(90,100),new Location(300,460));
+        Country c13 = new Country("Argentina",Country.Continent.SOUTH_AMERICA,0,owner, new Dimension(75,135),new Location(250,560));
         // Africa
-        Country c14 = new Country("North Africa",Country.Continent.AFRICA,0, owner);
-        Country c15 = new Country("Egypt",Country.Continent.AFRICA,0, owner);
-        Country c16 = new Country("East Africa",Country.Continent.AFRICA,0, owner);
-        Country c17 = new Country("Congo",Country.Continent.AFRICA,0, owner);
-        Country c18 = new Country("South Africa",Country.Continent.AFRICA,0, owner);
-        Country c19 = new Country("Madagascar",Country.Continent.AFRICA,0, owner);
+        Country c14 = new Country("North Africa",Country.Continent.AFRICA,0,owner, new Dimension(100,140),new Location(420,390));
+        Country c15 = new Country("Egypt",Country.Continent.AFRICA,0,owner, new Dimension(50,70),new Location(520,290));
+        Country c16 = new Country("East Africa",Country.Continent.AFRICA,0,owner, new Dimension(140,70),new Location(520,460));
+        Country c17 = new Country("Congo",Country.Continent.AFRICA,0,owner, new Dimension(85,60),new Location(465,530));
+        Country c18 = new Country("South Africa",Country.Continent.AFRICA,0,owner, new Dimension(70,150),new Location(550,530));
+        Country c19 = new Country("Madagascar",Country.Continent.AFRICA,0,owner, new Dimension(40,70),new Location(660,580));
 
         // Europe
-        Country c20 = new Country("Iceland",Country.Continent.EUROPE,0, owner);
-        Country c21 = new Country("Great Britain",Country.Continent.EUROPE,0, owner);
-        Country c22 = new Country("Scandinavia",Country.Continent.EUROPE,0, owner);
-        Country c23 = new Country("Ukraine",Country.Continent.EUROPE,0, owner);
-        Country c24 = new Country("Northern Europe",Country.Continent.EUROPE,0, owner);
-        Country c25 = new Country("Western Europe",Country.Continent.EUROPE,0, owner);
-        Country c26 = new Country("Southern Europe",Country.Continent.EUROPE,0, owner);
+        Country c20 = new Country("Iceland",Country.Continent.EUROPE,0,owner, new Dimension(50,40),new Location(420,160));
+        Country c21 = new Country("Great Britain",Country.Continent.EUROPE,0,owner, new Dimension(60,60),new Location(390,220));
+        Country c22 = new Country("Scandinavia",Country.Continent.EUROPE,0,owner, new Dimension(90,110),new Location(480,120));
+        Country c23 = new Country("Ukraine",Country.Continent.EUROPE,0,owner, new Dimension(105,220),new Location(570,130));
+        Country c24 = new Country("Northern Europe",Country.Continent.EUROPE,0,owner, new Dimension(90,90),new Location(480,230));
+        Country c25 = new Country("Western Europe",Country.Continent.EUROPE,0,owner, new Dimension(90,90),new Location(390,300));
+        Country c26 = new Country("Southern Europe",Country.Continent.EUROPE,0,owner, new Dimension(90,50),new Location(480,320));
 
         // Asia
-        Country c27 = new Country("Middle East",Country.Continent.ASIA,0, owner);
-        Country c28 = new Country("Afganistan",Country.Continent.ASIA,0, owner);
-        Country c29 = new Country("India",Country.Continent.ASIA,0, owner);
-        Country c30 = new Country("China",Country.Continent.ASIA,0, owner);
-        Country c31 = new Country("Mongolia",Country.Continent.ASIA,0, owner);
-        Country c32 = new Country("Southeast Asia",Country.Continent.ASIA,0, owner);
-        Country c33 = new Country("Ural",Country.Continent.ASIA,0, owner);
-        Country c34 = new Country("Siberia",Country.Continent.ASIA,0, owner);
-        Country c35 = new Country("Irkutsk",Country.Continent.ASIA,0, owner);
-        Country c36 = new Country("Japan",Country.Continent.ASIA,0, owner);
-        Country c37 = new Country("Kamchatka",Country.Continent.ASIA,0, owner);
-        Country c38 = new Country("Yakutsk",Country.Continent.ASIA,0, owner);
+        Country c27 = new Country("Middle East",Country.Continent.ASIA,0,owner, new Dimension(125,110),new Location(570,350));
+        Country c28 = new Country("Afganistan",Country.Continent.ASIA,0,owner, new Dimension(80,65),new Location(675,285));
+        Country c29 = new Country("India",Country.Continent.ASIA,0,owner, new Dimension(60,160),new Location(695,350));
+        Country c30 = new Country("China",Country.Continent.ASIA,0,owner, new Dimension(135,125),new Location(755,285));
+        Country c31 = new Country("Mongolia",Country.Continent.ASIA,0,owner, new Dimension(90,50),new Location(810,230));
+        Country c32 = new Country("Southeast Asia",Country.Continent.ASIA,0,owner, new Dimension(105,60),new Location(755,410));
+        Country c33 = new Country("Ural",Country.Continent.ASIA,0,owner, new Dimension(90,175),new Location(675,110));
+        Country c34 = new Country("Siberia",Country.Continent.ASIA,0,owner, new Dimension(45,220),new Location(765,110));
+        Country c35 = new Country("Irkutsk",Country.Continent.ASIA,0,owner, new Dimension(60,70),new Location(810,160));
+        Country c36 = new Country("Japan",Country.Continent.ASIA,0,owner, new Dimension(45,80),new Location(940,250));
+        Country c37 = new Country("Kamchatka",Country.Continent.ASIA,0,owner, new Dimension(105,160),new Location(870,70));
+        Country c38 = new Country("Yakutsk",Country.Continent.ASIA,0,owner, new Dimension(60,50),new Location(810,80));
 
         // Australia
-        Country c39 = new Country("Indonesia",Country.Continent.AUSTRALIA,0, owner);
-        Country c40 = new Country("New Guinea",Country.Continent.AUSTRALIA,0, owner);
-        Country c41 = new Country("Western Australia",Country.Continent.AUSTRALIA,0, owner);
-        Country c42 = new Country("Eastern Australia",Country.Continent.AUSTRALIA,0, owner);
+        Country c39 = new Country("Indonesia",Country.Continent.AUSTRALIA,0,owner, new Dimension(75,50),new Location(800,510));
+        Country c40 = new Country("New Guinea",Country.Continent.AUSTRALIA,0,owner, new Dimension(75,60),new Location(900,470));
+        Country c41 = new Country("Western Australia",Country.Continent.AUSTRALIA,0,owner, new Dimension(70,100),new Location(840,570));
+        Country c42 = new Country("Eastern Australia",Country.Continent.AUSTRALIA,0,owner, new Dimension(80,130),new Location(910,550));
+
+
+
 
         countries.add(c1);
         countries.add(c2);

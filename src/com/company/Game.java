@@ -1,8 +1,12 @@
 package com.company;
 import com.sun.deploy.util.StringUtils;
+import org.omg.CORBA.TIMEOUT;
+import sun.awt.image.FileImageSource;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +25,8 @@ public class Game extends JFrame {
     private int phase = 0;
     private int numberOfPlayers = 0;
     private int setsOfRiskCardsTraded = 0;
+    Country attackingCountry;
+    Country defendingCountry;
     public enum GamePhase {
         DRAFT, ATTACK, FORTIFY
     }
@@ -28,7 +34,18 @@ public class Game extends JFrame {
 
     // initialize map
     public Game() {
+        //super.paint();
+     //   System.out.println("rendering");
+        // write your code here
 
+        setDefaultLookAndFeelDecorated(true);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBackground(Color.black);
+        setSize(1024,768);
+        setVisible(true);
+        setBackground(Color.red);
+        System.out.println("rendering");
 
 
 System.out.println(("\n" +
@@ -55,6 +72,9 @@ System.out.println(("\n" +
         //load map
         map = loadMap();
 
+        attackingCountry=map.countries.get(0);
+
+        defendingCountry=map.countries.get(1);
 
         // create players for test purpose
         players = new ArrayList<Player>();
@@ -161,7 +181,16 @@ System.out.println(("\n" +
         //============ main game loop =================
         turnPlayer = players.get(0);
         while (true) {
-            render();
+
+     //       super.repaint();
+            try {
+
+            } catch (Exception ex)  {
+            }
+            paint(this.getGraphics());
+
+
+            try {TimeUnit.MILLISECONDS.sleep(500);} catch (Exception e) {}
             boolean doWeHaveAWinner = true;
             System.out.println(players.size());
             for (Country c :
@@ -183,32 +212,29 @@ System.out.println(("\n" +
 
             if (getTerritoriesOwnedBy(turnPlayer).isEmpty()) {
 
-                wait(2);
+              //  wait(3);
                 System.out.println(turnPlayer.getName() + " eliminated!");
                 players.remove(turnPlayer);
-                wait(2);
+             //   wait(3);
                 numberOfPlayers--;
                 turnPlayer = nextTurn(turnPlayer);
                 continue;
             }
-            boolean exitNow = true;
-
-            for(Player p:players){
-                System.out.println(p.getName() + " " +noAttackMoves.get(p));
-                //System.out.println(noAttackMoves.get(i) + " for "+players.get(i).getName());
-                if (noAttackMoves.get(p) == false)
-                    exitNow = false;
-            }
-
-
-            if (exitNow) {
-                System.out.println();
-                System.out.println("Game is now at a stalemate!! That's what you want in a successful simulation. It took "+totalTurnsCounter+" turns for the game to achieve stalemate.");
-                System.out.println();
-                System.out.print("\u2714");
-              //  render(map);
-                break;
-            }
+//            boolean exitNow = true;
+//            for(Player p:players){
+//                System.out.println(p.getName() + " " +noAttackMoves.get(p));
+//                //System.out.println(noAttackMoves.get(i) + " for "+players.get(i).getName());
+//                if (noAttackMoves.get(p) == false)
+//                    exitNow = false;
+//            }
+//            if (exitNow) {
+//                System.out.println();
+//                System.out.println("Game is now at a stalemate!! That's what you want in a successful simulation. It took "+totalTurnsCounter+" turns for the game to achieve stalemate.");
+//                System.out.println();
+//                System.out.print("\u2714");
+//              //  render(map);
+//                break;
+//            }
 
             //-----------------calculate bonus troops
             // draft new troops
@@ -216,9 +242,9 @@ System.out.println(("\n" +
                 Player player = turnPlayer;
 
                 System.out.println();
-                System.out.println("------------------------------");
+                System.out.println("---------------------------------------");
                 System.out.println(player.getName().toUpperCase()+"'s TURN ("+players.indexOf(turnPlayer)+")");
-                System.out.println("------------------------------");
+                System.out.println("---------------------------------------");
                 int t = (int)Math.floor(getTerritoriesOwnedBy(player).size()/3.0);
                 player.setTotalInitialTroops((t<3.0)?3:t);
                 System.out.println(player.getName() + " controls " + getTerritoriesOwnedBy(player).size() + " territories, therefore receives " + player.getTotalInitialTroops() + " troops" );
@@ -238,7 +264,7 @@ System.out.println(("\n" +
 
 
             System.out.println(player.getName() + " gets " + getContinentOccupationPoints(player) + " for occupying continents");
-           turnPlayer.addToTotalInitialTroops(getContinentOccupationPoints(player));
+            turnPlayer.addToTotalInitialTroops(getContinentOccupationPoints(player));
 
             nextPhase();
             System.out.println(player.getName()+"'s attack Phase");
@@ -250,28 +276,28 @@ System.out.println(("\n" +
             do {
                 System.out.println();
                 List<Country> playerTerritory = getTerritoriesOwnedBy(player);
-                System.out.println("Countries owned by " + player.getName());
-                printList(playerTerritory);
+               // System.out.println("Countries owned by " + player.getName());
+               // printList(playerTerritory);
 
 
                 // list of countries with more than 1 troop
-                System.out.println();
+               // System.out.println();
 
 
                 playerTerritoryThatCanAttack = getContriesPlayerCanAttackFrom(playerTerritory,player);
                 if(!playerTerritoryThatCanAttack.isEmpty())
-                    System.out.printf("%s can attack from\n",player.getName());
+                    System.out.printf("%s can attack from these countries\n",player.getName());
 
                 if (playerTerritoryThatCanAttack.isEmpty()) {
                     noAttackMoves.put(turnPlayer,true);
       //              turnPlayer = nextTurn(turnPlayer);
                     break;
                 }
-                printList(playerTerritoryThatCanAttack);
+  //              printList(playerTerritoryThatCanAttack);
                 printList(playerTerritoryThatCanAttack);
                 System.out.println();
-                Country attackingCountry = playerTerritoryThatCanAttack.get(rand.nextInt(playerTerritoryThatCanAttack.size()));
- //               System.out.println("Attacking Country picked: "+attackingCountry.getName());
+                attackingCountry = playerTerritoryThatCanAttack.get(rand.nextInt(playerTerritoryThatCanAttack.size()));
+                System.out.printf("%s picked as attacking country\n",attackingCountry.getName());
 
 
 
@@ -291,12 +317,14 @@ System.out.println(("\n" +
      //           System.out.println("All neighboring countries of "+attackingCountry.getName());
      //           printList(attackingCountry.getNeighbors());
      //           System.out.println();
-                System.out.printf("%s can attack \n",attackingCountry.getName());
+                System.out.printf("%s can attack one of these countries \n",attackingCountry.getName());
                 printList(neighboringCountryPlayerCanAttackTo);
                 System.out.println();
-                Country defendingCountry = neighboringCountryPlayerCanAttackTo.get(rand.nextInt(neighboringCountryPlayerCanAttackTo.size()));
-  //              System.out.println("Defending country " + defendingCountry.getName());
-                System.out.printf("(%d)%s (%d troops) attacking (%d)%s (%d troops)\n",map.countries.indexOf(attackingCountry),attackingCountry.getName(),attackingCountry.getTroops(),map.countries.indexOf(defendingCountry),defendingCountry.getName(),defendingCountry.getTroops());
+                defendingCountry = neighboringCountryPlayerCanAttackTo.get(rand.nextInt(neighboringCountryPlayerCanAttackTo.size()));
+                System.out.println(defendingCountry.getName() + " picked as defending country.");
+                System.out.println();
+                System.out.printf("%s(%d troops) is now attacking %s (%d troops)\n",attackingCountry.getName(),attackingCountry.getTroops(),defendingCountry.getName(),defendingCountry.getTroops());
+                System.out.println();
                 attack(attackingCountry,defendingCountry);
 
             } while (!playerTerritoryThatCanAttack.isEmpty());
@@ -392,7 +420,7 @@ System.out.println(("\n" +
          } else {
              ik = defenseDiceRolls.size();
          }
-         System.out.println("Comparing " + ik + " dice.");
+    //     System.out.println("Comparing dice.");
          int numberAttackersRemoved = 0;
          for (int i = 0; i < ik;i++) {
              if (attackDiceRolls.get(i).getFaceValue() > defenseDiceRolls.get(i).getFaceValue()) {
@@ -490,8 +518,12 @@ System.out.println(("\n" +
                 }
             }
             m.put(continent,countries);
-            if (countries.containsAll(player.getTerritories()))
+            if (countries.containsAll(player.getTerritories())) {
                 tp += points.get(continent);
+              //  wait(2);
+                System.out.println("Entire continent captured!!!");
+              //  wait(2);
+            }
         }
 
 
@@ -573,6 +605,9 @@ System.out.println(("\n" +
 //                     System.out.println();
 //                 }
                  int c = 0;
+
+
+
                  for (Country d : mc) {
                      c+=d.getTroops();
                      System.out.print("\t");
@@ -642,41 +677,69 @@ System.out.println(("\n" +
 
     private void render(){
 
-        System.out.println("rendering");
-        // write your code here
 
-        setDefaultLookAndFeelDecorated(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBackground(Color.white);
-        setSize(2000,1000);
-        setVisible(true);
-
-        System.out.println("rendering");
 
     }
 
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
+    private void animate(Graphics g) {
 
-        for (Country c:map.countries
-             ) {
+
+
+
+
+        for (Country c : map.countries
+        ) {
             g.setColor(c.getOwner().getPlayerColor());
 
-            for (Country d:c.getNeighbors()
-            ) {
-                if (d.getOwner() == c.getNeighbors());
-                g.drawLine(d.getCoordinate().getCenter(100).getX(),d.getCoordinate().getCenter(100).getY(),c.getCoordinate().getCenter(100).getX(),c.getCoordinate().getCenter(100).getY());
-            }
+//            for (Country d:c.getNeighbors()
+//            ) {
+//                if (d.getOwner() == c.getNeighbors());
+//                g.drawLine(d.getCoordinate().getCenter(100).getX(),d.getCoordinate().getCenter(100).getY(),c.getCoordinate().getCenter(100).getX(),c.getCoordinate().getCenter(100).getY());
+//            }
 
-            g.fillOval(c.getCoordinate().getX(),c.getCoordinate().getY(),100,100);
-            if (c.getOwner().getPlayerColor()==Color.blue)
+            g.fillRect(c.getCoordinate().getX(), c.getCoordinate().getY(), c.getDimension().getWidth(), c.getDimension().getHeight());
+
+            g.setColor(Color.black);
+            g.drawRect(c.getCoordinate().getX(), c.getCoordinate().getY(), c.getDimension().getWidth(), c.getDimension().getHeight());
+            g.setColor(c.getOwner().getPlayerColor());
+
+            if (c.getOwner().getPlayerColor() == Color.blue)
                 g.setColor(Color.white);
             else
                 g.setColor(Color.black);
 
-            g.drawString(c.getName()+" "+c.getTroops(),c.getCoordinate().getX(),c.getCoordinate().getY()+50);
+            g.drawString(c.getName(), c.getCoordinate().getX()+5, c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getY()-10);
+            g.drawString(c.getTroops()+" troops", c.getCoordinate().getX()+5, c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getY()+10);
+            g.drawString(c.getOwner().getName(), c.getCoordinate().getX()+5, c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getY());
         }
+        g.setColor(Color.white);
+        int centerX1 = attackingCountry.getCoordinate().getCenter(attackingCountry.getDimension().getWidth(),attackingCountry.getDimension().getHeight()).getX();
+        int centerY1= attackingCountry.getCoordinate().getCenter(attackingCountry.getDimension().getWidth(),attackingCountry.getDimension().getHeight()).getY();
+
+
+
+        int centerX2 = defendingCountry.getCoordinate().getCenter(defendingCountry.getDimension().getWidth(),defendingCountry.getDimension().getHeight()).getX();
+        int centerY2= defendingCountry.getCoordinate().getCenter(defendingCountry.getDimension().getWidth(),defendingCountry.getDimension().getHeight()).getY();
+
+
+        g.drawLine(centerX1,centerY1,centerX2,centerY2);
+        g.setColor(Color.cyan);
+        g.fillOval(centerX1-5,centerY1-5,10,10);
+        
+        g.setColor(Color.black);
+        g.fillOval(centerX2-5,centerY2-5,10,10);
+
+    }
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+
+        BufferedImage bf = new BufferedImage(this.getWidth(),this.getHeight(),BufferedImage.TYPE_INT_RGB);
+
+        animate(bf.getGraphics());
+
+        g.drawImage(bf,0,0,Color.white,this);
+
     }
 
     public Map loadMap() {

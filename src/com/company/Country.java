@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Country {
     private Location coordinate;
-
+    private Dimension dimension;
     private String name;
 
     Continent continent;
@@ -17,23 +17,32 @@ public class Country {
     enum Continent {
         NORTH_AMERICA, SOUTH_AMERICA, AFRICA, EUROPE, ASIA, AUSTRALIA
     }
-    public Country(String name, Continent continent, int troops, Player owner) {
+    public Country(String name, Continent continent, int troops, Player owner,Dimension d, Location c) {
         this.name = name;
         this.troops = troops;
         this.owner = owner;
         this.neighbors = null;
         this.continent = continent;
-        this.coordinate = new Location();
-
+        this.coordinate = c;
+        this.dimension = d;
     }
 
     public Location getCoordinate() {
         return coordinate;
     }
 
+    public void setDimension(Dimension dimension) {
+        this.dimension = dimension;
+    }
+
+    public Dimension getDimension() {
+        return dimension;
+    }
+
     public void setCoordinate(Location coordinate) {
         this.coordinate = coordinate;
     }
+
 
     public Country(String name){
         this.name = name;
