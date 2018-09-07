@@ -1,5 +1,8 @@
 package com.company;
+import com.sun.deploy.util.StringUtils;
+
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Game  {
     private int maxPlayers = 6;
@@ -22,7 +25,6 @@ public class Game  {
 
     // initialize map
     public Game() {
-        System.out.println("Awesome");
 System.out.println(("\n" +
         " ██▀███   ██▓  ██████  ██ ▄█▀\n" +
         "▓██ ▒ ██▒▓██▒▒██    ▒  ██▄█▒ \n" +
@@ -39,13 +41,15 @@ System.out.println(("\n" +
         //load map
         map = loadMap();
 
+
         // create players for test purpose
         players = new ArrayList<Player>();
         players.add(new Player("Navin"));
         players.add(new Player("Sunada"));
         players.add(new Player("Jack"));
-        players.add(new Player( "Mark"));
-
+        players.add(new Player("John"));
+        players.add(new Player("Jim"));
+        players.add(new Player("Mark"));
 
         numberOfPlayers = players.size();
 
@@ -57,20 +61,22 @@ System.out.println(("\n" +
             p.setTotalInitialTroops(a);
         }
         System.out.println("We have " + players.size() + " players!");
+
         System.out.println("Each players now rolling dice to determine who is going first.");
 
         // roll dice
         Player highestPlayer = players.get(0);
         for(Player p: players) {
 
-            System.out.print(p.getName() + " rolled " );
-            p.rollDices(1);
+            //System.out.print(p.getName() + " rolled " );
+            System.out.printf("%s is rolling dice ...\n",p.getName());
+            printDice(p.rollDices(1));
             if (p.dice.get(0).getFaceValue() > highestPlayer.dice.get(0).getFaceValue())
                 highestPlayer = p;
-            for(Dice d: p.dice) {
-                System.out.print(d.getFaceValue() + " ");
-            }
-            System.out.println();
+//            for(Dice d: p.dice) {
+//                System.out.print(d.getFaceValue() + " ");
+//            }
+//            System.out.println();
         }
         turn = players.indexOf(highestPlayer);
         System.out.println();
@@ -103,40 +109,62 @@ System.out.println(("\n" +
      // System.out.println("Randomly populating the map ... ");
         for(Player p: players) {
             System.out.println();
-            System.out.println(p.getName());
-            System.out.println("-------------------------------------------");
+            System.out.printf("\t%28s\n",p.getName().toUpperCase());
             printList(getTerritoriesOwnedBy(p));
-            System.out.println(" - " + getNumTerritoriesOwnedBy(p) + " troops across " +getTerritoriesOwnedBy(p).size() + " countries ");
+     //       System.out.println(" - " + getNumTerritoriesOwnedBy(p) + " troops across " +getTerritoriesOwnedBy(p).size() + " countries ");
+
         }
         // console render
         System.out.println();
-        System.out.println("---------------------------snapshot of the map-------------------------------------------------------------------------------------");
+    //    System.out.println("---------------------------snapshot of the map-------------------------------------------------------------------------------------");
 
-        System.out.println(map.toString());
-        System.out.println(map.getTotalTroops() +" troops across 42 countries, 6 continents");
+  //      System.out.println(map.toString());
+    //    System.out.println(map.getTotalTroops() +" troops across 42 countries, 6 continents");
 
 
 //        for (Card c:cards) {
 //            System.out.println((c.getClass() == new SpecialCard().getClass())?"Special":"Not so special");
 //        }
-        boolean noAttackMoves[] ={false,false,false,false};
+
+        List<Boolean> noAttackMoves = new ArrayList<>();
+        for (int i=0;i<players.size();i++){
+            noAttackMoves.add(false);
+        }
         Scanner scan = new Scanner(System.in);
         //============ main game loop =================
         while (true) {
+//            boolean doWeHaveAWinner = true;
+//
+//            for (Country c :
+//                    map.countries) {
+//                if (c.getOwner()!=players.get(turn)) doWeHaveAWinner = false;
+//            }
+            if (players.size() == 1)
+            {
+                System.out.println(players.get(turn) + " wins!!!");
+                System.exit(0);
+            }
 
-            System.out.println("Here ");
+
+            if (getTerritoriesOwnedBy(players.get(turn)).isEmpty()) {
+                players.remove(players.get(turn));
+                System.out.println(players.get(turn).getName() + " eliminated!");
+                numberOfPlayers--;
+                nextTurn();
+                continue;
+            }
             boolean exitNow = true;
             for(int i =0;i<numberOfPlayers;i++){
-                System.out.println(noAttackMoves[i] + " for "+players.get(i).getName());
-                if (noAttackMoves[i] == false)
+                //System.out.println(noAttackMoves.get(i) + " for "+players.get(i).getName());
+                if (noAttackMoves.get(i) == false)
                     exitNow = false;
             }
             if (exitNow) {
                 System.out.println();
                 System.out.println("Game is now at a stalemate!! That's what you want in a successful simulation. It took "+totalTurnsCounter+" turns for the game to achieve stalemate.");
                 System.out.println();
-                render(map);
-
+                System.out.print("\u2714");
+              //  render(map);
                 break;
             }
 
@@ -145,23 +173,26 @@ System.out.println(("\n" +
                 // get number of territories player occupies
                 Player player = players.get(turn);
 
-
-
                 System.out.println();
-
-                System.out.println(player.getName() +"'s " + getGamePhase() + " phase");
                 System.out.println("------------------------------");
-                System.out.println(player.getName().toUpperCase()+"'s TURN");
+                System.out.println(player.getName().toUpperCase()+"'s TURN ("+turn+")");
                 System.out.println("------------------------------");
                 int t = (int)Math.floor(getTerritoriesOwnedBy(player).size()/3.0);
                 player.setTotalInitialTroops((t<3.0)?3:t);
                 System.out.println(player.getName() + " controls " + getTerritoriesOwnedBy(player).size() + " territories, therefore receives " + player.getTotalInitialTroops() + " troops" );
+
+
 
              //   System.out.println(player.getTotalInitialTroops());
                 // does this player control a continent , if so add respective value
                 // check matched RISK cards from a set of 3 cards this player has accumulated
 
             //- draft phase
+                Random rand = new Random();
+                int howmanyTroops = player.getTotalInitialTroops();
+                Country randomC = getTerritoriesOwnedBy(player).get(rand.nextInt(getTerritoriesOwnedBy(player).size()));
+                System.out.printf("%s is drafting %d new troops to %s\n",player.getName(),howmanyTroops,randomC.getName());
+                draftTroops(randomC,howmanyTroops);
 
 
             System.out.println(player.getName() + " gets " + getContinentOccupationPoints(player) + " for occupying continents");
@@ -174,7 +205,7 @@ System.out.println(("\n" +
             //Pick country to attack from
                 // get territories of current player
             List<Country> playerTerritoryThatCanAttack;
-    //        do {
+            do {
                 System.out.println();
                 List<Country> playerTerritory = getTerritoriesOwnedBy(player);
                 System.out.println("Countries owned by " + player.getName());
@@ -183,24 +214,22 @@ System.out.println(("\n" +
 
                 // list of countries with more than 1 troop
                 System.out.println();
-                System.out.println("Countries player can attack from (1 troop contries ignored): ");
-                System.out.println();
+
+
                 playerTerritoryThatCanAttack = getContriesPlayerCanAttackFrom(playerTerritory,player);
+                if(!playerTerritoryThatCanAttack.isEmpty())
+                    System.out.printf("%s can attack from\n",player.getName());
 
                 if (playerTerritoryThatCanAttack.isEmpty()) {
-                    noAttackMoves[turn] = true;
+                    noAttackMoves.set(turn,true);
                     nextTurn();
                     continue;
                 }
-
-
-
-                System.out.println();
                 printList(playerTerritoryThatCanAttack);
-                Random rand = new Random();
+                printList(playerTerritoryThatCanAttack);
                 System.out.println();
                 Country attackingCountry = playerTerritoryThatCanAttack.get(rand.nextInt(playerTerritoryThatCanAttack.size()));
-                System.out.println("Attacking Country picked: "+attackingCountry.getName());
+ //               System.out.println("Attacking Country picked: "+attackingCountry.getName());
 
 
 
@@ -217,18 +246,18 @@ System.out.println(("\n" +
                 }
 
 
-                System.out.println("All neighboring countries of "+attackingCountry.getName());
-                printList(attackingCountry.getNeighbors());
-                System.out.println();
-                System.out.println("Out of these countries player can attack from "+attackingCountry.getName());
-                System.out.println();
+     //           System.out.println("All neighboring countries of "+attackingCountry.getName());
+     //           printList(attackingCountry.getNeighbors());
+     //           System.out.println();
+                System.out.printf("%s can attack \n",attackingCountry.getName());
                 printList(neighboringCountryPlayerCanAttackTo);
                 System.out.println();
                 Country defendingCountry = neighboringCountryPlayerCanAttackTo.get(rand.nextInt(neighboringCountryPlayerCanAttackTo.size()));
-                System.out.println("Defending country " + defendingCountry.getName());
+  //              System.out.println("Defending country " + defendingCountry.getName());
+                System.out.printf("(%d)%s (%d troops) attacking (%d)%s (%d troops)\n",map.countries.indexOf(attackingCountry),attackingCountry.getName(),attackingCountry.getTroops(),map.countries.indexOf(defendingCountry),defendingCountry.getName(),defendingCountry.getTroops());
                 attack(attackingCountry,defendingCountry);
 
-    //        } while (!playerTerritoryThatCanAttack.isEmpty());
+            } while (!playerTerritoryThatCanAttack.isEmpty());
 
                 //
 
@@ -266,6 +295,12 @@ System.out.println(("\n" +
         return country;
     }
 
+    private void draftTroops(Country country,int troops) {
+        Player p = country.getOwner();
+        for(int i = 0; i<troops; i++) {
+            country.addInfantry(p);
+        }
+    }
 
      private void attack(Country origin, Country destination) {
         Scanner scan = new Scanner(System.in);
@@ -281,7 +316,7 @@ System.out.println(("\n" +
          List<Dice> defenseDiceRolls = new ArrayList<>();
          List<Dice> attackDiceRolls = new ArrayList<>();
          if (origin.getTroops()> attackDices && attackDices <= 3) {
-             System.out.println("Rolling " + attackDices + " dices for " + attacker.getName());
+             System.out.printf("%s decided to roll %d dice.\n",attacker.getName(),attackDices);
              attackDiceRolls = attacker.rollDices(attackDices);
              printDice(attackDiceRolls);
          } else {
@@ -289,11 +324,12 @@ System.out.println(("\n" +
 
          }
          if (defenseDices == 1 || (defenseDices == 2 && destination.getTroops()>=2)) {
-             System.out.println("Rolling " + defenseDices + " dices for " + defender.getName() );
+
+             System.out.printf("%s decided to roll %d dice.\n",defender.getName(),defenseDices);
              defenseDiceRolls = defender.rollDices(defenseDices);
              printDice(defenseDiceRolls);
          } else {
-             System.out.println("Cannot roll " + defenseDices + " dices. Not allowed");
+             System.out.println("Cannot roll " + defenseDices + " dice. Not allowed");
          }
          int ik = 0;
          if (defenseDiceRolls.size() > attackDiceRolls.size()) {
@@ -301,7 +337,7 @@ System.out.println(("\n" +
          } else {
              ik = defenseDiceRolls.size();
          }
-         System.out.println("Comparing " + ik + " dices.");
+         System.out.println("Comparing " + ik + " dice.");
          int numberAttackersRemoved = 0;
          for (int i = 0; i < ik;i++) {
              if (attackDiceRolls.get(i).getFaceValue() > defenseDiceRolls.get(i).getFaceValue()) {
@@ -312,10 +348,14 @@ System.out.println(("\n" +
                     destination.setOwner(origin.getOwner());
                     // occupy territory
                     System.out.println(origin.getName() + " captures " + destination.getName() + "!!");
-                    System.out.print(attacker.getName()+", how many troops do you want to move to the new territory? max " + (origin.getTroops() - 1)+": ");
+
+        //            System.out.print(attacker.getName()+", how many troops do you want to move to the new territory? max " + (origin.getTroops() - 1)+": ");
                     //                  //  int movetroops = scan.nextInt(); // move troops has to be equal or move than attackDices
+
                     Random rand = new Random();
                     int movetroops = 1 + rand.nextInt(origin.getTroops()-1);
+
+                    System.out.printf("%s decides to move %d troop%s from %s to %s\n",attacker.getName(),movetroops,(movetroops==1)?"":"s",origin.getName(),destination.getName());
                     if (origin.getTroops() - movetroops >= 1) {
                         destination.setTroops(movetroops);
                         destination.setOwner(attacker);
@@ -342,7 +382,13 @@ System.out.println(("\n" +
      private void printDice(List<Dice> list) {
          for (Dice d:list
               ) {
-             System.out.print(d.getFaceValue() + " ");
+             System.out.printf("   ________\n" +
+                     "  /\\       \\\n" +
+                     " /  \\  %d    \\\n" +
+                     "{    }-------}\n" +
+                     " \\  /       /\n" +
+                     "  \\/_______/\n",d.getFaceValue());
+
 
          }
          System.out.println();
@@ -465,13 +511,18 @@ System.out.println(("\n" +
 //                     }
 //                     System.out.println();
 //                 }
+                 int c = 0;
                  for (Country d : mc) {
-                     System.out.println(d.getName()+ "("+map.countries.indexOf(d)+") : " +d.continent + " (troop/s: " + d.getTroops() +") " );
+                     c+=d.getTroops();
+                     System.out.print("\t");
+                     System.out.printf("(%2s) %-21s%2s troop%s\n",map.countries.indexOf(d),d.getName(),d.getTroops(),(d.getTroops()==1?"":"s"));
+                     //System.out.println(d.getName()+ "("+map.countries.indexOf(d)+") : " +d.continent + " (troop/s: " + d.getTroops() +") " );
 //                     for (Country c : d.getNeighbors()) {
 //                         System.out.println(c.getName() + " | ");
 //                     }
                  }
-
+                 System.out.printf("\t%35.35s\n","---------------------------------------");
+                 System.out.printf("\t%28d troops\n",c);
 
              } catch (Exception e) {
              }
@@ -499,6 +550,9 @@ System.out.println(("\n" +
 
 
         return false;
+    }
+    private void wait(int seconds) {
+        try {TimeUnit.SECONDS.sleep(seconds);} catch (Exception e) {}
     }
     private List<Country> getContriesPlayerCanAttackFrom(List<Country>playerTerritory,Player player){
         List<Country> contryPlayerCanAttackFrom = new ArrayList<>();
@@ -628,7 +682,7 @@ System.out.println(("\n" +
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (Exception e) {
             System.out.println("Error clearing screen");}
-System.out.println(" \n" +
+System.out.printf(" \n" +
         "                                                                                                                                                                                                                                                                                         +--------------------+\n" +
         "                                                                                                                                                                                                                                     +-----------------------------+---------------------+                    |\n" +
         "                                                                                                                                                                                                                         +-----------+                             |                     |                    | <--+  Alaska\n" +
@@ -638,7 +692,7 @@ System.out.println(" \n" +
         "               +------------+-----------------+    |           +----------------> |  Greenland       |                                         +-------------------+                                             |      |                                     |                  +-------+                |\n" +
         "               |            |                      |           |                  |                  |       +--------------+                  |                   +------------+            +-------------------+      |                                     |                  |                        |\n" +
         "Kamchatka +--> |   Alaska   | Northwest Territory  +------+    |  +-----------+   |+                 |       |              |                  |                   |            |            |                   |      |                                     |                  |                        |\n" +
-        "               |            |                      |      | <--+  |           |    +----+            |       |              |        +---------+                   |            +------------+                   |      |                                     |                  |          Kamchatka     |\n" +
+        "               |%12.12s|                      |      | <--+  |           |    +----+            |       |              |        +---------+                   |            +------------+                   |      |                                     |                  |          Kamchatka     |\n" +
         "               +-----+------+-------------------+--+      +-- ----+           |         |            |       |              |        |    Scandinavia              |                                             |      +----+                                +------------------+                        |\n" +
         "                     |                          |                 |  Quebec   |         |            |       |   Iceland    | <----> |                 +----+      |                                             |           |               Siberia          |                  |                        |\n" +
         "                     |           Alberta        |                 |           |         |            | <---> |              |        |                 |    |      |                                             |           |                            +---+                  |                        |\n" +
@@ -707,6 +761,6 @@ System.out.println(" \n" +
         "                                                                                                                                                              +-------+                                                                                                                          |               |          |                       |\n" +
         "                                                                                                                                                                                                                                                                                                 +---------------+          |                       |\n" +
         "                                                                                                                                                                                                                                                                                                                            |                       |\n" +
-        "                                                                                                                                                                                                                                                                                                                            +-----------------------+\n");
+        "                                                                                                                                                                                                                                                                                                                            +-----------------------+\n",map.countries.get(0).getOwner().getName()+"("+map.countries.get(0).getTroops()+")");
     }
 }
