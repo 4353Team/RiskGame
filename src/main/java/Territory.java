@@ -7,7 +7,11 @@ public class Territory {
     Player controlledBy;
     List<Army> armies = new ArrayList<Army>();
 
-//When for example:
+    public Territory(Player p1) {
+        controlledBy = p1;
+    }
+
+    //When for example:
     public void addArmies(List armies){
         this.armies.addAll(armies);
     }
