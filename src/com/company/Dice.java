@@ -4,7 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
-public class Dice implements Comparable<Dice>{
+public class
+Dice implements Comparable<Dice>{
     public int faceValue;
 
     @Override

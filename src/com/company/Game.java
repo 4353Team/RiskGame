@@ -1,5 +1,6 @@
 package com.company;
 import com.sun.deploy.util.StringUtils;
+import com.sun.prism.paint.Gradient;
 import org.omg.CORBA.TIMEOUT;
 import sun.awt.image.FileImageSource;
 
@@ -16,10 +17,12 @@ public class Game extends JFrame {
     private int minPlayers = 2;
     private int initialInfantryCount = 0;
     public Map map;
+    boolean show = false;
     public List<Player> players;
     public Dice gameDice;
     private Stack<Card> cardStack;
     public List<Card> cards;
+    public Player turnPlayer;
    // private int turn = 0;
     private static int totalTurnsCounter = 0;
     private int phase = 0;
@@ -27,6 +30,7 @@ public class Game extends JFrame {
     private int setsOfRiskCardsTraded = 0;
     Country attackingCountry;
     Country defendingCountry;
+    boolean nowAttacking = false;
     public enum GamePhase {
         DRAFT, ATTACK, FORTIFY
     }
@@ -48,7 +52,7 @@ public class Game extends JFrame {
         System.out.println("rendering");
 
 
-System.out.println(("\n" +
+        System.out.println(("\n" +
         " ██▀███   ██▓  ██████  ██ ▄█▀\n" +
         "▓██ ▒ ██▒▓██▒▒██    ▒  ██▄█▒ \n" +
         "▓██ ░▄█ ▒▒██▒░ ▓██▄   ▓███▄░ \n" +
@@ -88,13 +92,30 @@ System.out.println(("\n" +
         for (Player p:players
              ) {
             p.setPlayerColor(playerColors.get(players.indexOf(p)));
+
+            p.setLocation(new Location(30,(710-(players.indexOf(p)+1)*30)));
         }
+
+
+
+        Collections.shuffle(cards);
+        for (Card c:
+             cards) {
+            System.out.println(c);
+        }
+
+
+
+
+
+
+
+
+
 
         numberOfPlayers = players.size();
         Collections.shuffle(players);
         initialInfantryCount = getInitialInfantryCount(numberOfPlayers) * numberOfPlayers;
-
-
 
 
 
@@ -127,7 +148,11 @@ System.out.println(("\n" +
 
 
 
-        Player turnPlayer = players.get(0); //
+
+
+
+
+        turnPlayer = players.get(0); //
         System.out.println(turnPlayer.getName()+" going first.");
 
         ArrayList<Integer> randomCountries = new ArrayList<Integer>();
@@ -182,7 +207,6 @@ System.out.println(("\n" +
         turnPlayer = players.get(0);
         while (true) {
 
-     //       super.repaint();
             try {
 
             } catch (Exception ex)  {
@@ -190,7 +214,7 @@ System.out.println(("\n" +
             paint(this.getGraphics());
 
 
-            try {TimeUnit.MILLISECONDS.sleep(500);} catch (Exception e) {}
+          //  try {TimeUnit.MILLISECONDS.sleep(300);} catch (Exception e) {}
             boolean doWeHaveAWinner = true;
             System.out.println(players.size());
             for (Country c :
@@ -297,6 +321,7 @@ System.out.println(("\n" +
                 printList(playerTerritoryThatCanAttack);
                 System.out.println();
                 attackingCountry = playerTerritoryThatCanAttack.get(rand.nextInt(playerTerritoryThatCanAttack.size()));
+
                 System.out.printf("%s picked as attacking country\n",attackingCountry.getName());
 
 
@@ -325,7 +350,17 @@ System.out.println(("\n" +
                 System.out.println();
                 System.out.printf("%s(%d troops) is now attacking %s (%d troops)\n",attackingCountry.getName(),attackingCountry.getTroops(),defendingCountry.getName(),defendingCountry.getTroops());
                 System.out.println();
+//               / wait(1);
+                nowAttacking = true;
+            //    try {TimeUnit.MILLISECONDS.sleep(5);} catch (Exception e) {};
+                repaint();
+
+                
+                wait(2);
                 attack(attackingCountry,defendingCountry);
+                repaint();
+                wait(2);
+                nowAttacking = false;
 
             } while (!playerTerritoryThatCanAttack.isEmpty());
 
@@ -386,6 +421,8 @@ System.out.println(("\n" +
     }
 
      private void attack(Country origin, Country destination) {
+
+        // repaint();
         Scanner scan = new Scanner(System.in);
         Player attacker = origin.getOwner();
         Player defender = destination.getOwner();
@@ -682,11 +719,6 @@ System.out.println(("\n" +
     }
 
     private void animate(Graphics g) {
-
-
-
-
-
         for (Country c : map.countries
         ) {
             g.setColor(c.getOwner().getPlayerColor());
@@ -708,27 +740,79 @@ System.out.println(("\n" +
             else
                 g.setColor(Color.black);
 
+
+            int x = c.getCoordinate().getCenter(c.getDimension().getWidth(),c.getDimension().getHeight()).getX();
+
+            int y= c.getCoordinate().getCenter(c.getDimension().getWidth(),c.getDimension().getHeight()).getY();
+
             g.drawString(c.getName(), c.getCoordinate().getX()+5, c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getY()-10);
-            g.drawString(c.getTroops()+" troops", c.getCoordinate().getX()+5, c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getY()+10);
-            g.drawString(c.getOwner().getName(), c.getCoordinate().getX()+5, c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getY());
+           // g.setFont(new Font("TimesRoman",Font.PLAIN,18));
+            g.drawString(c.getTroops()+"",x,y+10);
+     //       g.drawString(c.getOwner().getName(), c.getCoordinate().getX()+5, c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getY());
+    //        g.fillOval(x-15,y-15,30,30);
+      //      g.drawString(getNumTerritoriesOwnedBy(turnPlayer)+"",x,y);
+
         }
         g.setColor(Color.white);
         int centerX1 = attackingCountry.getCoordinate().getCenter(attackingCountry.getDimension().getWidth(),attackingCountry.getDimension().getHeight()).getX();
-        int centerY1= attackingCountry.getCoordinate().getCenter(attackingCountry.getDimension().getWidth(),attackingCountry.getDimension().getHeight()).getY();
 
+        int centerY1= attackingCountry.getCoordinate().getCenter(attackingCountry.getDimension().getWidth(),attackingCountry.getDimension().getHeight()).getY();
 
 
         int centerX2 = defendingCountry.getCoordinate().getCenter(defendingCountry.getDimension().getWidth(),defendingCountry.getDimension().getHeight()).getX();
         int centerY2= defendingCountry.getCoordinate().getCenter(defendingCountry.getDimension().getWidth(),defendingCountry.getDimension().getHeight()).getY();
 
+        int cirlceSize = 20;
+        Graphics2D g2d = (Graphics2D)g;
 
-        g.drawLine(centerX1,centerY1,centerX2,centerY2);
+
         g.setColor(Color.cyan);
-        g.fillOval(centerX1-5,centerY1-5,10,10);
-        
+        g.fillOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
         g.setColor(Color.black);
-        g.fillOval(centerX2-5,centerY2-5,10,10);
 
+        g.fillOval(centerX2-cirlceSize/2,centerY2-cirlceSize/2,cirlceSize,cirlceSize);
+        g.setColor(Color.white);
+
+        g.drawOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
+        g.setColor(Color.black);
+        g.drawOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
+
+        g.setColor(Color.white);
+        g.drawOval(centerX2-cirlceSize/2,centerY2-cirlceSize/2,cirlceSize,cirlceSize);
+        g.setColor(Color.black);
+        g.drawOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
+
+        cirlceSize = 10;
+        g.setColor(Color.black);
+        g.drawOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
+        g.setColor(Color.black);
+        g.drawOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
+
+        g.setColor(Color.white);
+        g.drawOval(centerX2-cirlceSize/2,centerY2-cirlceSize/2,cirlceSize,cirlceSize);
+        g.setColor(Color.black);
+        g.drawOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
+        g2d.setStroke(new BasicStroke(5,BasicStroke.CAP_BUTT,BasicStroke.JOIN_ROUND));
+        g.setColor(Color.white);
+        g.drawLine(centerX1,centerY1,centerX2,centerY2);
+        g2d.setStroke(new BasicStroke(1));
+
+        int playerWidth = 120;
+        int playerHeight = 30;
+        for (Player p: players
+        ) {
+
+            g.setColor(p.getPlayerColor());
+
+            g.fillRect(p.getLocation().getX(),p.getLocation().getY(),playerWidth,playerHeight);
+
+            if (p.getPlayerColor() == Color.blue)
+                g.setColor(Color.white);
+            else
+                g.setColor(Color.black);
+            g.drawString(p.getName()+"",p.getLocation().getX()+5,p.getLocation().getY()+20);
+            g.drawString(getNumTerritoriesOwnedBy(p)+"",p.getLocation().getX()+80,p.getLocation().getY()+20);
+        }
     }
     @Override
     public void paint(Graphics g) {
@@ -737,8 +821,8 @@ System.out.println(("\n" +
         BufferedImage bf = new BufferedImage(this.getWidth(),this.getHeight(),BufferedImage.TYPE_INT_RGB);
 
         animate(bf.getGraphics());
-
         g.drawImage(bf,0,0,Color.white,this);
+
 
     }
 
@@ -787,8 +871,8 @@ System.out.println(("\n" +
         Card c40 = new Card(new Country("Western Europe"), Card.TroopsType.ARTILLERY);
         Card c41 = new Card(new Country("Western United States"), Card.TroopsType.ARTILLERY);
         Card c42 = new Card(new Country("Yakutsk"), Card.TroopsType.CAVALRY);
-        Card c43 = new SpecialCard();
-        Card c44 = new SpecialCard();
+        Card c43 = new SpecialCard(Card.TroopsType.INFANTRY, Card.TroopsType.CAVALRY, Card.TroopsType.ARTILLERY);
+        Card c44 = new SpecialCard(Card.TroopsType.INFANTRY, Card.TroopsType.CAVALRY, Card.TroopsType.ARTILLERY);
 
         cards.add(c1);
         cards.add(c2);

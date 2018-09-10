@@ -9,6 +9,7 @@ public class Player {
     private Color playerColor;
     public String name;
     public Card[] cards;
+    public Location location;
     private List<Country>territories;
     public List<Dice> dice;
     private int totalInitialTroops;
@@ -20,8 +21,17 @@ public class Player {
         territories = new ArrayList<>();
     }
 
+
     public Color getPlayerColor() {
         return playerColor;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     public void setPlayerColor(Color playerColor) {

@@ -21,7 +21,7 @@ public class Map {
         Country c5 = new Country("Ontario",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(70,70),new Location(200,170));
         Country c6 = new Country("Quebec",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(70,60),new Location(270,180));
         Country c7 = new Country("Western United States",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(100,70),new Location(120,240));
-        Country c8 = new Country("Eastern United States",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(80,95),new Location(220,240));
+        Country c8 = new Country("Eastern United States",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(130,95),new Location(220,240));
         Country c9 = new Country("Central America",Country.Continent.NORTH_AMERICA, 0,owner, new Dimension(70,115),new Location(150,310));
 
         // South America
@@ -35,11 +35,11 @@ public class Map {
         Country c16 = new Country("East Africa",Country.Continent.AFRICA,0,owner, new Dimension(140,70),new Location(520,460));
         Country c17 = new Country("Congo",Country.Continent.AFRICA,0,owner, new Dimension(85,60),new Location(465,530));
         Country c18 = new Country("South Africa",Country.Continent.AFRICA,0,owner, new Dimension(70,150),new Location(550,530));
-        Country c19 = new Country("Madagascar",Country.Continent.AFRICA,0,owner, new Dimension(40,70),new Location(660,580));
+        Country c19 = new Country("Madagascar",Country.Continent.AFRICA,0,owner, new Dimension(80,70),new Location(660,580));
 
         // Europe
-        Country c20 = new Country("Iceland",Country.Continent.EUROPE,0,owner, new Dimension(50,40),new Location(420,160));
-        Country c21 = new Country("Great Britain",Country.Continent.EUROPE,0,owner, new Dimension(60,60),new Location(390,220));
+        Country c20 = new Country("Iceland",Country.Continent.EUROPE,0,owner, new Dimension(60,40),new Location(410,160));
+        Country c21 = new Country("Great Britain",Country.Continent.EUROPE,0,owner, new Dimension(80,60),new Location(370,220));
         Country c22 = new Country("Scandinavia",Country.Continent.EUROPE,0,owner, new Dimension(90,110),new Location(480,120));
         Country c23 = new Country("Ukraine",Country.Continent.EUROPE,0,owner, new Dimension(105,220),new Location(570,130));
         Country c24 = new Country("Northern Europe",Country.Continent.EUROPE,0,owner, new Dimension(90,90),new Location(480,230));
@@ -54,7 +54,7 @@ public class Map {
         Country c31 = new Country("Mongolia",Country.Continent.ASIA,0,owner, new Dimension(90,50),new Location(810,230));
         Country c32 = new Country("Southeast Asia",Country.Continent.ASIA,0,owner, new Dimension(105,60),new Location(755,410));
         Country c33 = new Country("Ural",Country.Continent.ASIA,0,owner, new Dimension(90,175),new Location(675,110));
-        Country c34 = new Country("Siberia",Country.Continent.ASIA,0,owner, new Dimension(45,220),new Location(765,110));
+        Country c34 = new Country("Siberia",Country.Continent.ASIA,0,owner, new Dimension(45,200),new Location(765,110));
         Country c35 = new Country("Irkutsk",Country.Continent.ASIA,0,owner, new Dimension(60,70),new Location(810,160));
         Country c36 = new Country("Japan",Country.Continent.ASIA,0,owner, new Dimension(45,80),new Location(940,250));
         Country c37 = new Country("Kamchatka",Country.Continent.ASIA,0,owner, new Dimension(105,160),new Location(870,70));
