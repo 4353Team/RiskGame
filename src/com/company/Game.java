@@ -355,7 +355,7 @@ public class Game extends JFrame {
             //    try {TimeUnit.MILLISECONDS.sleep(5);} catch (Exception e) {};
                 repaint();
 
-                
+
                 wait(2);
                 attack(attackingCountry,defendingCountry);
                 repaint();
