@@ -31,7 +31,7 @@ public class Map {
         Country c13 = new Country("Argentina",Country.Continent.SOUTH_AMERICA,0,owner, new Dimension(75,135),new Location(250,560));
         // Africa
         Country c14 = new Country("North Africa",Country.Continent.AFRICA,0,owner, new Dimension(100,140),new Location(420,390));
-        Country c15 = new Country("Egypt",Country.Continent.AFRICA,0,owner, new Dimension(50,70),new Location(520,290));
+        Country c15 = new Country("Egypt",Country.Continent.AFRICA,0,owner, new Dimension(50,70),new Location(520,390));
         Country c16 = new Country("East Africa",Country.Continent.AFRICA,0,owner, new Dimension(140,70),new Location(520,460));
         Country c17 = new Country("Congo",Country.Continent.AFRICA,0,owner, new Dimension(85,60),new Location(465,530));
         Country c18 = new Country("South Africa",Country.Continent.AFRICA,0,owner, new Dimension(70,150),new Location(550,530));

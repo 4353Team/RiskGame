@@ -43,6 +43,8 @@ public class Game extends JFrame {
      //   System.out.println("rendering");
         // write your code here
 
+
+
         setDefaultLookAndFeelDecorated(true);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -361,10 +363,15 @@ public class Game extends JFrame {
                 repaint();
 
 
-                wait(1);
+            //    wait(1);
                 attack(attackingCountry,defendingCountry);
                 repaint();
-                wait(1);
+                try {
+
+                    Thread.sleep(20);
+
+                } catch (Exception e) {}
+                //  wait(1);
                 nowAttacking = false;
 
             } while (!playerTerritoryThatCanAttack.isEmpty());
@@ -853,7 +860,7 @@ public class Game extends JFrame {
     }
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
+     //   super.paint(g);
 
         BufferedImage bf = new BufferedImage(this.getWidth(),this.getHeight(),BufferedImage.TYPE_INT_RGB);
 
