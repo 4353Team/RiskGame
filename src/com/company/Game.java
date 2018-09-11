@@ -1,5 +1,6 @@
 package com.company;
 
+import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -226,8 +227,14 @@ public class Game extends JFrame {
         Scanner scan = new Scanner(System.in);
         //============ main game loop =================
         turnPlayer = players.get(0);
-        while (true) {
 
+
+        InfoBox ifb = new InfoBox();
+
+
+//        wait(200);
+        while (true) {
+           // wait(100);
             territoriesCapturedThisTurn = 0;
             checkCardPoints(turnPlayer);
             try {

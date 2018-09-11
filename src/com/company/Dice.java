@@ -7,7 +7,6 @@ import java.util.Random;
 public class
 Dice implements Comparable<Dice>{
     public int faceValue;
-
     @Override
     public int compareTo(Dice o) {
         return this.faceValue < o.getFaceValue()? 1 : (this.faceValue > o.getFaceValue() ? -1: 0);

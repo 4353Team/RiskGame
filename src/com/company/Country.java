@@ -7,13 +7,10 @@ public class Country {
     private Location coordinate;
     private Dimension dimension;
     private String name;
-
-    Continent continent;
     private int troops;
     private Player owner;
     private List<Country> neighbors;
-
-
+    Continent continent;
     enum Continent {
         NORTH_AMERICA, SOUTH_AMERICA, AFRICA, EUROPE, ASIA, AUSTRALIA
     }
@@ -26,24 +23,18 @@ public class Country {
         this.coordinate = c;
         this.dimension = d;
     }
-
     public Location getCoordinate() {
         return coordinate;
     }
-
     public void setDimension(Dimension dimension) {
         this.dimension = dimension;
     }
-
     public Dimension getDimension() {
         return dimension;
     }
-
     public void setCoordinate(Location coordinate) {
         this.coordinate = coordinate;
     }
-
-
     public Country(String name){
         this.name = name;
     }
@@ -77,15 +68,12 @@ public class Country {
             owner = p;
         p.setTotalInitialTroops(p.getTotalInitialTroops()-1);
     }
-
     public void addTroops(int number) {
         this.troops = this.troops + number;
         System.out.println("Adding " + number + " troop to " + getName());
     }
-
     public void removeTroops(int number) {
         this.troops = this.troops - number;
         System.out.println("Removing " + number + " troop from " + getName());
     }
-
 }
