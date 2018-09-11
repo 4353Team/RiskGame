@@ -71,11 +71,18 @@ public class Country {
     public void setNeighbors(List<Country> neighbors) {
         this.neighbors = neighbors;
     }
-    public void addInfantry(Player p) {
+    public void addOneInfantry(Player p) {
         troops += 1;
-        owner = p;
+        if (owner != p)
+            owner = p;
         p.setTotalInitialTroops(p.getTotalInitialTroops()-1);
     }
+
+    public void addTroops(int number) {
+        this.troops = this.troops + number;
+        System.out.println("Adding " + number + " troop to " + getName());
+    }
+
     public void removeTroops(int number) {
         this.troops = this.troops - number;
         System.out.println("Removing " + number + " troop from " + getName());

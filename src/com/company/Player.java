@@ -5,17 +5,25 @@ import java.util.*;
 import java.util.List;
 
 public class Player {
-
+    private Country capital;
     private Color playerColor;
     public String name;
-    public Card[] cards;
+    public List<Card> cards;
     public Location location;
     private List<Country>territories;
     public List<Dice> dice;
     private int totalInitialTroops;
 
-    public Player(String name) {
+    public Country getCapital() {
+        return capital;
+    }
 
+    public void setCapital(Country capital) {
+        this.capital = capital;
+    }
+
+    public Player(String name) {
+        cards = new ArrayList<>();
         totalInitialTroops = 0;
         this.name = name;
         territories = new ArrayList<>();

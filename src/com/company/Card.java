@@ -14,6 +14,14 @@ public class Card {
         this.troopsType = troopsType;
     }
 
+    public Country getTerritory() {
+        return territory;
+    }
+
+    public void setTerritory(Country territory) {
+        this.territory = territory;
+    }
+
     @Override
     public String toString() {
         return territory.getName() + " | " + troopsType.toString();

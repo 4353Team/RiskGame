@@ -1,11 +1,5 @@
 package com.company;
-import com.sun.deploy.util.StringUtils;
-import com.sun.prism.paint.Gradient;
-import jdk.nashorn.internal.runtime.NumberToString;
-import org.omg.CORBA.TIMEOUT;
-import sun.awt.image.FileImageSource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -32,6 +26,7 @@ public class Game extends JFrame {
     Country attackingCountry;
     Country defendingCountry;
     boolean nowAttacking = false;
+    int territoriesCapturedThisTurn;
     public enum GamePhase {
         DRAFT, ATTACK, FORTIFY
     }
@@ -92,12 +87,7 @@ public class Game extends JFrame {
         players.add(new Player("Jim"));
         players.add(new Player("Mark"));
 
-        for (Player p:players
-             ) {
-            p.setPlayerColor(playerColors.get(players.indexOf(p)));
 
-            p.setLocation(new Location(30,(980-(players.indexOf(p)+1)*30)));
-        }
 
 
 
@@ -106,10 +96,38 @@ public class Game extends JFrame {
              cards) {
             System.out.println(c);
         }
+        try {
+     //       Thread.sleep(20000);
+        } catch (Exception e) {}
+        cardStack.clear();
+        cardStack.addAll(cards);
+
+        System.out.println("Cards count: "+cardStack.size());
 
 
+        for (Player p:players
+        ) {
+            p.setPlayerColor(playerColors.get(players.indexOf(p)));
+            p.setLocation(new Location((20+(players.indexOf(p))*160),800));
 
+            p.setCapital(cardStack.pop().getTerritory());
+            System.out.println(p.getCapital().getName());
+        }
 
+        System.out.println("Cards count: "+cardStack.size());
+        cards.clear();
+        cards.addAll(cardStack);
+
+        Card c43 = new SpecialCard(Card.TroopsType.INFANTRY, Card.TroopsType.CAVALRY, Card.TroopsType.ARTILLERY);
+        Card c44 = new SpecialCard(Card.TroopsType.INFANTRY, Card.TroopsType.CAVALRY, Card.TroopsType.ARTILLERY);
+        cards.add(c43);
+        cards.add(c44);
+        Collections.shuffle(cards);
+
+        cardStack.removeAllElements();
+        cardStack.addAll(cards);
+
+        System.out.println("Cardstack card count " + cardStack.size());
 
 
 
@@ -166,7 +184,7 @@ public class Game extends JFrame {
         Collections.shuffle(randomCountries);
 
          for (int i= 0; i < 42; i++) {
-            map.countries.get(randomCountries.get(i)).addInfantry(turnPlayer);
+            map.countries.get(randomCountries.get(i)).addOneInfantry(turnPlayer);
             turnPlayer.addTerritory(map.countries.get(randomCountries.get(i)));
             turnPlayer = nextTurn(turnPlayer);
         }
@@ -175,7 +193,7 @@ public class Game extends JFrame {
             List<Country> c = getTerritoriesOwnedBy(curr);
             Random rand = new Random();
             int a = rand.nextInt(c.size());
-            c.get(a).addInfantry(curr);
+            c.get(a).addOneInfantry(curr);
             if (!(curr.getTerritories().contains(c.get(a))))
                 curr.addTerritory(c.get(a));
             turnPlayer = nextTurn(turnPlayer);
@@ -210,6 +228,8 @@ public class Game extends JFrame {
         turnPlayer = players.get(0);
         while (true) {
 
+            territoriesCapturedThisTurn = 0;
+            checkCardPoints(turnPlayer);
             try {
 
             } catch (Exception ex)  {
@@ -362,15 +382,27 @@ public class Game extends JFrame {
             //    try {TimeUnit.MILLISECONDS.sleep(5);} catch (Exception e) {};
                 repaint();
 
+                try {
 
+      //              Thread.sleep(20);
+
+                } catch (Exception e) {}
             //    wait(1);
                 attack(attackingCountry,defendingCountry);
+                try {
+
+       //             Thread.sleep(20);
+
+                } catch (Exception e) {}
                 repaint();
                 try {
 
-                    Thread.sleep(20);
+        //            Thread.sleep(20);
 
                 } catch (Exception e) {}
+
+
+
                 //  wait(1);
                 nowAttacking = false;
 
@@ -392,9 +424,42 @@ public class Game extends JFrame {
 
             ;
             nextPhase();
+//            System.out.println("Draft Phase:");
+//            List<Country> turnPlayerTerritories = getTerritoriesOwnedBy(turnPlayer);
+//            int numTerritory = turnPlayerTerritories.size();
+//            Country originT = turnPlayerTerritories.get(rand.nextInt(numTerritory));
+//            Country destinT;
+//            do {
+//                destinT = turnPlayerTerritories.get(rand.nextInt(numTerritory));
+//            } while(originT==destinT);
+//            int numT = (originT.getTroops()-1<=0?1:originT.getTroops()-1);
+//       //     moveTroops(originT,destinT,1+rand.nextInt(numT));
+//         //   wait(2  );
+//
+
+
+
+
+
 
 //            for (int i =0; i<numberOfPlayers;i++)
 //                nextTurn();
+
+            if(territoriesCapturedThisTurn >= 1){
+                if(cardStack.isEmpty()) {
+                    cardStack.addAll(cards);
+                }
+                Card c = cardStack.pop();
+                turnPlayer.cards.add(c);
+                System.out.println(turnPlayer.getName() + " pulled " + c.toString() + " card");
+//                for (Card car :
+//                        turnPlayer.cards) {
+//                    System.out.println(car.toString());
+//                }
+
+              //  wait(2);
+            }
+
             turnPlayer = nextTurn(turnPlayer);
 
             nextPhase();
@@ -426,12 +491,49 @@ public class Game extends JFrame {
     private void draftTroops(Country country,int troops) {
         Player p = country.getOwner();
         for(int i = 0; i<troops; i++) {
-            country.addInfantry(p);
+            country.addOneInfantry(p);
         }
 
 
     }
 
+    private void checkCardPoints(Player p) {
+        int countryCardPoint = 0;
+        int cavalry = 0;
+        int artillery = 0;
+        int infantry = 0;
+        int specialCard = 0;
+        SpecialCard s = new SpecialCard();
+        for (Card c:
+             p.cards) {
+
+            if (c.getClass() == s.getClass()) {
+                specialCard += 1;
+            } else {
+                if (c.troopsType == Card.TroopsType.INFANTRY)
+                    infantry += 1;
+                else if (c.troopsType == Card.TroopsType.ARTILLERY)
+                    artillery += 1;
+                else if (c.troopsType == Card.TroopsType.CAVALRY)
+                    cavalry += 1;
+            }
+        }
+        for (Country c:getTerritoriesOwnedBy(p)
+             ) {
+            for (Card d:
+                 p.cards) {
+                if (d.getTerritory() == c){
+                    countryCardPoint += 2;
+                }
+            }
+        }
+        if ((cavalry>=1 && artillery>=1 && infantry>=1)|| cavalry >=3 || artillery>=3 || infantry>= 3 || (infantry>=1 && cavalry >=1 && specialCard >=1) || (cavalry >=1 && artillery >= 1 && specialCard>=1) || (artillery>=1 && infantry>=1 && specialCard>=1)) {
+         //   wait(2);
+            System.out.println("We have a match");
+       //     wait(2);
+        }
+
+    }
      private void attack(Country origin, Country destination) {
 
         // repaint();
@@ -480,6 +582,7 @@ public class Game extends JFrame {
                     destination.setOwner(origin.getOwner());
                     // occupy territory
                     System.out.println(origin.getName() + " captures " + destination.getName() + "!!");
+                    territoriesCapturedThisTurn += 1;
 
         //            System.out.print(attacker.getName()+", how many troops do you want to move to the new territory? max " + (origin.getTroops() - 1)+": ");
                     //                  //  int movetroops = scan.nextInt(); // move troops has to be equal or move than attackDices
@@ -690,6 +793,13 @@ public class Game extends JFrame {
         return  numInitialInfantryCount;
     }
     //if
+    private void moveTroops(Country o, Country d, int numberOfTroops) {
+        d.addTroops(numberOfTroops);
+        o.removeTroops(numberOfTroops);
+
+    }
+
+
     private boolean canAttack(Player player) {
         //player can only attack from countries with more than one troops
 
@@ -731,7 +841,7 @@ public class Game extends JFrame {
     }
 
     private void animate(Graphics g) {
-        int playerWidth = 120;
+        int playerWidth = 150;
         int playerHeight = 30;
         for (Player p: players
         ) {
@@ -742,15 +852,32 @@ public class Game extends JFrame {
 
             if (turnPlayer == p) {
             //    g.setColor(Color.black);
-                g.fillRect(p.getLocation().getX()- 20, p.getLocation().getY(), 15, 30);
+                g.fillRect(p.getLocation().getX(), 780, playerWidth, 10);
             }
+
+
+
 
             if (p.getPlayerColor() == Color.blue)
                 g.setColor(Color.white);
             else
                 g.setColor(Color.black);
             g.drawString(p.getName()+"",p.getLocation().getX()+5,p.getLocation().getY()+20);
-            g.drawString(getNumTerritoriesOwnedBy(p)+"",p.getLocation().getX()+80,p.getLocation().getY()+20);
+            String num = String.valueOf(getNumTerritoriesOwnedBy(p));
+            g.drawString(num,p.getLocation().getX()+playerWidth-8-(num.length()*8),p.getLocation().getY()+20);
+            g.setColor(Color.white);
+//            for (Card c :
+//
+//                    p.cards) {
+//                Location l = p.getLocation();
+//                int cardWidth = ((playerWidth-21)/3);
+//                int cardHeight = 60;
+//                int indexofCurrentCard = p.cards.indexOf(c)+1;
+//                g.fillRect(l.getX()+6+indexofCurrentCard*cardHeight,l.getY()+playerHeight+10,cardWidth,cardHeight);
+//            }
+
+            g.drawString(p.cards.size() + "",p.getLocation().getX(),p.getLocation().getY()+100);
+            
         }
         for (Country c : map.countries
         ) {
@@ -854,7 +981,10 @@ public class Game extends JFrame {
             int y= c.getCoordinate().getCenter(c.getDimension().getWidth(),c.getDimension().getHeight()).getY();
             String num = String.valueOf(c.getTroops());
             g.drawString(num,x-(num.length()*3),y+5);
+
+
         }
+
 
 
     }
@@ -873,6 +1003,7 @@ public class Game extends JFrame {
     public Map loadMap() {
         map = new Map();
         cards = new ArrayList<Card>();
+        cardStack = new Stack<>();
         Card c1 = new Card(new Country("Afganistan"), Card.TroopsType.CAVALRY);
         Card c2 = new Card(new Country("Alaska"), Card.TroopsType.INFANTRY);
         Card c3 = new Card(new Country("Alberta"), Card.TroopsType.CAVALRY);
@@ -915,8 +1046,6 @@ public class Game extends JFrame {
         Card c40 = new Card(new Country("Western Europe"), Card.TroopsType.ARTILLERY);
         Card c41 = new Card(new Country("Western United States"), Card.TroopsType.ARTILLERY);
         Card c42 = new Card(new Country("Yakutsk"), Card.TroopsType.CAVALRY);
-        Card c43 = new SpecialCard(Card.TroopsType.INFANTRY, Card.TroopsType.CAVALRY, Card.TroopsType.ARTILLERY);
-        Card c44 = new SpecialCard(Card.TroopsType.INFANTRY, Card.TroopsType.CAVALRY, Card.TroopsType.ARTILLERY);
 
         cards.add(c1);
         cards.add(c2);
@@ -960,12 +1089,7 @@ public class Game extends JFrame {
         cards.add(c40);
         cards.add(c41);
         cards.add(c42);
-        cards.add(c43);
-        cards.add(c44);
-        Collections.shuffle(cards);
-        try {
-            cardStack.addAll(cards);
-        }catch (Exception e ) {}
+
         return map;
     }
     private void render(Map map){
