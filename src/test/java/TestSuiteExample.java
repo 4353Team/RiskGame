@@ -8,13 +8,15 @@ public class TestSuiteExample {
 
     @Test
     public void selfAttackExceptionTest() {
-        Territory britain = new Territory();
+        Player p1 = new Player();
+        Territory britain = new Territory(p1);
         Exception test = null;
 
         try {
-            britain.attack(britain);
+            p1.attack(britain, britain);
         } catch (Territory.SelfAttackException e) {
             test = e;
+            System.out.println(e);
             System.out.println("You may not attack yourself, test successful");
         }
 

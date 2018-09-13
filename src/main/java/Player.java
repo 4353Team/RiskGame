@@ -4,7 +4,8 @@ public class Player {
     String name;
     List<RiskCard> hand;
 
-    public void attack(Territory attackingTerritory, Territory defendingTerritory){
+    public void attack(Territory attackingTerritory, Territory defendingTerritory) throws Territory.SelfAttackException {
+        attackingTerritory.attack(defendingTerritory);
         //TODO: check if 'attackingTerritory' is bordering 'defendingTerritory', if not throw exception (@Victor's idea)
 
 //        this.roll() // our roll
