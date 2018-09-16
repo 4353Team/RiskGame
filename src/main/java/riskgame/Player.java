@@ -1,3 +1,5 @@
+package riskgame;
+
 import java.util.List;
 
 public class Player {
