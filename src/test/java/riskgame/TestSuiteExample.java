@@ -1,3 +1,5 @@
+package riskgame;
+
 import org.testng.annotations.Test;
 
 public class TestSuiteExample {
