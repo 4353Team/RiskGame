@@ -8,6 +8,7 @@ public class Player {
     private Country capital;
     private Color playerColor;
     public String name;
+    private GamePhase playerPhase;
     public List<Card> cards;
     public Location location;
     private List<Country>territories;
@@ -19,11 +20,24 @@ public class Player {
     public void setCapital(Country capital) {
         this.capital = capital;
     }
+
+    public GamePhase getPlayerPhase() {
+        return playerPhase;
+    }
+
+    public void setPlayerPhase(GamePhase playerPhase) {
+        this.playerPhase = playerPhase;
+    }
+
     public Player(String name) {
         cards = new ArrayList<>();
         totalInitialTroops = 0;
         this.name = name;
         territories = new ArrayList<>();
+        playerPhase = GamePhase.DRAFT;
+    }
+    public Player(){
+
     }
     public Color getPlayerColor() {
         return playerColor;

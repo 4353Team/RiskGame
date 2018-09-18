@@ -51,7 +51,7 @@ public class Map {
         Country c28 = new Country("Afganistan",Country.Continent.ASIA,0,owner, new Dimension(80,65),new Location(675,285));
         Country c29 = new Country("India",Country.Continent.ASIA,0,owner, new Dimension(60,160),new Location(695,350));
         Country c30 = new Country("China",Country.Continent.ASIA,0,owner, new Dimension(135,125),new Location(755,285));
-        Country c31 = new Country("Mongolia",Country.Continent.ASIA,0,owner, new Dimension(90,50),new Location(810,230));
+        Country c31 = new Country("Mongolia",Country.Continent.ASIA,0,owner, new Dimension(90,55),new Location(810,230));
         Country c32 = new Country("Southeast Asia",Country.Continent.ASIA,0,owner, new Dimension(105,60),new Location(755,410));
         Country c33 = new Country("Ural",Country.Continent.ASIA,0,owner, new Dimension(90,175),new Location(675,110));
         Country c34 = new Country("Siberia",Country.Continent.ASIA,0,owner, new Dimension(45,200),new Location(765,110));
@@ -417,7 +417,7 @@ public class Map {
         String output = "";
         try {
             for (Country d : countries) {
-                output = output + ((d.getOwner() != null)?d.getOwner().getName():"No one ")+ " owns " + d.getName() + " with " + d.getTroops() + " troops and borders ";
+                output = output + ((d.getOwnedBy() != null)?d.getOwnedBy().getName():"No one ")+ " owns " + d.getName() + " with " + d.getTroops() + " troops and borders ";
                 for (Country c : d.getNeighbors()) {
                    output = output + c.getName() + " , ";
                 }

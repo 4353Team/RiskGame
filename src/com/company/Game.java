@@ -3,6 +3,8 @@ package com.company;
 import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
@@ -13,12 +15,12 @@ public class Game extends JFrame {
     private int minPlayers = 2;
     private int initialInfantryCount = 0;
     public Map map;
+    private Country territorySelected = null;
     boolean show = false;
     public List<Player> players;
     public Dice gameDice;
     private Stack<Card> cardStack;
     public List<Card> cards;
-    public Player turnPlayer;
    // private int turn = 0;
     private static int totalTurnsCounter = 0;
     private int phase = 0;
@@ -26,19 +28,136 @@ public class Game extends JFrame {
     private int setsOfRiskCardsTraded = 0;
     Country attackingCountry;
     Country defendingCountry;
+    Scanner scan = new Scanner(System.in);
     boolean nowAttacking = false;
     int territoriesCapturedThisTurn;
-    public enum GamePhase {
-        DRAFT, ATTACK, FORTIFY
-    }
+    private List<Player> clonePlayers;
+    InfoBox attackBox = new InfoBox();
+    InfoBox draftBox = new InfoBox();
+    InfoBox fortifyBox = new InfoBox();
+    InfoBox nextBox = new InfoBox();
+    NumberSelector numSelector = new NumberSelector();
+    Turn turn;
+    List<InfoBox> controlBoxes = new ArrayList<>();
+    private boolean attackSelected = false;
+    private boolean defenseSelected = false;
+
 
 
     // initialize map
     public Game() {
-        //super.paint();
-     //   System.out.println("rendering");
-        // write your code here
+        controlBoxes.add(attackBox);
+        controlBoxes.add(draftBox);
+        controlBoxes.add(fortifyBox);
+        controlBoxes.add(nextBox);
+        numSelector.setCoordinate(new Location(250,720));
+        numSelector.setDimension(new Dimension(30,30));
+        numSelector.setLowerBound(1);
+        numSelector.setUpperBound(6);
+        numSelector.setVisible(false);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+         //       paintComponents(getGraphics());
 
+                for (InfoBox b :
+                        controlBoxes) {
+                    if (b.contains(e.getPoint())){
+                        b.setBackgrounColor(turn.getTurnPlayer().getPlayerColor());
+                    }
+
+                }
+                if(nextBox.contains(e.getPoint())){
+              //      turn.setTurnPlayer(turn.nextTurn(turn.getTurnPlayer()));
+                    turn.nextGamePhase();
+                 //   System.out.println(turn.getTurnPlayer().getName());
+//                   / System.exit(0);
+                }
+
+
+                for (Country c : map.countries) {
+                    if (c.contains(e.getPoint())) {
+
+                        if (totalTurnsCounter <= 42) {
+                            if (c.getOwnedBy() == null) {
+                                c.addOneInfantry(turn.getTurnPlayer());
+                                turn.getTurnPlayer().addTerritory(c);
+                                turn.setTurnPlayer(turn.nextTurn(turn.getTurnPlayer()));
+                                System.out.println(totalTurnsCounter);
+                                System.out.println(cards.get(0).getTerritory().getName());
+
+
+                            }
+                        }
+                        System.out.println(turn.getTurnPlayer().getTotalInitialTroops());
+                        if (turn.getTurnPlayer().getTerritories().contains(c) && turn.getTurnPlayer().getTotalInitialTroops() < 0 && totalTurnsCounter >= 42) {
+                            c.addOneInfantry(turn.getTurnPlayer());
+                            turn.getTurnPlayer().addTerritory(c);
+
+                            turn.setTurnPlayer(turn.nextTurn(turn.getTurnPlayer()));
+//                            c.drawSelected(getGraphics(),true);
+
+
+                        }
+                        boolean con = true;
+                        for (Player p : players
+                        ) {
+                            System.out.println(p.getTotalInitialTroops());
+                            if (p.getTotalInitialTroops() > 0)
+                                con = false;
+                        }
+                        if (con) {
+                            territorySelected = c;
+                        }
+                        System.out.println(con);
+                        boolean defense = false;
+                        territorySelected = c;
+
+                        if (turn.getGamePhase() == GamePhase.DRAFT){
+                            if (turn.getTurnPlayer().getTerritories().contains(c)) {
+                                numSelector.setVisible(true);
+                                draftTroops(c,3);
+
+                                turn.nextGamePhase();
+                            }
+
+                        } else if (turn.getGamePhase() == GamePhase.ATTACK) {
+
+                                if (!attackSelected) {
+                                    if (turn.getTurnPlayer().getTerritories().contains(c) && c.getTroops() > 1) {
+                                        c.drawSelected(getGraphics(), GamePhase.ATTACK);
+                                        attackingCountry = c;
+                                        System.out.println("attacking country: " + attackingCountry.getName());
+                                        attackSelected = true;
+                                        defenseSelected = false;
+
+                                    }
+                                }
+                                if (!defenseSelected) {
+                                    if (attackingCountry.getNeighbors().contains(c)) {
+                                        defendingCountry = c;
+                                        System.out.println("defending country: " + defendingCountry.getName());
+                                        attack(attackingCountry, defendingCountry);
+                                        c.drawSelected(getGraphics(), GamePhase.ATTACK);
+                                        attackSelected = true;
+                                        defenseSelected = true;
+
+                                    }
+                                }
+
+
+
+                        }
+
+                    } else {
+                        attackSelected = false;
+                        defenseSelected = false;
+                    }
+            }
+                     paintComponents(getGraphics());
+            }
+        });
 
 
         setDefaultLookAndFeelDecorated(true);
@@ -64,20 +183,20 @@ public class Game extends JFrame {
 
 
         List<Color> playerColors = new ArrayList<>();
-        playerColors.add(Color.red);
-        playerColors.add(Color.blue);
-        playerColors.add(Color.green);
-        playerColors.add(Color.orange);
-        playerColors.add(Color.yellow);
-        playerColors.add(Color.pink);
+        playerColors.add(new Color(181 ,45,69));
+        playerColors.add(new Color(16,81,135));
+        playerColors.add(new Color(24,128,112));
+        playerColors.add(new Color(247,147,97));
+        playerColors.add(new Color(242,183,5));
+        playerColors.add(new Color(79,60,166));
 
         Collections.shuffle(playerColors);
         //load map
         map = loadMap();
 
-        attackingCountry=map.countries.get(0);
+        attackingCountry = null;
 
-        defendingCountry=map.countries.get(1);
+        defendingCountry = null;
 
         // create players for test purpose
         players = new ArrayList<Player>();
@@ -85,406 +204,264 @@ public class Game extends JFrame {
         players.add(new Player("Sunada"));
         players.add(new Player("Jack"));
         players.add(new Player("John"));
-        players.add(new Player("Jim"));
         players.add(new Player("Mark"));
+        players.add(new Player("Tom"));
 
 
+        turn = new Turn(players);
 
-
-
-        Collections.shuffle(cards);
-        for (Card c:
-             cards) {
-            System.out.println(c);
-        }
-        try {
-     //       Thread.sleep(20000);
-        } catch (Exception e) {}
-        cardStack.clear();
-        cardStack.addAll(cards);
-
-        System.out.println("Cards count: "+cardStack.size());
 
 
         for (Player p:players
         ) {
             p.setPlayerColor(playerColors.get(players.indexOf(p)));
-            p.setLocation(new Location((20+(players.indexOf(p))*160),800));
-
-            p.setCapital(cardStack.pop().getTerritory());
-            System.out.println(p.getCapital().getName());
+            p.setLocation(new Location(20,940-(players.indexOf(p))*35));
         }
-
-        System.out.println("Cards count: "+cardStack.size());
-        cards.clear();
-        cards.addAll(cardStack);
-
-        Card c43 = new SpecialCard(Card.TroopsType.INFANTRY, Card.TroopsType.CAVALRY, Card.TroopsType.ARTILLERY);
-        Card c44 = new SpecialCard(Card.TroopsType.INFANTRY, Card.TroopsType.CAVALRY, Card.TroopsType.ARTILLERY);
-        cards.add(c43);
-        cards.add(c44);
-        Collections.shuffle(cards);
-
-        cardStack.removeAllElements();
-        cardStack.addAll(cards);
-
-        System.out.println("Cardstack card count " + cardStack.size());
-
-
 
 
 
 
         numberOfPlayers = players.size();
-        Collections.shuffle(players);
         initialInfantryCount = getInitialInfantryCount(numberOfPlayers) * numberOfPlayers;
 
 
 
-        // calculate and assign number of infantry at the beginning
         for(Player p: players) {
             int a = getInitialInfantryCount(players.size());
             p.setTotalInitialTroops(a);
         }
         System.out.println("We have " + players.size() + " players!");
 
-//        System.out.println("Each players now rolling dice to determine who is going first.");
-//
-//        // roll dice
-//        Player highestPlayer = players.get(0);
-//        for(Player p: players) {
-//
-//            //System.out.print(p.getName() + " rolled " );
-//            System.out.printf("%s is rolling dice ...\n",p.getName());
-//            printDice(p.rollDices(1));
-//            if (p.dice.get(0).getFaceValue() > highestPlayer.dice.get(0).getFaceValue())
-//                highestPlayer = p;
-////            for(Dice d: p.dice) {
-////                System.out.print(d.getFaceValue() + " ");
-////            }
-////            System.out.println();
-//        }
-//        turn = players.indexOf(highestPlayer);
-//        System.out.println();
-//        System.out.println(highestPlayer.getName() + " is going first");
 
-
-
-
-
-
-
-        turnPlayer = players.get(0); //
-        System.out.println(turnPlayer.getName()+" going first.");
+        turn.setTurnPlayer(players.get(0)); //
+        System.out.println(turn.getTurnPlayer().getName()+" going first.");
 
         ArrayList<Integer> randomCountries = new ArrayList<Integer>();
         for (int i= 0; i < map.countries.size(); i++) {
             randomCountries.add(i);
 
+
         }
+    //    wait(300);
         Collections.shuffle(randomCountries);
 
+      //  paintComponents(getGraphics());
          for (int i= 0; i < 42; i++) {
-            map.countries.get(randomCountries.get(i)).addOneInfantry(turnPlayer);
-            turnPlayer.addTerritory(map.countries.get(randomCountries.get(i)));
-            turnPlayer = nextTurn(turnPlayer);
+            map.countries.get(randomCountries.get(i)).addOneInfantry(turn.getTurnPlayer());
+            turn.getTurnPlayer().addTerritory(map.countries.get(randomCountries.get(i)));
+
+            turn.setTurnPlayer(turn.nextTurn(turn.getTurnPlayer()));
         }
+   //     paintComponents(getGraphics());
+
+
         for (int i = 0; i < initialInfantryCount - 42; i++) {
-            Player curr = turnPlayer;
+      //      paintComponents(getGraphics());
+            Player curr = turn.getTurnPlayer();
             List<Country> c = getTerritoriesOwnedBy(curr);
             Random rand = new Random();
             int a = rand.nextInt(c.size());
             c.get(a).addOneInfantry(curr);
             if (!(curr.getTerritories().contains(c.get(a))))
                 curr.addTerritory(c.get(a));
-            turnPlayer = nextTurn(turnPlayer);
-        }
 
-     // System.out.println("Randomly populating the map ... ");
+            turn.setTurnPlayer(turn.nextTurn(turn.getTurnPlayer()));
+            paintComponents(getGraphics());
+    }
+
+   // wait(5);
         for(Player p: players) {
             System.out.println();
             System.out.printf("\t%28s\n",p.getName().toUpperCase());
             printList(getTerritoriesOwnedBy(p));
-     //       System.out.println(" - " + getNumTerritoriesOwnedBy(p) + " troops across " +getTerritoriesOwnedBy(p).size() + " countries ");
 
         }
         // console render
         System.out.println();
-    //    System.out.println("---------------------------snapshot of the map-------------------------------------------------------------------------------------");
 
-  //      System.out.println(map.toString());
-    //    System.out.println(map.getTotalTroops() +" troops across 42 countries, 6 continents");
-
-
-//        for (Card c:cards) {
-//            System.out.println((c.getClass() == new SpecialCard().getClass())?"Special":"Not so special");
-//        }
 
         java.util.Map<Player,Boolean> noAttackMoves = new HashMap<>();
         for (Player p:players){
             noAttackMoves.put(p,false);
         }
-        Scanner scan = new Scanner(System.in);
+
         //============ main game loop =================
-        turnPlayer = players.get(0);
+
+        System.out.println("here");
 
 
-        InfoBox ifb = new InfoBox();
+        System.out.println("Here");
+       // paint(this.getGraphics());
+        //scan.nextLine();
+    //    wait(10000);
 
-
-//        wait(200);
         while (true) {
-           // wait(100);
-            territoriesCapturedThisTurn = 0;
-            checkCardPoints(turnPlayer);
-            try {
+            if (attackingCountry != null)
+                System.out.println(attackingCountry.getName());
+            if (defendingCountry != null)
+                System.out.println(defendingCountry.getName());
+         //   paintComponents(getGraphics());
 
-            } catch (Exception ex)  {
+
+            territoriesCapturedThisTurn = 0;    // Keeps track of the number of territories captured in each turn
+
+            // These couple of lines make sure that whenever players are eliminated the dashboard moves
+            for (Player p:players
+            ) {
+                p.setLocation(new Location(20,940-(players.indexOf(p))*35));
             }
-            paint(this.getGraphics());
 
 
-          //  try {TimeUnit.MILLISECONDS.sleep(300);} catch (Exception e) {}
-            boolean doWeHaveAWinner = true;
-            System.out.println(players.size());
-            for (Country c :
-                    map.countries) {
-                if (c.getOwner()!=turnPlayer) doWeHaveAWinner = false;
-            }
-            if (doWeHaveAWinner) {
-                System.out.println(turnPlayer.getName()+" is the winner!!!");
+
+
+
+            if (doWeHaveAWinner(turn.getTurnPlayer())) {
+                System.out.println(turn.getTurnPlayer().getName()+" is the winner!!!");
                 System.out.println(players.size());
                 break;
             }
 
             if (players.size() == 1)
             {
-                System.out.println(turnPlayer + " wins!!!");
+                System.out.println(turn.getTurnPlayer() + " wins!!!");
                 System.exit(0);
             }
 
 
-            if (getTerritoriesOwnedBy(turnPlayer).isEmpty()) {
-
+            if (getTerritoriesOwnedBy(turn.getTurnPlayer()).isEmpty()) {
               //  wait(3);
-                System.out.println(turnPlayer.getName() + " eliminated!");
-                players.remove(turnPlayer);
+                System.out.println(turn.getTurnPlayer().getName() + " eliminated!");
+                players.remove(turn.getTurnPlayer());
              //   wait(3);
                 numberOfPlayers--;
-                turnPlayer = nextTurn(turnPlayer);
+                turn.setTurnPlayer(turn.nextTurn(turn.getTurnPlayer()));
                 continue;
             }
 
-
-//            boolean exitNow = true;
-//            for(Player p:players){
-//                System.out.println(p.getName() + " " +noAttackMoves.get(p));
-//                //System.out.println(noAttackMoves.get(i) + " for "+players.get(i).getName());
-//                if (noAttackMoves.get(p) == false)
-//                    exitNow = false;
-//            }
-//            if (exitNow) {
-//                System.out.println();
-//                System.out.println("Game is now at a stalemate!! That's what you want in a successful simulation. It took "+totalTurnsCounter+" turns for the game to achieve stalemate.");
-//                System.out.println();
-//                System.out.print("\u2714");
-//              //  render(map);
-//                break;
-//            }
-
-            //-----------------calculate bonus troops
-            // draft new troops
-                // get number of territories player occupies
-                Player player = turnPlayer;
-
-
-                System.out.println();
-                System.out.println("---------------------------------------");
-                System.out.println(player.getName().toUpperCase()+"'s TURN ("+players.indexOf(turnPlayer)+")");
-                System.out.println("---------------------------------------");
-                int t = (int)Math.floor(getTerritoriesOwnedBy(player).size()/3.0);
-                player.setTotalInitialTroops((t<3.0)?3:t);
-                System.out.println(player.getName() + " controls " + getTerritoriesOwnedBy(player).size() + " territories, therefore receives " + player.getTotalInitialTroops() + " troops" );
+                int t = (int)Math.floor(getTerritoriesOwnedBy(turn.getTurnPlayer()).size()/3.0);
+                turn.getTurnPlayer().setTotalInitialTroops((t<3.0)?3:t);
+                System.out.println(turn.getTurnPlayer().getName() + " controls " + getTerritoriesOwnedBy(turn.getTurnPlayer()).size() + " territories, therefore receives " + turn.getTurnPlayer().getTotalInitialTroops() + " troops" );
 
 
 
 
-             //   System.out.println(player.getTotalInitialTroops());
-                // does this player control a continent , if so add respective value
-                // check matched RISK cards from a set of 3 cards this player has accumulated
 
             //- draft phase
                 Random rand = new Random();
-                int howmanyTroops = player.getTotalInitialTroops();
-                Country randomC = getTerritoriesOwnedBy(player).get(rand.nextInt(getTerritoriesOwnedBy(player).size()));
-                System.out.printf("%s is drafting %d new troops to %s\n",player.getName(),howmanyTroops,randomC.getName());
-                draftTroops(randomC,howmanyTroops);
+                int howmanyTroops = turn.getTurnPlayer().getTotalInitialTroops();
+            //    Country randomC = getTerritoriesOwnedBy(turnPlayer).get(rand.nextInt(getTerritoriesOwnedBy(turnPlayer).size()));
+    //            System.out.printf("%s is drafting %d new troops to %s\n",turnPlayer.getName(),howmanyTroops,randomC.getName());
+              //  draftTroops(randomC,howmanyTroops);
 
 
-            System.out.println(player.getName() + " gets " + getContinentOccupationPoints(player) + " for occupying continents");
-            turnPlayer.addToTotalInitialTroops(getContinentOccupationPoints(player));
+            System.out.println(turn.getTurnPlayer().getName() + " gets " + getContinentOccupationPoints(turn.getTurnPlayer()) + " for occupying continents");
+            turn.getTurnPlayer().addToTotalInitialTroops(getContinentOccupationPoints(turn.getTurnPlayer()));
 
-            nextPhase();
-            System.out.println(player.getName()+"'s attack Phase");
-        // attack phase
-           // ------------------------------------
-            //Pick country to attack from
-                // get territories of current player
+       //     nextPhase();
+            System.out.println(turn.getTurnPlayer().getName()+"'s attack Phase");
+
             List<Country> playerTerritoryThatCanAttack;
             do {
                 System.out.println();
-                List<Country> playerTerritory = getTerritoriesOwnedBy(player);
-               // System.out.println("Countries owned by " + player.getName());
-               // printList(playerTerritory);
+                List<Country> playerTerritory = getTerritoriesOwnedBy(turn.getTurnPlayer());
 
-
-                // list of countries with more than 1 troop
-               // System.out.println();
-
-
-                playerTerritoryThatCanAttack = getContriesPlayerCanAttackFrom(playerTerritory,player);
+                playerTerritoryThatCanAttack = getContriesPlayerCanAttackFrom(playerTerritory,turn.getTurnPlayer());
                 if(!playerTerritoryThatCanAttack.isEmpty())
-                    System.out.printf("%s can attack from these countries\n",player.getName());
+                    System.out.printf("%s can attack from these countries\n",turn.getTurnPlayer().getName());
 
                 if (playerTerritoryThatCanAttack.isEmpty()) {
-                    noAttackMoves.put(turnPlayer,true);
-      //              turnPlayer = nextTurn(turnPlayer);
+                    noAttackMoves.put(turn.getTurnPlayer(),true);
                     break;
                 }
-  //              printList(playerTerritoryThatCanAttack);
                 printList(playerTerritoryThatCanAttack);
                 System.out.println();
-                attackingCountry = playerTerritoryThatCanAttack.get(rand.nextInt(playerTerritoryThatCanAttack.size()));
+             //   attackingCountry = playerTerritoryThatCanAttack.get(rand.nextInt(playerTerritoryThatCanAttack.size()));
 
-                System.out.printf("%s picked as attacking country\n",attackingCountry.getName());
+
+             //   System.out.printf("%s picked as attacking country\n",attackingCountry.getName());
 
 
 
                 // randomly pick a country from player's territory (attackingCountry)
                 List<Country> neighboringCountryPlayerCanAttackTo = new ArrayList<>();
 
-
-                neighboringCountryPlayerCanAttackTo = getNeighboringCountryPlayerCanAttackTo(attackingCountry,player);
-                System.out.println();
-                if (neighboringCountryPlayerCanAttackTo.isEmpty()) {
-                    playerTerritoryThatCanAttack.remove(attackingCountry);
-                    System.out.println("Removing " + attackingCountry.getName());
-                    break;
+                if (attackingCountry!= null) {
+                    neighboringCountryPlayerCanAttackTo = getNeighboringCountryPlayerCanAttackTo(attackingCountry, turn.getTurnPlayer());
+                    System.out.println();
+                    if (neighboringCountryPlayerCanAttackTo.isEmpty()) {
+                        playerTerritoryThatCanAttack.remove(attackingCountry);
+                        System.out.println("Removing " + attackingCountry.getName());
+                        break;
+                    }
                 }
-
-
-     //           System.out.println("All neighboring countries of "+attackingCountry.getName());
-     //           printList(attackingCountry.getNeighbors());
-     //           System.out.println();
-                System.out.printf("%s can attack one of these countries \n",attackingCountry.getName());
+          //      System.out.printf("%s can attack one of these countries \n",attackingCountry.getName());
                 printList(neighboringCountryPlayerCanAttackTo);
                 System.out.println();
-                defendingCountry = neighboringCountryPlayerCanAttackTo.get(rand.nextInt(neighboringCountryPlayerCanAttackTo.size()));
-                System.out.println(defendingCountry.getName() + " picked as defending country.");
+              //  defendingCountry = neighboringCountryPlayerCanAttackTo.get(rand.nextInt(neighboringCountryPlayerCanAttackTo.size()));
+             //   System.out.println(defendingCountry.getName() + " picked as defending country.");
                 System.out.println();
-                System.out.printf("%s(%d troops) is now attacking %s (%d troops)\n",attackingCountry.getName(),attackingCountry.getTroops(),defendingCountry.getName(),defendingCountry.getTroops());
+            //    System.out.printf("%s(%d troops) is now attacking %s (%d troops)\n",attackingCountry.getName(),attackingCountry.getTroops(),defendingCountry.getName(),defendingCountry.getTroops());
                 System.out.println();
-//               / wait(1);
                 nowAttacking = true;
-            //    try {TimeUnit.MILLISECONDS.sleep(5);} catch (Exception e) {};
-                repaint();
-
+// paintComponents(getGraphics());
                 try {
 
-      //              Thread.sleep(20);
 
                 } catch (Exception e) {}
-            //    wait(1);
-                attack(attackingCountry,defendingCountry);
+                if (attackingCountry != null && defendingCountry != null)
+                    attack(attackingCountry,defendingCountry);
                 try {
 
-       //             Thread.sleep(20);
-
-                } catch (Exception e) {}
-                repaint();
-                try {
-
-        //            Thread.sleep(20);
 
                 } catch (Exception e) {}
 
+      //       paintComponents(getGraphics());
+                try {
 
 
-                //  wait(1);
+                } catch (Exception e) {}
+
                 nowAttacking = false;
 
             } while (!playerTerritoryThatCanAttack.isEmpty());
 
-                //
-
-
-            printList(getTerritoriesOwnedBy(player));
+            printList(getTerritoriesOwnedBy(turn.getTurnPlayer()));
             System.out.println();
-         //   System.out.println("We are done here. Final territory");
-           // noAttackMoves[turn] = true;
+         //   nextPhase();
 
-
-           // scan.nextLine();
-
-            // -----------------------
-
-
-            ;
-            nextPhase();
-//            System.out.println("Draft Phase:");
-//            List<Country> turnPlayerTerritories = getTerritoriesOwnedBy(turnPlayer);
-//            int numTerritory = turnPlayerTerritories.size();
-//            Country originT = turnPlayerTerritories.get(rand.nextInt(numTerritory));
-//            Country destinT;
-//            do {
-//                destinT = turnPlayerTerritories.get(rand.nextInt(numTerritory));
-//            } while(originT==destinT);
-//            int numT = (originT.getTroops()-1<=0?1:originT.getTroops()-1);
-//       //     moveTroops(originT,destinT,1+rand.nextInt(numT));
-//         //   wait(2  );
-//
-
-
-
-
-
-
-//            for (int i =0; i<numberOfPlayers;i++)
-//                nextTurn();
-
-            if(territoriesCapturedThisTurn >= 1){
+            if(territoriesCapturedThisTurn >= 1 && turn.getTurnPlayer().cards.size()<6){
                 if(cardStack.isEmpty()) {
                     cardStack.addAll(cards);
                 }
                 Card c = cardStack.pop();
-                turnPlayer.cards.add(c);
-                System.out.println(turnPlayer.getName() + " pulled " + c.toString() + " card");
-//                for (Card car :
-//                        turnPlayer.cards) {
-//                    System.out.println(car.toString());
-//                }
+                c.setOwnedBy(turn.getTurnPlayer());
+                turn.getTurnPlayer().cards.add(c);
 
-              //  wait(2);
+                System.out.println(turn.getTurnPlayer().getName() + " pulled " + c.toString() + " card");
+
             }
 
-            turnPlayer = nextTurn(turnPlayer);
+       //     turnPlayer = nextTurn(turnPlayer);
 
-            nextPhase();
+         //   nextPhase();
         }
+
         // printing the final results
         for(Player p: players) {
             System.out.println();
             System.out.printf("\t%28s\n",p.getName().toUpperCase());
             printList(getTerritoriesOwnedBy(p));
          }
-     //   System.out.print("Want to view gamemap? (1/0): ");
-     //   int response = scan.nextInt();
-     //   System.out.println(response.toUpperCase());
-       // if (response == 1) render();
-        render();
      }
-
-    List<Country> getNeighboringCountryPlayerCanAttackTo(Country originCountry, Player player){
+    private boolean doWeHaveAWinner(Player p){
+        boolean doWeHaveAWinner = true;
+        for (Country c :
+                map.countries) {
+            if (c.getOwnedBy()!=p) doWeHaveAWinner = false;
+        }
+        return doWeHaveAWinner;
+    }
+    public List<Country> getNeighboringCountryPlayerCanAttackTo(Country originCountry, Player player){
         List<Country> country = new ArrayList<>();
         for (Country enemyCountry:originCountry.getNeighbors()
              ) {
@@ -496,7 +473,7 @@ public class Game extends JFrame {
     }
 
     private void draftTroops(Country country,int troops) {
-        Player p = country.getOwner();
+        Player p = country.getOwnedBy();
         for(int i = 0; i<troops; i++) {
             country.addOneInfantry(p);
         }
@@ -535,18 +512,16 @@ public class Game extends JFrame {
             }
         }
         if ((cavalry>=1 && artillery>=1 && infantry>=1)|| cavalry >=3 || artillery>=3 || infantry>= 3 || (infantry>=1 && cavalry >=1 && specialCard >=1) || (cavalry >=1 && artillery >= 1 && specialCard>=1) || (artillery>=1 && infantry>=1 && specialCard>=1)) {
-         //   wait(2);
             System.out.println("We have a match");
-       //     wait(2);
         }
 
     }
      private void attack(Country origin, Country destination) {
 
         // repaint();
-        Scanner scan = new Scanner(System.in);
-        Player attacker = origin.getOwner();
-        Player defender = destination.getOwner();
+    //    Scanner scan = new Scanner(System.in);
+        Player attacker = origin.getOwnedBy();
+        Player defender = destination.getOwnedBy();
        // Random rand = new Random();
        // System.out.print(origin.getOwner().getName()+", how many dice you want to roll?, max "+((origin.getTroops()-1)>3?3:origin.getTroops()-1)+": ");
   //      int attackDices = scan.nextInt();
@@ -586,7 +561,7 @@ public class Game extends JFrame {
                  System.out.println(attacker.getName()+" wins");
                 destination.removeTroops(1);
                 if (destination.getTroops() == 0) { // if invaded
-                    destination.setOwner(origin.getOwner());
+                    destination.setOwnedBy(origin.getOwnedBy());
                     // occupy territory
                     System.out.println(origin.getName() + " captures " + destination.getName() + "!!");
                     territoriesCapturedThisTurn += 1;
@@ -600,7 +575,7 @@ public class Game extends JFrame {
                     System.out.printf("%s decides to move %d troop%s from %s to %s\n",attacker.getName(),movetroops,(movetroops==1)?"":"s",origin.getName(),destination.getName());
                     if (origin.getTroops() - movetroops >= 1) {
                         destination.setTroops(movetroops);
-                        destination.setOwner(attacker);
+                        destination.setOwnedBy(attacker);
                         attacker.addTerritory(destination);
                         defender.removeTerritory(destination);
                         origin.removeTroops(movetroops);
@@ -637,7 +612,7 @@ public class Game extends JFrame {
      }
     private boolean canAttackThisTerritory(Country origin, Country destination, Player attacker) {
         // cannot attack your own territories
-        boolean c1 = (origin.getOwner() == destination.getOwner()?false:true);
+        boolean c1 = (origin.getOwnedBy() == destination.getOwnedBy()?false:true);
 
         // cannot attack other territories if you only have one troop
         boolean c2 = (origin.getTroops() <= 1?false:true);
@@ -646,7 +621,7 @@ public class Game extends JFrame {
         boolean c3 = origin.getNeighbors().contains(destination);
 
         // cannot attack from someone else's territory
-        boolean c4 = origin.getOwner() == attacker;
+        boolean c4 = origin.getOwnedBy() == attacker;
 
             return c1 && c2 && c3 && c4;
     }
@@ -698,19 +673,6 @@ public class Game extends JFrame {
         return false;
      }
 
-
-     private boolean isOccupied(Country country) {
-         for (Country c: map.countries) {
-             if (c.getName() == country.getName())
-                return (c.getTroops() != 0);
-         }
-         return  false;
-     }
-     private boolean attack(Country c , Player p) {
-
-
-        return false;
-     }
      private Player nextTurn(Player currentPlayer) {
          if (!players.isEmpty()) {
              totalTurnsCounter++;
@@ -738,7 +700,7 @@ public class Game extends JFrame {
      private List<Country> getTerritoriesOwnedBy(Player p) {
         List<Country> m = new ArrayList<Country>();
         for(Country c:map.countries) {
-            if (c.getOwner() == p)
+            if (c.getOwnedBy() == p)
                 m.add(c);
         }
         return m;
@@ -747,34 +709,18 @@ public class Game extends JFrame {
     private int getNumTerritoriesOwnedBy(Player p) {
         int count = 0;
         for(Country c:map.countries) {
-            if (c.getOwner() == p)
+            if (c.getOwnedBy() == p)
                 count = count + c.getTroops();
         }
         return count;
     }
      private void printList(List<Country> mc) {
              try {
-//                 for (Country d : mc) {
-//                    System.out.println(d.getName() + " ( owner : "+
-//                             ((d.getOwner() != null)?d.getOwner().getName():"X") + " troops : " + d.getTroops() + ")"
-//                             + "'s neighbors --> ");
-//                     for (Country c : d.getNeighbors()) {
-//                         System.out.println(c.getName() + " | ");
-//                     }
-//                     System.out.println();
-//                 }
                  int c = 0;
-
-
-
                  for (Country d : mc) {
                      c+=d.getTroops();
                      System.out.print("\t");
                      System.out.printf("(%2s) %-21s%2s troop%s\n",map.countries.indexOf(d),d.getName(),d.getTroops(),(d.getTroops()==1?"":"s"));
-                     //System.out.println(d.getName()+ "("+map.countries.indexOf(d)+") : " +d.continent + " (troop/s: " + d.getTroops() +") " );
-//                     for (Country c : d.getNeighbors()) {
-//                         System.out.println(c.getName() + " | ");
-//                     }
                  }
                  System.out.printf("\t%35.35s\n","---------------------------------------");
                  System.out.printf("\t%28d troops\n",c);
@@ -799,20 +745,7 @@ public class Game extends JFrame {
         }
         return  numInitialInfantryCount;
     }
-    //if
-    private void moveTroops(Country o, Country d, int numberOfTroops) {
-        d.addTroops(numberOfTroops);
-        o.removeTroops(numberOfTroops);
 
-    }
-
-
-    private boolean canAttack(Player player) {
-        //player can only attack from countries with more than one troops
-
-
-        return false;
-    }
     private void wait(int seconds) {
         try {TimeUnit.SECONDS.sleep(seconds);} catch (Exception e) {}
     }
@@ -823,47 +756,109 @@ public class Game extends JFrame {
             boolean add = false;
             for (Country n :
                     c.getNeighbors()) {
-                if (n.getOwner() != player) add = true;
+                if (n.getOwnedBy() != player) add = true;
 
             }
 
 
             if ((c.getTroops() > 1) && add) contryPlayerCanAttackFrom.add(c);
-            //
-
-
-
-
-
-            //
-
         }
         return contryPlayerCanAttackFrom;
     }
 
-    private void render(){
+    private void paintPlayerDashBaord(Graphics g){
+        //if (attackingCountry.getTroops()==1) {
+          //  attackingCountry = null;
+        //}
+        numSelector.paintComponents(g);
+        if (attackingCountry != null)
+            attackingCountry.drawSelected(g,GamePhase.ATTACK);
+
+        if(turn.getGamePhase() == GamePhase.DRAFT) {
+            for (Country c:turn.getTurnPlayer().getTerritories()
+                 ) {
+                c.drawSelected(g,turn.getGamePhase());
+            }
+        }
+
+        draftBox.setBackgrounColor(Color.gray);
+        attackBox.setBackgrounColor(Color.gray);
+        fortifyBox.setBackgrounColor(Color.gray);
 
 
 
-    }
-
-    private void animate(Graphics g) {
-        int playerWidth = 150;
+        if (turn.getGamePhase() == GamePhase.DRAFT) {
+            draftBox.setBackgrounColor(turn.getTurnPlayer().getPlayerColor());
+        } else if (turn.getGamePhase() == GamePhase.ATTACK) {
+            attackBox.setBackgrounColor(turn.getTurnPlayer().getPlayerColor());
+        } else {
+            fortifyBox.setBackgrounColor(turn.getTurnPlayer().getPlayerColor());
+        }
+        int playerWidth = 100;
         int playerHeight = 30;
+
+
+        nextBox.setCoordinate(new Location(870,765));
+        nextBox.setDimension(new Dimension(100,playerHeight));
+        nextBox.setBackgrounColor(Color.white);
+        if (turn.getGamePhase() == GamePhase.FORTIFY) {
+            nextBox.setText("DONE");
+        } else {
+            nextBox.setText("NEXT PHASE");
+        }
+        g.setColor(Color.darkGray);
+        g.fillRect(20+playerWidth+20,940-5*35,845,playerHeight);
+        g.setColor(turn.getTurnPlayer().getPlayerColor());
+    //    g.fillRect(20+playerWidth+125,940-5*35,200,playerHeight);
+        draftBox.setCoordinate(new Location(245,765));
+        draftBox.setDimension(new Dimension(200,playerHeight));
+
+        attackBox.setCoordinate(new Location(450,765));
+        attackBox.setDimension(new Dimension(200,playerHeight));
+
+        fortifyBox.setCoordinate(new Location(655,765));
+        fortifyBox.setDimension(new Dimension(200,playerHeight));
+
+
+
+
+        draftBox.setText("Draft");
+        attackBox.setText("Attack");
+        fortifyBox.setText("Fortify");
+
+        draftBox.paintComponents(g);
+        attackBox.paintComponents(g);
+        fortifyBox.paintComponents(g);
+        nextBox.paintComponents(g);
+
+
+     //   g.fillRect(20+playerWidth+330,940-5*35,200,playerHeight);
+
+     //   g.fillRect(20+playerWidth+535,940-5*35,200,playerHeight);
+
+        g.setColor(Color.darkGray);
+        g.fillRect(20+playerWidth+20,940-4*35,845,205-35);
+       // p.setLocation(new Location(20,);
+        for(int i = 0; i<6; i++) {
+            g.setColor(Color.darkGray);
+            g.fillRect(20,940-i*35,playerWidth,playerHeight);
+            g.fillRect(20+playerWidth+5,940-i*35, 10, playerHeight);
+
+        }
+
+
         for (Player p: players
         ) {
+
 
             g.setColor(p.getPlayerColor());
 
             g.fillRect(p.getLocation().getX(),p.getLocation().getY(),playerWidth,playerHeight);
 
-            if (turnPlayer == p) {
-            //    g.setColor(Color.black);
-                g.fillRect(p.getLocation().getX(), 780, playerWidth, 10);
+            if (turn.getTurnPlayer() == p) {
+                //    g.setColor(Color.black);
+                g.fillRect(p.getLocation().getX()+playerWidth+5, p.getLocation().getY(), 10, playerHeight);
             }
-
-
-
 
             if (p.getPlayerColor() == Color.blue)
                 g.setColor(Color.white);
@@ -873,137 +868,34 @@ public class Game extends JFrame {
             String num = String.valueOf(getNumTerritoriesOwnedBy(p));
             g.drawString(num,p.getLocation().getX()+playerWidth-8-(num.length()*8),p.getLocation().getY()+20);
             g.setColor(Color.white);
-//            for (Card c :
-//
-//                    p.cards) {
-//                Location l = p.getLocation();
-//                int cardWidth = ((playerWidth-21)/3);
-//                int cardHeight = 60;
-//                int indexofCurrentCard = p.cards.indexOf(c)+1;
-//                g.fillRect(l.getX()+6+indexofCurrentCard*cardHeight,l.getY()+playerHeight+10,cardWidth,cardHeight);
-//            }
 
-            g.drawString(p.cards.size() + "",p.getLocation().getX(),p.getLocation().getY()+100);
-            
+            for (Card c:turn.getTurnPlayer().cards){
+                //g.fillRect(140,800,120,170);
+                c.setCoordinate(new Location(140+turn.getTurnPlayer().cards.indexOf(c)*140,800));
+                c.paintComponents(g);
+            }
         }
-        for (Country c : map.countries
-        ) {
-            g.setColor(c.getOwner().getPlayerColor());
-
-//            for (Country d:c.getNeighbors()
-//            ) {
-//                if (d.getOwner() == c.getNeighbors());
-//                g.drawLine(d.getCoordinate().getCenter(100).getX(),d.getCoordinate().getCenter(100).getY(),c.getCoordinate().getCenter(100).getX(),c.getCoordinate().getCenter(100).getY());
-//            }
-
-            g.fillRect(c.getCoordinate().getX(), c.getCoordinate().getY(), c.getDimension().getWidth(), c.getDimension().getHeight());
-
-
-            g.setColor(Color.black);
-            g.drawRect(c.getCoordinate().getX(), c.getCoordinate().getY(), c.getDimension().getWidth(), c.getDimension().getHeight());
-            g.setColor(c.getOwner().getPlayerColor());
-
-            if (c.getOwner().getPlayerColor() == Color.blue)
-                g.setColor(Color.white);
-            else
-                g.setColor(Color.black);
-
-
-            int x = c.getCoordinate().getCenter(c.getDimension().getWidth(),c.getDimension().getHeight()).getX();
-
-            int y= c.getCoordinate().getCenter(c.getDimension().getWidth(),c.getDimension().getHeight()).getY();
-
-     //       g.drawString(c.getName(), c.getCoordinate().getX()+5, c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getY()-10);
-           // g.setFont(new Font("TimesRoman",Font.PLAIN,18));
-
-//     /       g.drawString(c.getTroops()+"",x,y+10);
-     //       g.drawString(c.getOwner().getName(), c.getCoordinate().getX()+5, c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getY());
-    //        g.fillOval(x-15,y-15,30,30);
-      //      g.drawString(getNumTerritoriesOwnedBy(turnPlayer)+"",x,y);
-
-        }
-        g.setColor(Color.white);
-        int centerX1 = attackingCountry.getCoordinate().getCenter(attackingCountry.getDimension().getWidth(),attackingCountry.getDimension().getHeight()).getX();
-
-        int centerY1= attackingCountry.getCoordinate().getCenter(attackingCountry.getDimension().getWidth(),attackingCountry.getDimension().getHeight()).getY();
-
-        int centerX2 = defendingCountry.getCoordinate().getCenter(defendingCountry.getDimension().getWidth(),defendingCountry.getDimension().getHeight()).getX();
-        int centerY2= defendingCountry.getCoordinate().getCenter(defendingCountry.getDimension().getWidth(),defendingCountry.getDimension().getHeight()).getY();
-
-        int cirlceSize = 38;
-        Graphics2D g2d = (Graphics2D)g;
-
-        g2d.setStroke(new BasicStroke(5,BasicStroke.CAP_BUTT,BasicStroke.JOIN_ROUND));
-        g.setColor(Color.white);
-        g.drawLine(centerX1,centerY1,centerX2,centerY2);
-        g2d.setStroke(new BasicStroke(1));
-        g.setColor(Color.black);
-        g.drawLine(centerX1,centerY1,centerX2,centerY2);
-
-
-        // rattackingoval
-        g.setColor(Color.green);
-        g.fillOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
-
-        //defending oval
-        g.setColor(Color.red);
-        g.fillOval(centerX2-cirlceSize/2,centerY2-cirlceSize/2,cirlceSize,cirlceSize);
-
-        g.setColor(Color.white);
-        g.drawOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
-
-        g.setColor(Color.black);
-        g.drawOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
-
-
-        g.setColor(Color.white);
-        g.drawOval(centerX2-cirlceSize/2,centerY2-cirlceSize/2,cirlceSize,cirlceSize);
-
-//        g.setColor(Color.black);
-//        g.drawOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
-
-        cirlceSize = 30;
-        g.setColor(Color.black);
-        g.drawOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
-        g.setColor(Color.black);
-        g.drawOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
-
-        g.setColor(Color.white);
-        g.drawOval(centerX2-cirlceSize/2,centerY2-cirlceSize/2,cirlceSize,cirlceSize);
-        g.setColor(Color.black);
-        g.drawOval(centerX1-cirlceSize/2,centerY1-cirlceSize/2,cirlceSize,cirlceSize);
-
-
-        for (Country c :
-                map.countries) {
-            if (c.equals(attackingCountry))
-                g.setColor(Color.black);
-            else if (c.equals(defendingCountry))
-                g.setColor(Color.white);
-            else
-                g.setColor(Color.black);
-
-            int x = c.getCoordinate().getCenter(c.getDimension().getWidth(),c.getDimension().getHeight()).getX();
-
-            int y= c.getCoordinate().getCenter(c.getDimension().getWidth(),c.getDimension().getHeight()).getY();
-            String num = String.valueOf(c.getTroops());
-            g.drawString(num,x-(num.length()*3),y+5);
-
-
-        }
-
-
-
     }
+
+    private void animate(Graphics g) {
+        for (Country c:
+                map.countries) {
+            c.paintComponents(g);
+        }
+        paintPlayerDashBaord(g);
+    }
+
     @Override
-    public void paint(Graphics g) {
-     //   super.paint(g);
+    public void paintComponents(Graphics g) {
+        //super.paintComponents(g);
+        //animate(g);
+                try {
+            BufferedImage bf = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 
-        BufferedImage bf = new BufferedImage(this.getWidth(),this.getHeight(),BufferedImage.TYPE_INT_RGB);
+            animate(bf.getGraphics());
+            g.drawImage(bf, 0, 0, Color.white, this);
 
-        animate(bf.getGraphics());
-        g.drawImage(bf,0,0,Color.white,this);
-
+        } catch (Exception e) {System.out.println("Error here");}
 
     }
 
@@ -1011,178 +903,11 @@ public class Game extends JFrame {
         map = new Map();
         cards = new ArrayList<Card>();
         cardStack = new Stack<>();
-        Card c1 = new Card(new Country("Afganistan"), Card.TroopsType.CAVALRY);
-        Card c2 = new Card(new Country("Alaska"), Card.TroopsType.INFANTRY);
-        Card c3 = new Card(new Country("Alberta"), Card.TroopsType.CAVALRY);
-        Card c4 = new Card(new Country("Argentina"), Card.TroopsType.INFANTRY);
-        Card c5 = new Card(new Country("Brazil"), Card.TroopsType.ARTILLERY);
-        Card c6 = new Card(new Country("Central Africa"), Card.TroopsType.INFANTRY);
-        Card c7 = new Card(new Country("Central America"), Card.TroopsType.ARTILLERY);
-        Card c8 = new Card(new Country("China"), Card.TroopsType.INFANTRY);
-        Card c9 = new Card(new Country("East Africa"), Card.TroopsType.INFANTRY);
-        Card c10 = new Card(new Country("Eastern Australia"), Card.TroopsType.ARTILLERY);
-        Card c11 = new Card(new Country("Quebec"), Card.TroopsType.CAVALRY);
-        Card c12 = new Card(new Country("Eastern United States"), Card.TroopsType.ARTILLERY);
-        Card c13 = new Card(new Country("Egypt"), Card.TroopsType.INFANTRY);
-        Card c14 = new Card(new Country("Great Britain"), Card.TroopsType.ARTILLERY);
-        Card c15 = new Card(new Country("Greenland"), Card.TroopsType.CAVALRY);
-        Card c16 = new Card(new Country("Iceland"), Card.TroopsType.INFANTRY);
-        Card c17 = new Card(new Country("India"), Card.TroopsType.CAVALRY);
-        Card c18 = new Card(new Country("Indonesia"), Card.TroopsType.ARTILLERY);
-        Card c19 = new Card(new Country("Irkutsk"), Card.TroopsType.CAVALRY);
-        Card c20 = new Card(new Country("Japan"), Card.TroopsType.ARTILLERY);
-        Card c21 = new Card(new Country("Kamchatka"), Card.TroopsType.INFANTRY);
-        Card c22 = new Card(new Country("Madagascar"), Card.TroopsType.CAVALRY);
-        Card c23 = new Card(new Country("Middle East"), Card.TroopsType.INFANTRY);
-        Card c24 = new Card(new Country("Mongolia"), Card.TroopsType.INFANTRY);
-        Card c25 = new Card(new Country("New Guinea"), Card.TroopsType.INFANTRY);
-        Card c26 = new Card(new Country("North Africa"), Card.TroopsType.CAVALRY);
-        Card c27 = new Card(new Country("Northern Europe"), Card.TroopsType.ARTILLERY);
-        Card c28 = new Card(new Country("Northwest Territory"), Card.TroopsType.ARTILLERY);
-        Card c29 = new Card(new Country("Ontario"), Card.TroopsType.CAVALRY);
-        Card c30 = new Card(new Country("Peru"), Card.TroopsType.INFANTRY);
-        Card c31 = new Card(new Country("Russia"), Card.TroopsType.CAVALRY);
-        Card c32 = new Card(new Country("Scandinavia"), Card.TroopsType.CAVALRY);
-        Card c33 = new Card(new Country("Siberia"), Card.TroopsType.CAVALRY);
-        Card c34 = new Card(new Country("South Africa"), Card.TroopsType.ARTILLERY);
-        Card c35 = new Card(new Country("Southeast Asia"), Card.TroopsType.INFANTRY);
-        Card c36 = new Card(new Country("Southern Europe"), Card.TroopsType.ARTILLERY);
-        Card c37 = new Card(new Country("Ural"), Card.TroopsType.CAVALRY);
-        Card c38 = new Card(new Country("Venezuela"), Card.TroopsType.INFANTRY);
-        Card c39 = new Card(new Country("Western Australia"), Card.TroopsType.ARTILLERY);
-        Card c40 = new Card(new Country("Western Europe"), Card.TroopsType.ARTILLERY);
-        Card c41 = new Card(new Country("Western United States"), Card.TroopsType.ARTILLERY);
-        Card c42 = new Card(new Country("Yakutsk"), Card.TroopsType.CAVALRY);
-
-        cards.add(c1);
-        cards.add(c2);
-        cards.add(c3);
-        cards.add(c4);
-        cards.add(c5);
-        cards.add(c6);
-        cards.add(c7);
-        cards.add(c8);
-        cards.add(c9);
-        cards.add(c10);
-        cards.add(c11);
-        cards.add(c12);
-        cards.add(c13);
-        cards.add(c14);
-        cards.add(c15);
-        cards.add(c16);
-        cards.add(c17);
-        cards.add(c18);
-        cards.add(c19);
-        cards.add(c20);
-        cards.add(c21);
-        cards.add(c22);
-        cards.add(c23);
-        cards.add(c24);
-        cards.add(c25);
-        cards.add(c26);
-        cards.add(c27);
-        cards.add(c28);
-        cards.add(c29);
-        cards.add(c30);
-        cards.add(c31);
-        cards.add(c32);
-        cards.add(c33);
-        cards.add(c34);
-        cards.add(c35);
-        cards.add(c36);
-        cards.add(c37);
-        cards.add(c38);
-        cards.add(c39);
-        cards.add(c40);
-        cards.add(c41);
-        cards.add(c42);
+        for (Country c:map.countries
+             ) {
+            cards.add(new Card(c, Card.TroopsType.ARTILLERY));
+        }
 
         return map;
-    }
-    private void render(Map map){
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (Exception e) {
-            System.out.println("Error clearing screen");}
-System.out.printf(" \n" +
-        "                                                                                                                                                                                                                                                                                         +--------------------+\n" +
-        "                                                                                                                                                                                                                                     +-----------------------------+---------------------+                    |\n" +
-        "                                                                                                                                                                                                                         +-----------+                             |                     |                    | <--+  Alaska\n" +
-        "                                              +----+                              +------------------+                                                                                                                   |                                         |                     |                    |\n" +
-        "                                              |    | <--------------------------> |                  |                                                                                                           +------++                                    +----+    Yakutsk          |                    |\n" +
-        "                                              |    |                              |                  |                                                                                                           |      |                                     |                          |                +---+\n" +
-        "               +------------+-----------------+    |           +----------------> |  Greenland       |                                         +-------------------+                                             |      |                                     |                  +-------+                |\n" +
-        "               |            |                      |           |                  |                  |       +--------------+                  |                   +------------+            +-------------------+      |                                     |                  |                        |\n" +
-        "Kamchatka +--> |   Alaska   | Northwest Territory  +------+    |  +-----------+   |+                 |       |              |                  |                   |            |            |                   |      |                                     |                  |                        |\n" +
-        "               |%12.12s|                      |      | <--+  |           |    +----+            |       |              |        +---------+                   |            +------------+                   |      |                                     |                  |          Kamchatka     |\n" +
-        "               +-----+------+-------------------+--+      +-- ----+           |         |            |       |              |        |    Scandinavia              |                                             |      +----+                                +------------------+                        |\n" +
-        "                     |                          |                 |  Quebec   |         |            |       |   Iceland    | <----> |                 +----+      |                                             |           |               Siberia          |                  |                        |\n" +
-        "                     |           Alberta        |                 |           |         |            | <---> |              |        |                 |    |      |                                             |           |                            +---+                  |                        |\n" +
-        "                     |                          |    Ontario      |           | <-----> |            |  +--> |              |        |                 |    |      |                                             |           |                            |        Irkutsk       +-+                      |\n" +
-        "                     +------+                   |                 |           |         |     +------+  |    +--------------+        +----+         +--+    +------+                                             |           +-------+                    |                        |         -------+     |\n" +
-        "                            |                   |                 |           |         |     |         |                      +--------> |         |                                                            |                   |                    |                        |         |      |     |\n" +
-        "                    +-------+--------------+----+-----------------+----+------+         |     |         |   +-----+            |          +--+----+-+                                                            |    Ural           |                    |                        |         |      |     |\n" +
-        "                    |                      |                           |                +-----+         |   |     |            |             |    |                                                              |                   |              +-----+------------------------+--+      |      |     |\n" +
-        "                    |                      |                           |                                +-> |     | <----------+             |    |                                                              |                   +----+         |                                 |      |      |     |\n" +
-        "                    |    Western United    |                           |                                    |     |                +---------+    |                                                +-------------+------+                 |         |                                 |      |      +-----+\n" +
-        "                    |        States        |         Easter United     |                              +-----+     +--+             |              |                                                |                    |                 |         |                                 |      |\n" +
-        "                    |                      |             States        |                              |              |             |              |                       Ukraine                  |                    |                 |         |                                 |      |             +----------+\n" +
-        "                    |                      |                           |                        +---> |Great Britain | <---------> |              +---+                                            |                    |                 +---------+               Mongolia          |      |  <--------> |          |\n" +
-        "                    +----+-----------------+                           |                        |     |              |             |                  |                                            |                    +------------+----+         |                                 |      |             |          |\n" +
-        "                         |                 |                           |                        |     |              |     +-------+                  |                                            |                                 |              |                                 ------++             |          |\n" +
-        "                         |                 +-------------+--------+    |                        |     +---------+    |     |                          |                                            |                                 |              +----------+                            |              |          |\n" +
-        "                         |                               |        |    |                        |               |    |     |    Northern Europe       |                                            |             Afganistan          |                         |                            |              |          |\n" +
-        "                         |                               |        +----+                        |               +----+     |                          |                                            |                                 |                         +-----------+          ------+              |  Japan   |\n" +
-        "                         |+        Central America       |                                      |                  +-------+--------+-----------------+----+                                       |                                 |                                     |          |                    |          |\n" +
-        "                          |                              |                                      |                  |                |                      |                                       |                                 |                                     |          |  <---------->  +---+          |\n" +
-        "                          +-----+                        |                                      +----------------> | Western Europe |    Southern Europe   |                                       |                                 |                                     +-----+----+                |              |\n" +
-        "                                |                        |                                                         |                |                      |                                       |                                 |                                           |                     |              |\n" +
-        "                                +----+                   |                                                         |           |----+-----+                +------------------------+              |                            -----+                China                      |                     |         +----+\n" +
-        "                                     |                   +------+                                                +--           |          |                |                        |              |                            |                                                |                     |         |\n" +
-        "                                     +-----+                    |                                                |             |          |                |                        |              +-------------+--------------+                                                |                     |         |\n" +
-        "                                            +                   |                                                |             |          +---+     +------+                        |              |             |              |                                                |                     +---------+\n" +
-        "                                            +-----------+       |                                                |           +-+              |     |      +----------+             +--------------+         +---+              --------------+                                 ++\n" +
-        "                                                        |       |  +------------------------+                    |           |                |     | <--+            |                                      |                                |                                 |\n" +
-        "                                                        |       |  |   Venezuela            |                    +--------+  |                +-----+    |            |                                      |                                |                                 |\n" +
-        "                                                        |       +--+                        |                             |  |                           |            |         Middle East                  |                                |                               +-+\n" +
-        "                                                        |          |              +---------+------------+                +--+------------+              |            |                                      |                                |                               |\n" +
-        "                                                        +----------+              |                      |                |               +--------+     |            |                                      |                                 +                              |                                      +------------+\n" +
-        "                                                                   |              |                      |                |               |        | <---+            |                                      |                                 +---+--------+                 |                                      |            |\n" +
-        "                                                             +-----+---+          |                      +--------+       +-+             +--+     +----- ------------+--+                                   |                                     |        |                 |                                 +--> |  New       | <--------------+\n" +
-        "                                                             |         |          |                               |         |                |                           |                                   |                                     |        +-----------+-----+                                 |    |  Guinea    | <----+         |\n" +
-        "                                                             |         +----------+                               |         |                |          Egypt            +---------------+                   |                                     |                    |                                       |    |            |      |         |\n" +
-        "                                                             |         |                                          |         |                |                           |               |                   |                India                |   Southeast Asia   |                +-----------------+    |    |            |      |         |\n" +
-        "                                                             |         |                    Brazil                | <-----> |                |                           |               |                   |                                     |                    |                |                 | <--+    +------------+      |         |\n" +
-        "                                                             |         |                                         ++         |                +---------------------+-----+------+        +-------+           |                                     |                    |                |                 |                             |         |\n" +
-        "                                                             |         |                                         |          |                                      |            |                |           |                                 +---+---------+          |        +-------+                 |                             |         |\n" +
-        "                                                             |         +--------+                         +------+          |       North Africa                   |            +--------+       |           +--------+                        |             |          |        |                   +-----+    +------------------------+         |\n" +
-        "                                                             |                  |                         |                 |                                      |                     |   +-> |           |        |                        |             |          |        |                   |          |                                  |\n" +
-        "                                                             |       Peru       |                         |                 |                               +------+                     |   |   +-----------+        |                        |             |          | <----> |       Indonesia   |          |                                  |\n" +
-        "                                                             |                  +---------+               |                 +----------+                    |      |   East Africa       | <-+                        |                   +----+             |          |        |                   | <----+   |      ------+-------------+       |\n" +
-        "                                                             |                            |               |                            |                    |      |                     | <-----------+              +----+              |                  +----------+        |       +-----------+      |   |      |     |             |       |\n" +
-        "                                                             +-------+                    |               |                            +-----+--------------+      +--+                  |             |                   |              |                                      |       |                  |   +----> |     |             |  <----+\n" +
-        "                                                                     |                    |               |                                  |                        |             -+---+             |                   |              |                                      +-------+                  |          |     |             |\n" +
-        "                                                                     +-------+            +---------------+                                  |      Congo             |              |                 |                   |            +-+                                                                 +--------> |     |             |\n" +
-        "                                                                     |       |                            |                                  |                        |              |                 |                   +----+       |                                                                              |     |             |\n" +
-        "                                                                     |       |                            |                                  |                        |              |                 |                        |       |                                                         +--------------------+    ++             +--------+\n" +
-        "                                                                     |       +------------+---------------+                                  +-----+-------+          +---+    +-----+                 |                        +--+    |                                                         |                         |                       |\n" +
-        "                                                                     |                    |                                                        |       |              |    |                       |                           |    |                                                         |                         |                       |\n" +
-        "                                                                     |                    |                                                        |       |              |    |           +-----+     |                           +----+                                                         |                         |      Eastern          |\n" +
-        "                                                                     +-----+   Argentina  |                                                        |       +----+         |    |           |     | <---+                                                                                          |                         |      Australia        |\n" +
-        "                                                                           |              |                                                        |            +---------+---++           |     |                                                                                                |                         |                       |\n" +
-        "                                                                           |              |                                                        |                          |      +-----+     +----+                                                                                           |                         |                       |\n" +
-        "                                                                           |              |                                                        |                          |      |                |                                                                                           |        Western          |                       |\n" +
-        "                                                                           |              |                                                        |          South Africa    | <--> |  Madagascar    |                                                                                      +----+        Australia        +-----+                 +---+\n" +
-        "                                                                           +----+         |                                                        |                          |      |                |                                                                                      |                                    |                     |\n" +
-        "                                                                                |         |                                                        +----+                     |      +----------------+                                                                                      |                                    |                     |\n" +
-        "                                                                                |         |                                                             |             +-------+                                                                                                              |                                    |                     |\n" +
-        "                                                                                +----+    |                                                             |             |                                                                                                                      |                                    |                     |\n" +
-        "                                                                                     |    +-----+                                                       |             |                                                                                                                      |                                    |                 ----+\n" +
-        "                                                                                     |          |                                                       +-----+       |                                                                                                                      |                                    |                 |\n" +
-        "                                                                                     +----------+                                                             |       |                                                                                                                      +---+               +----------+-----+                 |\n" +
-        "                                                                                                                                                              +-------+                                                                                                                          |               |          |                       |\n" +
-        "                                                                                                                                                                                                                                                                                                 +---------------+          |                       |\n" +
-        "                                                                                                                                                                                                                                                                                                                            |                       |\n" +
-        "                                                                                                                                                                                                                                                                                                                            +-----------------------+\n",map.countries.get(0).getOwner().getName()+"("+map.countries.get(0).getTroops()+")");
     }
 }
