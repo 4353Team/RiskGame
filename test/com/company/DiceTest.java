@@ -29,15 +29,23 @@ public class DiceTest {
         boolean attackerWins = attacker_maxFace > defender_maxFace;
         boolean foundDice = false;
         for (int i = 0; i < size; i++) {
-            int compareTo = attacker.get(i).compareTo(defender.get(i));
-            if(attackerWins && compareTo > 0 && !foundDice) {
-                foundDice = attacker.get(i).getFaceValue() == attacker_maxFace;
+            for (int j = 0; j < size; j++) {
+                int compareTo = attacker.get(i).compareTo(defender.get(j));
+                if(attackerWins && compareTo > 0 && !foundDice) {
+                    foundDice = attacker.get(i).getFaceValue() == attacker_maxFace;
+                }
+                if (!attackerWins && compareTo <= 0 && !foundDice) {
+                    foundDice = defender.get(j).getFaceValue() == defender_maxFace;
+                }
             }
-            if (!attackerWins && compareTo <= 0 && !foundDice) {
-                foundDice = defender.get(i).getFaceValue() == defender_maxFace;
-            }
+
         }
-        assert foundDice: "Could not find the max dice, compare to function is likely broken";
+        assert foundDice || attacker_maxFace == defender_maxFace: "Could not find the max dice, compareTo function is likely " +
+                "broken: \n" +
+                "attacker: " + attacker + System.lineSeparator() +
+                "defender: " + attacker + System.lineSeparator() +
+                "attacker_Max: " + attacker_maxFace + System.lineSeparator() +
+                "defender_Max: " + defender_maxFace + System.lineSeparator();
     }
 
     @Test
