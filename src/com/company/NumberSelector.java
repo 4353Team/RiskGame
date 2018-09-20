@@ -85,7 +85,9 @@ public class NumberSelector extends JComponent implements MouseListener {
                 g.fillRect(coordinate.getX() + (i - 1) * dimension.getWidth(), coordinate.getY(), dimension.getWidth(), dimension.getHeight());
                 g.setColor(Color.black);
                 g.drawRect(coordinate.getX() + (i - 1) * dimension.getWidth(), coordinate.getY(), dimension.getWidth(), dimension.getHeight());
-                g.drawString(i + "", coordinate.getX() + (i - 1) * dimension.getWidth() + dimension.getWidth() / 2 - 3, coordinate.getY() + dimension.getHeight() / 2 + 4);
+                g.drawString(i + "", coordinate.getX() + (i - 1) * dimension.getWidth() + dimension.getWidth() / 2 - 3, coordinate.getY() + dimension.getHeight() / 2 + 6);
+                g.setFont(new Font("TimeRoman", Font.PLAIN, 10));
+
             }
         }
     }

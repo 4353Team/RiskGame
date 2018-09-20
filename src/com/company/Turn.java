@@ -29,6 +29,7 @@ public class Turn {
     }
     public Player nextTurn(Player currentPlayer){
         if (!players.isEmpty()) {
+            Game.totalTurnsCounter++;
             totalTurnsCounter++;
             // if currentPlayer is last in the list point to the beginning
             if (players.indexOf(currentPlayer) + 1 >= players.size()) {

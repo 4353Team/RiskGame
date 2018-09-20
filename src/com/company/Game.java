@@ -1,28 +1,40 @@
 package com.company;
 
-import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
+
 import java.util.concurrent.TimeUnit;
 
-public class Game extends JFrame {
+public class Game extends JFrame implements MouseMotionListener, MouseListener {
     private int maxPlayers = 6;
     private int minPlayers = 2;
-    private int initialInfantryCount = 0;
-    public Map map;
-    private Country territorySelected = null;
-    boolean show = false;
+    public Map map; // map of the world ( implemented as a graph of linked list)
     public List<Player> players;
     public Dice gameDice;
     private Stack<Card> cardStack;
     public List<Card> cards;
+    private boolean highlighted = false;
+    private int initialInfantryCount = 0;
+    private Country territorySelected = null;
+    public String risk ="\n" +
+            " ██▀███   ██▓  ██████  ██ ▄█▀\n" +
+            "▓██ ▒ ██▒▓██▒▒██    ▒  ██▄█▒ \n" +
+            "▓██ ░▄█ ▒▒██▒░ ▓██▄   ▓███▄░ \n" +
+            "▒██▀▀█▄  ░██░  ▒   ██▒▓██ █▄ \n" +
+            "░██▓ ▒██▒░██░▒██████▒▒▒██▒ █▄\n" +
+            "░ ▒▓ ░▒▓░░▓  ▒ ▒▓▒ ▒ ░▒ ▒▒ ▓▒\n" +
+            "  ░▒ ░ ▒░ ▒ ░░ ░▒  ░ ░░ ░▒ ▒░\n" +
+            "  ░░   ░  ▒ ░░  ░  ░  ░ ░░ ░ \n" +
+            "   ░      ░        ░  ░  ░   \n" + "\n";
    // private int turn = 0;
-    private static int totalTurnsCounter = 0;
+    public static int totalTurnsCounter = 0;
     private int phase = 0;
     private int numberOfPlayers = 0;
     private int setsOfRiskCardsTraded = 0;
@@ -55,110 +67,9 @@ public class Game extends JFrame {
         numSelector.setLowerBound(1);
         numSelector.setUpperBound(6);
         numSelector.setVisible(false);
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                super.mouseReleased(e);
-         //       paintComponents(getGraphics());
 
-                for (InfoBox b :
-                        controlBoxes) {
-                    if (b.contains(e.getPoint())){
-                        b.setBackgrounColor(turn.getTurnPlayer().getPlayerColor());
-                    }
-
-                }
-                if(nextBox.contains(e.getPoint())){
-              //      turn.setTurnPlayer(turn.nextTurn(turn.getTurnPlayer()));
-                    turn.nextGamePhase();
-                 //   System.out.println(turn.getTurnPlayer().getName());
-//                   / System.exit(0);
-                }
-
-
-                for (Country c : map.countries) {
-                    if (c.contains(e.getPoint())) {
-
-                        if (totalTurnsCounter <= 42) {
-                            if (c.getOwnedBy() == null) {
-                                c.addOneInfantry(turn.getTurnPlayer());
-                                turn.getTurnPlayer().addTerritory(c);
-                                turn.setTurnPlayer(turn.nextTurn(turn.getTurnPlayer()));
-                                System.out.println(totalTurnsCounter);
-                                System.out.println(cards.get(0).getTerritory().getName());
-
-
-                            }
-                        }
-                        System.out.println(turn.getTurnPlayer().getTotalInitialTroops());
-                        if (turn.getTurnPlayer().getTerritories().contains(c) && turn.getTurnPlayer().getTotalInitialTroops() < 0 && totalTurnsCounter >= 42) {
-                            c.addOneInfantry(turn.getTurnPlayer());
-                            turn.getTurnPlayer().addTerritory(c);
-
-                            turn.setTurnPlayer(turn.nextTurn(turn.getTurnPlayer()));
-//                            c.drawSelected(getGraphics(),true);
-
-
-                        }
-                        boolean con = true;
-                        for (Player p : players
-                        ) {
-                            System.out.println(p.getTotalInitialTroops());
-                            if (p.getTotalInitialTroops() > 0)
-                                con = false;
-                        }
-                        if (con) {
-                            territorySelected = c;
-                        }
-                        System.out.println(con);
-                        boolean defense = false;
-                        territorySelected = c;
-
-                        if (turn.getGamePhase() == GamePhase.DRAFT){
-                            if (turn.getTurnPlayer().getTerritories().contains(c)) {
-                                numSelector.setVisible(true);
-                                draftTroops(c,3);
-
-                                turn.nextGamePhase();
-                            }
-
-                        } else if (turn.getGamePhase() == GamePhase.ATTACK) {
-
-                                if (!attackSelected) {
-                                    if (turn.getTurnPlayer().getTerritories().contains(c) && c.getTroops() > 1) {
-                                        c.drawSelected(getGraphics(), GamePhase.ATTACK);
-                                        attackingCountry = c;
-                                        System.out.println("attacking country: " + attackingCountry.getName());
-                                        attackSelected = true;
-                                        defenseSelected = false;
-
-                                    }
-                                }
-                                if (!defenseSelected) {
-                                    if (attackingCountry.getNeighbors().contains(c)) {
-                                        defendingCountry = c;
-                                        System.out.println("defending country: " + defendingCountry.getName());
-                                        attack(attackingCountry, defendingCountry);
-                                        c.drawSelected(getGraphics(), GamePhase.ATTACK);
-                                        attackSelected = true;
-                                        defenseSelected = true;
-
-                                    }
-                                }
-
-
-
-                        }
-
-                    } else {
-                        attackSelected = false;
-                        defenseSelected = false;
-                    }
-            }
-                     paintComponents(getGraphics());
-            }
-        });
-
+        addMouseMotionListener(this);
+        addMouseListener(this);
 
         setDefaultLookAndFeelDecorated(true);
 
@@ -170,17 +81,9 @@ public class Game extends JFrame {
         System.out.println("rendering");
 
 
-        System.out.println(("\n" +
-        " ██▀███   ██▓  ██████  ██ ▄█▀\n" +
-        "▓██ ▒ ██▒▓██▒▒██    ▒  ██▄█▒ \n" +
-        "▓██ ░▄█ ▒▒██▒░ ▓██▄   ▓███▄░ \n" +
-        "▒██▀▀█▄  ░██░  ▒   ██▒▓██ █▄ \n" +
-        "░██▓ ▒██▒░██░▒██████▒▒▒██▒ █▄\n" +
-        "░ ▒▓ ░▒▓░░▓  ▒ ▒▓▒ ▒ ░▒ ▒▒ ▓▒\n" +
-        "  ░▒ ░ ▒░ ▒ ░░ ░▒  ░ ░░ ░▒ ▒░\n" +
-        "  ░░   ░  ▒ ░░  ░  ░  ░ ░░ ░ \n" +
-        "   ░      ░        ░  ░  ░   \n" + "\n"));
 
+
+        System.out.println(risk);
 
         List<Color> playerColors = new ArrayList<>();
         playerColors.add(new Color(181 ,45,69));
@@ -362,6 +265,7 @@ public class Game extends JFrame {
 
             List<Country> playerTerritoryThatCanAttack;
             do {
+
                 System.out.println();
                 List<Country> playerTerritory = getTerritoriesOwnedBy(turn.getTurnPlayer());
 
@@ -409,7 +313,7 @@ public class Game extends JFrame {
 
                 } catch (Exception e) {}
                 if (attackingCountry != null && defendingCountry != null)
-                    attack(attackingCountry,defendingCountry);
+               //     attack(attackingCountry,defendingCountry);
                 try {
 
 
@@ -438,7 +342,6 @@ public class Game extends JFrame {
                 turn.getTurnPlayer().cards.add(c);
 
                 System.out.println(turn.getTurnPlayer().getName() + " pulled " + c.toString() + " card");
-
             }
 
        //     turnPlayer = nextTurn(turnPlayer);
@@ -660,8 +563,6 @@ public class Game extends JFrame {
             }
         }
 
-
-
         return tp;
     }
      private boolean controlsContinent(Player p) {
@@ -759,25 +660,26 @@ public class Game extends JFrame {
                 if (n.getOwnedBy() != player) add = true;
 
             }
-
-
             if ((c.getTroops() > 1) && add) contryPlayerCanAttackFrom.add(c);
         }
         return contryPlayerCanAttackFrom;
     }
 
-    private void paintPlayerDashBaord(Graphics g){
+    private void paintPlayerDashBoard(Graphics g){
+
         //if (attackingCountry.getTroops()==1) {
           //  attackingCountry = null;
         //}
         numSelector.paintComponents(g);
-        if (attackingCountry != null)
-            attackingCountry.drawSelected(g,GamePhase.ATTACK);
 
-        if(turn.getGamePhase() == GamePhase.DRAFT) {
+
+
+        if (turn.getGamePhase() == GamePhase.ATTACK) {
+            attackingCountry.drawAttackPhase(g);
+        } else if(turn.getGamePhase() == GamePhase.DRAFT) {
             for (Country c:turn.getTurnPlayer().getTerritories()
                  ) {
-                c.drawSelected(g,turn.getGamePhase());
+                c.drawDraftPhase(g);
             }
         }
 
@@ -843,7 +745,6 @@ public class Game extends JFrame {
             g.setColor(Color.darkGray);
             g.fillRect(20,940-i*35,playerWidth,playerHeight);
             g.fillRect(20+playerWidth+5,940-i*35, 10, playerHeight);
-
         }
 
 
@@ -873,16 +774,23 @@ public class Game extends JFrame {
                 //g.fillRect(140,800,120,170);
                 c.setCoordinate(new Location(140+turn.getTurnPlayer().cards.indexOf(c)*140,800));
                 c.paintComponents(g);
+
             }
         }
+
+
     }
 
     private void animate(Graphics g) {
+
         for (Country c:
                 map.countries) {
             c.paintComponents(g);
+
         }
-        paintPlayerDashBaord(g);
+        paintPlayerDashBoard(g);
+
+
     }
 
     @Override
@@ -909,5 +817,140 @@ public class Game extends JFrame {
         }
 
         return map;
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        for (InfoBox b :
+                controlBoxes) {
+            if (b.contains(e.getPoint())){
+                b.setBackgrounColor(turn.getTurnPlayer().getPlayerColor());
+            }
+
+        }
+        if(nextBox.contains(e.getPoint())){
+            //      turn.setTurnPlayer(turn.nextTurn(turn.getTurnPlayer()));
+            turn.nextGamePhase();
+            //   System.out.println(turn.getTurnPlayer().getName());
+//                   / System.exit(0);
+        }
+
+
+        for (Country c : map.countries) {
+            if (c.contains(e.getPoint())) {
+
+                if (totalTurnsCounter <= 42) {
+                    if (c.getOwnedBy() == null) {
+                        c.addOneInfantry(turn.getTurnPlayer());
+                        turn.getTurnPlayer().addTerritory(c);
+                        turn.setTurnPlayer(turn.nextTurn(turn.getTurnPlayer()));
+                        System.out.println(totalTurnsCounter);
+                        System.out.println(cards.get(0).getTerritory().getName());
+
+
+                    }
+                }
+                System.out.println(turn.getTurnPlayer().getTotalInitialTroops());
+                if (turn.getTurnPlayer().getTerritories().contains(c) && turn.getTurnPlayer().getTotalInitialTroops() < 0 && totalTurnsCounter >= 42) {
+                    c.addOneInfantry(turn.getTurnPlayer());
+                    turn.getTurnPlayer().addTerritory(c);
+
+                    turn.setTurnPlayer(turn.nextTurn(turn.getTurnPlayer()));
+//                            c.drawSelected(getGraphics(),true);
+
+
+                }
+                boolean con = true;
+                for (Player p : players
+                ) {
+                    System.out.println(p.getTotalInitialTroops());
+                    if (p.getTotalInitialTroops() > 0)
+                        con = false;
+                }
+                if (con) {
+                    territorySelected = c;
+                }
+                System.out.println(con);
+                boolean defense = false;
+                territorySelected = c;
+
+                if (turn.getGamePhase() == GamePhase.DRAFT){
+                    if (turn.getTurnPlayer().getTerritories().contains(c)) {
+                        numSelector.setVisible(true);
+                        draftTroops(c,3);
+
+                        turn.nextGamePhase();
+                    }
+
+                } else if (turn.getGamePhase() == GamePhase.ATTACK) {
+
+                    if (!attackSelected) {
+                        if (turn.getTurnPlayer().getTerritories().contains(c) && c.getTroops() > 1) {
+                            c.drawAttackPhase(getGraphics());
+                            attackingCountry = c;
+                            System.out.println("attacking country: " + attackingCountry.getName());
+                            attackSelected = true;
+                            defenseSelected = false;
+
+                        }
+                    }
+                    if (!defenseSelected) {
+                        if (attackingCountry.getNeighbors().contains(c)) {
+                            defendingCountry = c;
+                            System.out.println("defending country: " + defendingCountry.getName());
+                            attack(attackingCountry, defendingCountry);
+                            c.drawAttackPhase(getGraphics());
+                            attackSelected = true;
+                            defenseSelected = true;
+
+                        }
+                    }
+                } else if (turn.getGamePhase() == GamePhase.FORTIFY) {
+                    System.exit(0);
+                    attackSelected = false;
+                    defenseSelected = false;
+                    attackingCountry = null;
+                    defendingCountry = null;
+
+
+
+                    c.drawFortifyPhase(getGraphics());
+                }
+
+            } else {
+                attackSelected = false;
+                defenseSelected = false;
+            }
+        }
+        paintComponents(getGraphics());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }

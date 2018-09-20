@@ -105,77 +105,75 @@ public class Country extends JFrame {
         g.drawRect(this.coordinate.getX()-4,this.coordinate.getY()-4,getDimension().getWidth()+8,getDimension().getHeight()+8);
 
     }
-    public void drawSelected(Graphics g, GamePhase gamePhase) {
+
+    public void drawDraftPhase(Graphics g) {
+
         int circleSize = 30;
-        if (gamePhase == GamePhase.ATTACK) {
-            // rattackingoval
+        int xxx = getCoordinate().getCenter(getDimension().getWidth(), getDimension().getHeight()).getX();
+        int yyy = getCoordinate().getCenter(getDimension().getWidth(), getDimension().getHeight()).getY();
+        int xx = coordinate.getCenter(dimension.getWidth(), dimension.getWidth()).getX() - circleSize / 2;
+        int yy = coordinate.getCenter(dimension.getHeight(), dimension.getHeight()).getY() - circleSize / 2;
+        g.setColor(Color.white);
 
-            int x = coordinate.getCenter(dimension.getWidth(), dimension.getWidth()).getX() - circleSize / 2;
-            int y = coordinate.getCenter(dimension.getHeight(), dimension.getHeight()).getY() - circleSize / 2;
-
-            Graphics2D g2d = (Graphics2D) g;
-            for (Country c : neighbors
-            ) {
-                if (c.getOwnedBy() == this.getOwnedBy()) {
-                    g.setColor(Color.darkGray);
-                } else {
-                    g.setColor(Color.white);
-                }
-                int xx = c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getWidth()).getX() - circleSize / 2;
-                int yy = c.getCoordinate().getCenter(c.getDimension().getHeight(), c.getDimension().getHeight()).getY() - circleSize / 2;
-
-                g2d.setStroke(new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 10));
-
-                g.drawLine(x + circleSize / 2, y + circleSize / 2, xx + circleSize / 2, yy + circleSize / 2);
-                g.fillOval(xx, yy, circleSize, circleSize);
-
-                // g2d.setStroke(new BasicStroke(circleSize/10));
-                int xxx = c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getX();
-                int yyy = c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getY();
-                String num = String.valueOf(c.getTroops());
-                if (c.getOwnedBy() == this.getOwnedBy()) {
-                    g.setColor(Color.gray);
-                } else {
-                    g.setColor(Color.red);
-                }
-                g.setFont(new Font("TimeRoman", Font.PLAIN, 14));
-                g.drawString(num, xxx - (num.length() * 4), yyy + 6);
+        g.fillOval(xx, yy, circleSize, circleSize);
+        g.setColor(Color.black);
+        circleSize = circleSize -1;
 
 
-                xxx = getCoordinate().getCenter(getDimension().getWidth(), getDimension().getHeight()).getX();
-                yyy = getCoordinate().getCenter(getDimension().getWidth(), getDimension().getHeight()).getY();
+        g.setFont(new Font("TimeRoman", Font.PLAIN, 14));
+        String yx = getTroops()+"";
+        g.drawString(yx, xxx - (yx.length() * 4), yyy + 6);
+        g.setFont(new Font("TimeRoman", Font.PLAIN, 10));
+    }
+    public void drawAttackPhase(Graphics g) {
+        int circleSize = 30;
+        int x = coordinate.getCenter(dimension.getWidth(), dimension.getWidth()).getX() - circleSize / 2;
+        int y = coordinate.getCenter(dimension.getHeight(), dimension.getHeight()).getY() - circleSize / 2;
+
+        Graphics2D g2d = (Graphics2D) g;
+        for (Country c : neighbors
+        ) {
+            if (c.getOwnedBy() == this.getOwnedBy()) {
+                g.setColor(Color.darkGray);
+            } else {
                 g.setColor(Color.white);
-                //   g2d.setStroke(new BasicStroke(circleSize-24));
-                g.fillOval(x, y, circleSize, circleSize);
-                g.setColor(new Color(20, 160, 30));
-                g.setFont(new Font("TimeRoman", Font.PLAIN, 14));
-                String yx = getTroops()+"";
-                g.drawString(yx, xxx - (yx.length() * 4), yyy + 6);
-                g.setFont(new Font("TimeRoman", Font.PLAIN, 10));
             }
-        } else if (gamePhase == GamePhase.DRAFT){
+            int xx = c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getWidth()).getX() - circleSize / 2;
+            int yy = c.getCoordinate().getCenter(c.getDimension().getHeight(), c.getDimension().getHeight()).getY() - circleSize / 2;
 
-            int xxx = getCoordinate().getCenter(getDimension().getWidth(), getDimension().getHeight()).getX();
-            int yyy = getCoordinate().getCenter(getDimension().getWidth(), getDimension().getHeight()).getY();
-            int xx = coordinate.getCenter(dimension.getWidth(), dimension.getWidth()).getX() - circleSize / 2;
-            int yy = coordinate.getCenter(dimension.getHeight(), dimension.getHeight()).getY() - circleSize / 2;
-            g.setColor(Color.white);
+            g2d.setStroke(new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 10));
+
+            g.drawLine(x + circleSize / 2, y + circleSize / 2, xx + circleSize / 2, yy + circleSize / 2);
             g.fillOval(xx, yy, circleSize, circleSize);
-            g.setColor(Color.black);
 
+            // g2d.setStroke(new BasicStroke(circleSize/10));
+            int xxx = c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getX();
+            int yyy = c.getCoordinate().getCenter(c.getDimension().getWidth(), c.getDimension().getHeight()).getY();
+            String num = String.valueOf(c.getTroops());
+            if (c.getOwnedBy() == this.getOwnedBy()) {
+                g.setColor(Color.gray);
+            } else {
+                g.setColor(Color.red);
+            }
+            g.setFont(new Font("TimeRoman", Font.PLAIN, 14));
+            g.drawString(num, xxx - (num.length() * 4), yyy + 6);
+
+
+            xxx = getCoordinate().getCenter(getDimension().getWidth(), getDimension().getHeight()).getX();
+            yyy = getCoordinate().getCenter(getDimension().getWidth(), getDimension().getHeight()).getY();
+            g.setColor(Color.white);
+            //   g2d.setStroke(new BasicStroke(circleSize-24));
+            g.fillOval(x, y, circleSize, circleSize);
+            g.setColor(new Color(20, 160, 30));
             g.setFont(new Font("TimeRoman", Font.PLAIN, 14));
             String yx = getTroops()+"";
             g.drawString(yx, xxx - (yx.length() * 4), yyy + 6);
             g.setFont(new Font("TimeRoman", Font.PLAIN, 10));
-
         }
-
-
-
-
+    }
+    public void drawFortifyPhase(Graphics g) {
 
     }
-
 
     public void paintComponents(Graphics g) {
      //   super.paintComponents(g);
@@ -201,6 +199,14 @@ public class Country extends JFrame {
         g.drawString(num,x-(num.length()*5),y+8);
         g.setFont(new Font("Dialog",Font.PLAIN,10));
         g.drawString(getName().toUpperCase(),coordinate.getX()+5,coordinate.getY()+15);
+    }
+    public void drawBorder(Graphics g){
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setStroke(new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 10));
+        g.setColor(Color.white);
+        g.drawRect(this.coordinate.getX(),this.coordinate.getY(),getDimension().getWidth(),getDimension().getHeight());
+
     }
 
 
