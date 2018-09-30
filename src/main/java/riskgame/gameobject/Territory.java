@@ -5,6 +5,8 @@ import riskgame.gameobject.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class Territory {
     String name;
@@ -17,6 +19,12 @@ public class Territory {
         armies = 0;
     }
 
+    public Territory(Player p1, String name) {
+        controlledBy = p1;
+        armies = 0;
+        this.name = name;
+    }
+
     public void addArmies(int numArmies) {
         armies = armies + numArmies;
     }
@@ -25,7 +33,7 @@ public class Territory {
         armies = armies - numArmies;
     }
 
-    private Player getControlledBy() {
+    public Player getControlledBy() {
         return this.controlledBy;
     }
 
@@ -41,8 +49,16 @@ public class Territory {
     public static class Attack implements Command {
         private Territory attackingTerritory;
         private Territory defendingTerritory;
-        private int changeInArmies_attacking = 0;
-        private int changeInArmies_defending = 0;
+
+        private Player defendingPlayerBefore;
+
+        int attackingArmyBefore;
+        int defendingArmyBefore;
+
+        private int attackingArmyAfter;
+        private int defendingArmyAfter;
+
+        Territory gainedTerritoryByAttacker = null;
 
         public Attack(Territory attacking, Territory defending) {
             this.attackingTerritory = attacking;
@@ -50,21 +66,81 @@ public class Territory {
         }
 
         @Override
-        public void execute() {
+        public void execute() throws IllegalExecutionException {
+            if (attackingTerritory.getControlledBy() == defendingTerritory.getControlledBy())
+                throw new IllegalExecutionException(new SelfAttackException());
+            attackingArmyBefore = attackingTerritory.getArmies();
+            defendingArmyBefore = defendingTerritory.getArmies();
+            defendingPlayerBefore = defendingTerritory.getControlledBy();
+
             int attackDices = (attackingTerritory.getArmies() - 1) > 3 ? 3 : (attackingTerritory.getArmies() - 1);
             int defenseDices = (defendingTerritory.getArmies() > 2) ? 2 : 1;
+
+            Dice dice = new Dice();
+
+            List<Integer> attackingNums = dice.roll(attackDices).diceFaces;
+            List<Integer> defendingNums = dice.roll(defenseDices).diceFaces;
+
+            int lowest = (attackDices > defenseDices) ? defenseDices : attackDices;
+            int numberAttackersRemoved = 0;
+            for (int i = 0; i < lowest;i++) {
+                if (attackingNums.get(i) > defendingNums.get(i)) {
+                    // attack winner
+                    System.out.println(attackingTerritory.getName() + " wins");
+                    defendingTerritory.removeArmies(1);
+                    if (defendingTerritory.getArmies() == 0) { // if invaded
+                        defendingTerritory.setControlledBy(attackingTerritory.getControlledBy());
+                        gainedTerritoryByAttacker = defendingTerritory;
+                        // occupy territory
+                        System.out.println(attackingTerritory.getName() + " captures " + defendingTerritory.getName() + "!!");
+                        //territoriesCapturedThisTurn += 1;
+
+                        int movetroops = 2;
+
+                        System.out.printf("%s decides to move %d troop%s from %s to %s\n", attackingTerritory.getName(), movetroops, (movetroops == 1) ? "" : "s", attackingTerritory.getName(), defendingTerritory.getName());
+                        if (attackingTerritory.getArmies() - movetroops >= 1) {
+                            defendingTerritory.setArmies(movetroops);
+                            defendingTerritory.setControlledBy(attackingTerritory.getControlledBy());
+                            attackingTerritory.getControlledBy().addTerritory(defendingTerritory);
+                            defendingTerritory.getControlledBy().removeTerritory(defendingTerritory);
+                            attackingTerritory.removeArmies(movetroops);
+                        } else
+                            System.out.println("Cannot move " + movetroops + ". You need to leave at least one troop behind.");
+                    }
+                } else {
+                    // defense winner
+                    System.out.println("defender" + " wins");
+                    if (numberAttackersRemoved < 2)
+                        attackingTerritory.removeArmies(1);
+                    numberAttackersRemoved += 1;
+                }
+                attackingArmyAfter = attackingTerritory.getArmies();
+                defendingArmyAfter = defendingTerritory.getArmies();
+            }
         }
 
         @Override
         public void undo() throws IllegalUndoException {
-            try {
-                attackingTerritory.changeArmies(changeInArmies_attacking);
-                defendingTerritory.changeArmies(changeInArmies_defending);
-            } catch (NegativeArmiesException e) {
-                throw new IllegalUndoException(e);
+            attackingTerritory.setArmies(attackingArmyBefore);
+            defendingTerritory.setArmies(defendingArmyBefore);
+            if (gainedTerritoryByAttacker != null) {
+                attackingTerritory.getControlledBy().removeTerritory(defendingTerritory);
+                defendingPlayerBefore.addTerritory(defendingTerritory);
+                defendingTerritory.setControlledBy(defendingPlayerBefore);
             }
-
         }
+    }
+
+    private String getName() {
+        return name;
+    }
+
+    private void setControlledBy(Player controlledBy) {
+        this.controlledBy = controlledBy;
+    }
+
+    private void setArmies(int armies) {
+        this.armies = armies;
     }
 
     public static class DraftOneArmy implements Command {
@@ -85,7 +161,7 @@ public class Territory {
         }
     }
 
-    public class SelfAttackException extends RiskException {
+    public static class SelfAttackException extends RiskException {
 
     }
 

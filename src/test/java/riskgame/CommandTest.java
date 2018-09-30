@@ -41,4 +41,59 @@ public class CommandTest {
         commandManager.undo();
         assertTrue(t.getArmies() == 2);
     }
+
+    @Test
+    public void AttackTest_selfAttack() throws Exception {
+        Player attacker = new Player();
+        Player defender = new Player();
+
+        Territory territoryA = new Territory(attacker, "Sweden");
+        int numArmiesA = 5;
+        territoryA.addArmies(numArmiesA);
+        Territory territoryD = new Territory(attacker, "Finland");
+        int numArmiesD = 1;
+        territoryD.addArmies(numArmiesD);
+
+        Command command = new Territory.Attack(territoryA, territoryD);
+
+        CommandManager commandManager = new CommandManager();
+
+        boolean flag = false;
+        try {
+            commandManager.executeCommand(command);
+        } catch (Command.IllegalExecutionException e) {
+            flag = true;
+            System.out.println(e);
+            assertTrue(e.getCause() instanceof Territory.SelfAttackException);
+        }
+        assertTrue(flag);
+    }
+
+    /**
+     * Depends on hardcoded movetroops in Territory.Attack
+     * @throws Exception
+     */
+    @Test
+    public void AttackTest_1() throws Exception {
+        Player attacker = new Player();
+        Player defender = new Player();
+
+        Territory territoryA = new Territory(attacker, "Sweden");
+        int numArmiesA = 5;
+        territoryA.addArmies(numArmiesA);
+        Territory territoryD = new Territory(defender, "Finland");
+        int numArmiesD = 1;
+        territoryD.addArmies(numArmiesD);
+
+        Command command = new Territory.Attack(territoryA, territoryD);
+
+        CommandManager commandManager = new CommandManager();
+
+        commandManager.executeCommand(command);
+        assertTrue(territoryA.getArmies() < numArmiesA || territoryD.getArmies() < numArmiesD);
+        commandManager.undo();
+        assertTrue(territoryA.getArmies() == numArmiesA);
+        assertTrue(territoryD.getArmies() == numArmiesD);
+        assertTrue(territoryD.getControlledBy() == defender);
+    }
 }
