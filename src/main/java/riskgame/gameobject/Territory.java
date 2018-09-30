@@ -7,16 +7,20 @@ public class Territory {
     String name;
     List<Territory> neighbors = new ArrayList<Territory>();
     Player controlledBy;
-    List<Army> armies = new ArrayList<Army>();
+    int armies;
 
     public Territory(Player p1) {
         controlledBy = p1;
     }
 
-    //When for example:
-    public void addArmies(List armies){
-        this.armies.addAll(armies);
+    public void addArmies(int numArmies) {
+        armies = armies + numArmies;
     }
+
+    public void removeArmies(int numArmies) {
+        armies = armies - numArmies;
+    }
+
     public void attack(Territory territory) throws SelfAttackException {
         if (territory.getControlledBy() == this.controlledBy) {
             throw new SelfAttackException();
@@ -27,7 +31,7 @@ public class Territory {
         return this.controlledBy;
     }
 
-    public class SelfAttackException extends RiskException{
+    public class SelfAttackException extends RiskException {
 
     }
 }
