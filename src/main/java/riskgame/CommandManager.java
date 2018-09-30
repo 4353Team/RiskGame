@@ -1,3 +1,5 @@
+package riskgame;
+
 import riskgame.Command;
 import java.util.Stack;
 
