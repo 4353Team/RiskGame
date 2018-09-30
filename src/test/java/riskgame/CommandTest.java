@@ -100,6 +100,7 @@ public class CommandTest {
         assertTrue(territoryD.getControlledBy() == defender);
     }
     @Test
+    //abc
     public void MoveTroopsTest() throws Exception {
         Player attacker = new Player();
         Player defender = new Player();
