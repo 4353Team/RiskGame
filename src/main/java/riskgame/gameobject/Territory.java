@@ -11,6 +11,7 @@ public class Territory {
 
     public Territory(Player p1) {
         controlledBy = p1;
+        armies = 0;
     }
 
     public void addArmies(int numArmies) {
@@ -29,6 +30,10 @@ public class Territory {
 
     private Player getControlledBy() {
         return this.controlledBy;
+    }
+
+    public int getArmies() {
+        return armies;
     }
 
     public class SelfAttackException extends RiskException {
