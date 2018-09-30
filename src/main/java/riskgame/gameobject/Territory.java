@@ -1,4 +1,4 @@
-package riskgame;
+package riskgame.gameobject;
 
 import java.util.ArrayList;
 import java.util.List;

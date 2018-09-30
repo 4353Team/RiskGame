@@ -1,6 +1,8 @@
 package riskgame;
 
 import org.testng.annotations.Test;
+import riskgame.gameobject.Player;
+import riskgame.gameobject.Territory;
 
 public class TestSuiteExample {
     @Test

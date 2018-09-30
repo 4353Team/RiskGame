@@ -1,4 +1,4 @@
-package riskgame;
+package riskgame.gameobject;
 
 public class RiskCard {
     enum RISK_CARD_TYPE {

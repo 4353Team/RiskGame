@@ -1,4 +1,4 @@
-package riskgame;
+package riskgame.gameobject;
 
 public class Army {
     //is in territory
