@@ -1,4 +1,4 @@
-package riskgame;
+package riskgame.commands;
 
 public interface Command {
     // can also be used as a 'redo'

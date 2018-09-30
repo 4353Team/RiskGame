@@ -1,6 +1,5 @@
-package riskgame;
+package riskgame.commands;
 
-import riskgame.Command;
 import java.util.Stack;
 
 public class CommandManager {
@@ -9,7 +8,7 @@ public class CommandManager {
     public CommandManager(){}
 
     public void executeCommand(Command c){
-        c.execute();;
+        c.execute();
         undos.push(c);
         redos.clear();
     }
