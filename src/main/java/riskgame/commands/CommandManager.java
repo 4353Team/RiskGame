@@ -3,7 +3,7 @@ package riskgame.commands;
 import java.util.Stack;
 
 public class CommandManager {
-    private Stack<Command> undos = new Stack<Command>();
+    private Stack<Command> undos = new Stack<Command>(); // will be the history for the entire game at the end
     private Stack<Command> redos = new Stack<Command>();
     public CommandManager(){}
 

@@ -5,6 +5,9 @@ package riskgame.commands;
  * Attack
  * MoveTroops
  * TurnInRiskCard
+ * TakeContinent - could be a subcommand
+ * LoseTroops - could be a subcommand
+ *
  *
  * When you get full control of a continent you get a certain number of troops
  */
