@@ -30,5 +30,4 @@ public class Territory {
     public class SelfAttackException extends RiskException{
 
     }
-
 }
