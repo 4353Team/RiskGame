@@ -2,15 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="acc4f961-9b8a-4b48-bc64-8bfabdd0a352" name="Default Changelist" comment="Default Changelist">
-      <change afterPath="$PROJECT_DIR$/[Help" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Risk.iml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroops.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsToEnemy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsToOwn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/riskgame/commands/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/riskgame/commands/CommandManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/riskgame/gameobject/Territory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/riskgame/gameobject/Territory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/riskgame/CommandTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/riskgame/CommandTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +20,9 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/RiskGame$Main.ic" NAME="Main Coverage Results" MODIFIED="1536072355820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/RiskGame$CommandTest__2_.ic" NAME="CommandTest (2) Coverage Results" MODIFIED="1538340068767" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>riskgame.*</FILTER>
+    </SUITE>
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="1371291037">
@@ -51,31 +56,34 @@
     <session id="1665664890">
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="53" />
+          <entry key="class" value="2" />
+          <entry key="java" value="68" />
           <entry key="jpg" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+          <entry key="CLASS" value="2" />
           <entry key="Image" value="2" />
-          <entry key="JAVA" value="53" />
+          <entry key="JAVA" value="68" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="39528" />
+          <entry key="dummy" value="7" />
+          <entry key="java" value="41120" />
           <entry key="txt" value="901" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="39528" />
-          <entry key="PLAIN_TEXT" value="901" />
+          <entry key="JAVA" value="41120" />
+          <entry key="PLAIN_TEXT" value="908" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
+          <entry key="project.closed" value="11" />
           <entry key="project.open.time.0" value="4" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.10" value="1" />
@@ -83,9 +91,9 @@
           <entry key="project.open.time.12" value="2" />
           <entry key="project.open.time.14" value="1" />
           <entry key="project.open.time.34" value="1" />
-          <entry key="project.open.time.7" value="1" />
+          <entry key="project.open.time.7" value="3" />
           <entry key="project.open.time.8" value="2" />
-          <entry key="project.opened" value="14" />
+          <entry key="project.opened" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -174,20 +182,102 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/Territory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="495">
+              <caret line="170" lean-forward="true" selection-start-line="170" selection-end-line="170" />
+              <folding>
+                <element signature="e#561#562#0" expanded="true" />
+                <element signature="e#604#605#0" expanded="true" />
+                <element signature="e#651#652#0" expanded="true" />
+                <element signature="e#694#695#0" expanded="true" />
+                <element signature="e#733#734#0" expanded="true" />
+                <element signature="e#773#774#0" expanded="true" />
+                <element signature="e#803#804#0" expanded="true" />
+                <element signature="e#832#833#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Territory.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/Territory.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroops.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="20" column="63" lean-forward="true" selection-start-line="20" selection-start-column="63" selection-end-line="20" selection-end-column="63" />
+            <state relative-caret-position="528">
+              <caret line="24" column="23" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsToEnemy.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="110">
+              <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsToOwn.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="308">
+              <caret line="14" column="24" lean-forward="true" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/RiskCard.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="44">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/riskgame/CommandTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="923">
+              <caret line="135" lean-forward="true" selection-start-line="135" selection-end-line="135" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/testng/testng/6.14.3/testng-6.14.3.jar!/org/testng/SuiteRunnerWorker.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="518">
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/testng/testng/6.14.3/testng-6.14.3.jar!/org/testng/Assert.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="53" selection-start-line="53" selection-end-line="53" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/GameEngine.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="88">
+              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/GameEngineImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="88">
+              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -203,7 +293,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>animate</find>
       <find>turnPlayer</find>
       <find>territoriesCapturedThisTurn</find>
       <find>nextTurn</find>
@@ -233,13 +322,14 @@
       <find>removeTroops</find>
       <find>moveTroops</find>
       <find>name</find>
+      <find>re</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Evelyn" />
+        <entry key="$PROJECT_DIR$" value="Navin-experimental" />
       </map>
     </option>
   </component>
@@ -261,8 +351,22 @@
         <option value="$PROJECT_DIR$/src/com/company/Game.java" />
         <option value="$PROJECT_DIR$/src/com/company/Country.java" />
         <option value="$PROJECT_DIR$/test/com/company/CountryTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/riskgame/commands/CommandManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/riskgame/gameobject/InvalidMoveException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsAcrossOwnTerritory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsToEnemyTerritory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsToEnemy.java" />
+        <option value="$PROJECT_DIR$/src/main/java/riskgame/gameobject/Territory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsToOwn.java" />
+        <option value="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroops.java" />
+        <option value="$PROJECT_DIR$/src/test/java/riskgame/CommandTest.java" />
       </list>
     </option>
+  </component>
+  <component name="JavaAutoRunManager">
+    <enabled-run-configurations>
+      <run-configuration type="TestNG" name="CommandTest.AttackTest_1" />
+    </enabled-run-configurations>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
@@ -276,10 +380,18 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+<<<<<<< HEAD
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="1265" />
     <option name="width" value="1307" />
     <option name="height" value="1382" />
+=======
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1872" />
+    <option name="height" value="1368" />
+>>>>>>> parent of b989e0d... Revert "Added MoveTroops command class with test cases"
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -317,33 +429,105 @@
               <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
               <item name="RiskGame" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="company" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
               <item name="RiskGame" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RiskGame" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="riskgame" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RiskGame" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="riskgame" type="462c0819:PsiDirectoryNode" />
+              <item name="commands" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RiskGame" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="riskgame" type="462c0819:PsiDirectoryNode" />
+              <item name="gameobject" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RiskGame" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
               <item name="RiskGame" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="company" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RiskGame" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="riskgame" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="AndroidView" />
       <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="RiskGame" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="RiskGame" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+            </path>
+            <path>
+              <item name="RiskGame" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="RiskGame" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="RiskGame" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="RiskGame" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="RiskGame" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="RiskGame" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="company" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="ChangesTree.GroupingKeys" value="directory" />
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537415450481" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538345293397" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../homework-1-navinghimire" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -352,6 +536,9 @@
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="riskgame.gameobject" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ghimi\Documents\GitHub\RiskGame\src\com\company" />
     </key>
@@ -368,6 +555,7 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="RunManager" selected="JUnit.CountryTest.noTerritoryAbandonded">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.company.Main" />
@@ -375,6 +563,9 @@
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="CountryTest.addTroops" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="RiskGame" />
@@ -384,20 +575,15 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="com.company" />
       <option name="MAIN_CLASS_NAME" value="com.company.CountryTest" />
       <option name="METHOD_NAME" value="addTroops" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="CountryTest.noTerritoryAbandonded" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="RiskGame" />
@@ -407,21 +593,19 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="com.company" />
       <option name="MAIN_CLASS_NAME" value="com.company.CountryTest" />
       <option name="METHOD_NAME" value="noTerritoryAbandonded" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
+=======
+  <component name="RunManager" selected="TestNG.CommandTest.MoveTroopsTest">
+>>>>>>> parent of b989e0d... Revert "Added MoveTroops command class with test cases"
     <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
@@ -431,6 +615,9 @@
       <option name="MAIN_CLASS_NAME" />
       <option name="WORKING_DIRECTORY" />
       <module name="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
       <option name="filePath" />
@@ -462,17 +649,111 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <option name="MAIN_CLASS_NAME" />
       <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+<<<<<<< HEAD
+=======
+    </configuration>
+    <configuration name="CommandTest (1)" type="TestNG" factoryName="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="Risk" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="riskgame.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="riskgame" />
+      <option name="MAIN_CLASS_NAME" value="riskgame.CommandTest" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommandTest (2)" type="TestNG" factoryName="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="Risk" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="riskgame.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="riskgame" />
+      <option name="MAIN_CLASS_NAME" value="riskgame.CommandTest" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommandTest" type="TestNG" factoryName="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="Risk" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="riskgame.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="riskgame" />
+      <option name="MAIN_CLASS_NAME" value="riskgame.CommandTest" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommandTest.AttackTest_1" type="TestNG" factoryName="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="Risk" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="riskgame.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="riskgame" />
+      <option name="MAIN_CLASS_NAME" value="riskgame.CommandTest" />
+      <option name="METHOD_NAME" value="AttackTest_1" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommandTest.MoveTroopsTest" type="TestNG" factoryName="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="Risk" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="riskgame.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="riskgame" />
+      <option name="MAIN_CLASS_NAME" value="riskgame.CommandTest" />
+      <option name="METHOD_NAME" value="MoveTroopsTest" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+>>>>>>> parent of b989e0d... Revert "Added MoveTroops command class with test cases"
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.CountryTest.addTroops" />
-      <item itemvalue="JUnit.CountryTest.noTerritoryAbandonded" />
+      <item itemvalue="TestNG.CommandTest.AttackTest_1" />
+      <item itemvalue="TestNG.CommandTest" />
+      <item itemvalue="TestNG.CommandTest (1)" />
+      <item itemvalue="TestNG.CommandTest (2)" />
+      <item itemvalue="TestNG.CommandTest.MoveTroopsTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CountryTest.noTerritoryAbandonded" />
-        <item itemvalue="JUnit.CountryTest.addTroops" />
-        <item itemvalue="Application.Main" />
+        <item itemvalue="TestNG.CommandTest.MoveTroopsTest" />
+        <item itemvalue="TestNG.CommandTest.AttackTest_1" />
+        <item itemvalue="TestNG.CommandTest (2)" />
+        <item itemvalue="TestNG.CommandTest (1)" />
+        <item itemvalue="TestNG.CommandTest" />
       </list>
     </recent_temporary>
   </component>
@@ -652,23 +933,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="CountryTest_addTroops - 2018.09.19 at 22h 08m 33s.xml">
-      <configuration name="CountryTest.addTroops" configurationId="JUnit" />
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.09.30 at 16h 58m 00s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="CountryTest_addTroops - 2018.09.19 at 22h 14m 07s.xml">
-      <configuration name="CountryTest.addTroops" configurationId="JUnit" />
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.09.30 at 16h 59m 10s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="CountryTest_noTerritoryAbandonded - 2018.09.19 at 22h 41m 45s.xml">
-      <configuration name="CountryTest.noTerritoryAbandonded" configurationId="JUnit" />
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.09.30 at 17h 01m 43s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="CountryTest_noTerritoryAbandonded - 2018.09.19 at 22h 42m 14s.xml">
-      <configuration name="CountryTest.noTerritoryAbandonded" configurationId="JUnit" />
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.09.30 at 17h 02m 37s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="CountryTest_noTerritoryAbandonded - 2018.09.19 at 22h 42m 40s.xml">
-      <configuration name="CountryTest.noTerritoryAbandonded" configurationId="JUnit" />
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.09.30 at 17h 02m 41s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="CountryTest_noTerritoryAbandonded - 2018.09.19 at 22h 46m 08s.xml">
-      <configuration name="CountryTest.noTerritoryAbandonded" configurationId="JUnit" />
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.09.30 at 17h 02m 52s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.09.30 at 17h 03m 51s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.09.30 at 17h 03m 57s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.09.30 at 17h 04m 26s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.09.30 at 17h 06m 53s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
@@ -684,69 +977,70 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="-8" y="-8" width="3456" height="1416" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info anchor="right" id="Palette" order="4" />
-      <window_info anchor="bottom" id="TODO" order="5" weight="0.3293944" />
-      <window_info anchor="right" id="Palette&#9;" order="7" />
-      <window_info id="Image Layers" order="3" />
-      <window_info anchor="right" id="Capture Analysis" order="5" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.32997987" />
-      <window_info anchor="right" id="Maven Projects" order="8" weight="0.329105" />
-      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="right" x="34" y="811" width="3396" height="603" id="Run" order="11" sideWeight="0.75300545" weight="0.24242425" />
-      <window_info anchor="right" id="Version Control" order="10" sideWeight="0.41414142" visible="true" weight="0.08187919" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" sideWeight="0.5003524" visible="true" weight="0.14830509" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="Designer" order="4" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8618907" visible="true" weight="0.16644295" />
-      <window_info anchor="right" id="Database" order="12" />
-      <window_info id="Learn" order="7" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8618907" visible="true" weight="0.16598837" />
       <window_info id="Structure" order="1" sideWeight="0.13810931" side_tool="true" weight="0.06889535" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.24975173" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Designer" order="4" />
       <window_info id="UI Designer" order="5" />
-      <window_info anchor="right" id="Theme Preview" order="6" />
-      <window_info anchor="bottom" id="Debug" order="2" weight="0.22612682" />
       <window_info id="Favorites" order="6" sideWeight="0.13810931" side_tool="true" weight="0.06889535" />
-      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="2" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49964765" visible="true" weight="0.14864865" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="right" id="Messages" order="9" weight="0.22819768" />
-      <window_info anchor="bottom" id="Message" order="3" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
+      <window_info id="Learn" order="7" />
       <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.32436472" />
-      <window_info anchor="right" id="Coverage" order="0" sideWeight="0.24699454" side_tool="true" visible="true" weight="0.0" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49964765" weight="0.14864865" />
+      <window_info anchor="bottom" id="Debug" order="2" sideWeight="0.6885731" visible="true" weight="0.237988" />
+      <window_info anchor="bottom" id="Message" order="3" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="5" weight="0.3293944" />
+      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49982572" weight="0.1478979" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.31142688" side_tool="true" visible="true" weight="0.237988" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="right" id="Coverage" order="0" sideWeight="0.2484985" side_tool="true" visible="true" weight="0.34302327" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24975173" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="2" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Theme Preview" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Maven Projects" order="8" weight="0.329105" />
+      <window_info anchor="right" id="Messages" order="9" sideWeight="0.49924925" weight="0.22819768" />
+      <window_info anchor="right" id="Version Control" order="10" sideWeight="0.41414142" weight="0.08187919" />
+      <window_info anchor="right" x="34" y="811" width="3396" height="603" id="Run" order="11" sideWeight="0.7515015" visible="true" weight="0.34302327" />
+      <window_info anchor="right" id="Database" order="12" />
     </layout>
     <layout-to-restore>
-      <window_info anchor="right" id="Palette" order="4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
-      <window_info anchor="right" id="Capture Analysis" order="5" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.32436472" />
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8617694" visible="true" weight="0.06889535" />
       <window_info id="Structure" order="1" sideWeight="0.13620071" side_tool="true" weight="0.24746667" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info id="Version Control" order="7" sideWeight="0.41414142" weight="0.21013333" />
-      <window_info active="true" anchor="bottom" x="34" y="811" width="3396" height="603" id="Run" order="9" sideWeight="0.75300545" visible="true" weight="0.25258493" />
+      <window_info id="Capture Tool" order="2" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Designer" order="4" />
       <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" sideWeight="0.13823065" side_tool="true" weight="0.1560241" />
+      <window_info id="Version Control" order="7" sideWeight="0.41414142" weight="0.21013333" />
+      <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.32436472" />
+      <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.3294025" />
-      <window_info anchor="right" id="Theme Preview" order="6" />
-      <window_info anchor="right" id="Maven Projects" order="8" weight="0.32979977" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39779875" />
-      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.25683892" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="right" id="Messages" order="9" weight="0.23052326" />
+      <window_info active="true" anchor="bottom" x="34" y="811" width="3396" height="603" id="Run" order="9" sideWeight="0.75300545" visible="true" weight="0.25258493" />
       <window_info anchor="right" id="Coverage" order="0" sideWeight="0.24699454" side_tool="true" visible="true" weight="0.0" />
-      <window_info id="Favorites" order="6" sideWeight="0.13823065" side_tool="true" weight="0.1560241" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Theme Preview" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Maven Projects" order="8" weight="0.32979977" />
+      <window_info anchor="right" id="Messages" order="9" weight="0.23052326" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -840,13 +1134,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="21" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/CountryMap.java" />
     <entry file="file://$PROJECT_DIR$/src/com/company/DiceComparer.java" />
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/java/lang/StringBuilder.java" />
@@ -887,10 +1174,121 @@
     <entry file="file://$PROJECT_DIR$/src/com/company/Dimension.java" />
     <entry file="file://$PROJECT_DIR$/src/com/company/Map.java" />
     <entry file="file://$PROJECT_DIR$/src/com/company/Game.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/Continent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="622">
+          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/Dice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="27" column="1" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/InvalidMoveException.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/commands/Command.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/commands/CommandManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/RiskException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/GameEngineImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/GameEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/RiskCard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/testng/testng/6.14.3/testng-6.14.3.jar!/org/testng/Assert.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="53" selection-start-line="53" selection-end-line="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/testng/testng/6.14.3/testng-6.14.3.jar!/org/testng/SuiteRunnerWorker.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="518">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/Territory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="20" column="63" lean-forward="true" selection-start-line="20" selection-start-column="63" selection-end-line="20" selection-end-column="63" />
+        <state relative-caret-position="495">
+          <caret line="170" lean-forward="true" selection-start-line="170" selection-end-line="170" />
+          <folding>
+            <element signature="e#561#562#0" expanded="true" />
+            <element signature="e#604#605#0" expanded="true" />
+            <element signature="e#651#652#0" expanded="true" />
+            <element signature="e#694#695#0" expanded="true" />
+            <element signature="e#733#734#0" expanded="true" />
+            <element signature="e#773#774#0" expanded="true" />
+            <element signature="e#803#804#0" expanded="true" />
+            <element signature="e#832#833#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroops.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="24" column="23" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsToEnemy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsToOwn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="14" column="24" lean-forward="true" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/riskgame/CommandTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="923">
+          <caret line="135" lean-forward="true" selection-start-line="135" selection-end-line="135" />
         </state>
       </provider>
     </entry>

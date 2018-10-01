@@ -5,8 +5,6 @@ import riskgame.gameobject.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 public class Territory {
     String name;
@@ -131,6 +129,9 @@ public class Territory {
         }
     }
 
+
+
+
     private String getName() {
         return name;
     }
@@ -167,4 +168,5 @@ public class Territory {
 
     private class NegativeArmiesException extends Throwable {
     }
+
 }
