@@ -1,5 +1,4 @@
 package riskgame.commands;
-
 import java.util.Stack;
 
 public class CommandManager {
@@ -12,7 +11,6 @@ public class CommandManager {
         undos.push(c);
         redos.clear();
     }
-
     public boolean isUndoAvailable(){
         return !undos.empty();
     }
