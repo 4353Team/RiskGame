@@ -7,10 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Territory {
+    public static final Player NoOwner = new Player("NO OWNER");
     String name;
     List<Territory> neighbors = new ArrayList<Territory>();
-    Player controlledBy;
+    Player controlledBy = NoOwner; // default unowned territory
     int armies;
+
+    public Territory(String name) {
+        this.name = name;
+        NoOwner.addTerritory(this);
+        armies = 0;
+    }
 
     public Territory(Player p1) {
         controlledBy = p1;
@@ -42,6 +49,10 @@ public class Territory {
     private void changeArmies(int changeInArmies) throws NegativeArmiesException {
         armies += changeInArmies;
         if (armies < 0) throw new NegativeArmiesException();
+    }
+
+    public void addNeighbor(Territory t2) {
+        neighbors.add(t2);
     }
 
     public static class Attack implements Command {
@@ -132,11 +143,11 @@ public class Territory {
 
 
 
-    private String getName() {
+    public String getName() {
         return name;
     }
 
-    private void setControlledBy(Player controlledBy) {
+    public void setControlledBy(Player controlledBy) {
         this.controlledBy = controlledBy;
     }
 
