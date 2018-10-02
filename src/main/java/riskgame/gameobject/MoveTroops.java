@@ -42,4 +42,4 @@ public class MoveTroops implements Command {
     private static class InvalidTerritoryOwnerException extends Throwable {
     }
 
-}
+}//
