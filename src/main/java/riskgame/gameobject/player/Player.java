@@ -36,6 +36,14 @@ public class Player {
     public int getUndeployedArmies(){return undeployedArmies;}
     public void setUndeployedArmies(int undeployedArmies) {this.undeployedArmies = undeployedArmies;}
 
+    public Player(String name) {
+        this.name = name;
+    }
+
+    public Player() {
+
+    }
+
     public void addTerritory(Territory newTerritory) {
         ownedTerritories.add(newTerritory);
     }
@@ -157,5 +165,9 @@ public class Player {
 
 
 
+    }
+
+    public String getName() {
+        return name;
     }
 }
