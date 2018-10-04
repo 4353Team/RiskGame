@@ -69,7 +69,7 @@ public class CommandTest {
         }
         assertTrue(flag);
     }
-    //
+    //ss
 
     /**
      * Depends on hardcoded movetroops in Territory.Attack
