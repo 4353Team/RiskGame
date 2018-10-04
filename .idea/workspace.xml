@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="14e748fa-8d0f-467e-ab56-c2394df290a5" name="Default Changelist" comment="">
+    <list default="true" id="14e748fa-8d0f-467e-ab56-c2394df290a5" name="Default Changelist" comment="log is configured">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Risk.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Risk.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroops.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroops.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsToEnemy.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsToOwn.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/riskgame/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/riskgame/Log.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/riskgame/gameobject/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/riskgame/gameobject/player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/riskgame/CommandTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/riskgame/CommandTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/riskgame/RiskCardTest.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -54,41 +56,121 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="735555975">
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="gitignore" value="1" />
+          <entry key="java" value="8" />
+          <entry key="properties" value="1" />
+          <entry key="xml" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JAVA" value="8" />
+          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="Properties" value="1" />
+          <entry key="XML" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.vcs.git.usages">
+        <counts>
+          <entry key="git.branch.compare" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="gitignore" value="13" />
+          <entry key="java" value="418" />
+          <entry key="txt" value="135" />
+          <entry key="xml" value="28" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="418" />
+          <entry key="PLAIN_TEXT" value="148" />
+          <entry key="XML" value="28" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.spring.boot.run.usages" />
+      <usages-collector id="statistics.js.language.service.starts" />
+      <usages-collector id="statistics.lifecycle.project" />
+      <usages-collector id="statistics.spring.boot.mvc.usages" />
+    </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroops.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
-              <caret line="32" column="77" lean-forward="true" selection-start-line="32" selection-start-column="77" selection-end-line="32" selection-end-column="77" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/commands/Command.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/Dice.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="56">
+            <state relative-caret-position="68">
               <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/riskgame/CommandTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="505">
-              <caret line="119" column="55" selection-start-line="119" selection-start-column="55" selection-end-line="119" selection-end-column="55" />
+            <state relative-caret-position="151">
+              <caret line="122" column="57" selection-start-line="122" selection-start-column="57" selection-end-line="122" selection-end-column="57" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-255">
+              <caret line="5" column="33" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="49" selection-start-line="9" selection-start-column="49" selection-end-line="9" selection-end-column="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/Log.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#243#244#0" expanded="true" />
+                <element signature="e#262#263#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/log4j2.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="24" column="14" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/riskgame/GameTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="101">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -96,42 +178,110 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/commands/CommandManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
+            <state relative-caret-position="153">
               <caret line="9" selection-start-line="9" selection-end-line="9" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+            <state relative-caret-position="238">
+              <caret line="14" column="5" lean-forward="true" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/player/Player.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="175">
+              <caret line="26" selection-start-line="26" selection-end-line="26" />
+              <folding>
+                <element signature="e#320#331#0" expanded="true" />
+                <element signature="e#586#587#0" expanded="true" />
+                <element signature="e#631#632#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Evelyn-TurnInRiskCardsCommand" />
+      </map>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroopsToOwn.java" />
         <option value="$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroops.java" />
+        <option value="$PROJECT_DIR$/src/main/java/riskgame/gameobject/player/Player.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/test/java/riskgame/GameTest.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/log4j.properties" />
         <option value="$PROJECT_DIR$/src/test/java/riskgame/CommandTest.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/log4j2.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/riskgame/Log.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="Risk" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="Risk" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-11" />
+    <option name="width" value="1043" />
+    <option name="height" value="1381" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -175,18 +325,7 @@
               <item name="RiskGame" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="riskgame" type="462c0819:PsiDirectoryNode" />
-              <item name="commands" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
-              <item name="RiskGame" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="riskgame" type="462c0819:PsiDirectoryNode" />
-              <item name="gameobject" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
@@ -208,18 +347,43 @@
               <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="riskgame" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+            <path>
+              <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="Maven: org.apache.logging.log4j:log4j-core:2.11.1" type="70bed36:NamedLibraryElementNode" />
+            </path>
+            <path>
+              <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="Maven: org.apache-extras.beanshell:bsh:2.0b6" type="70bed36:NamedLibraryElementNode" />
+            </path>
+            <path>
+              <item name="RiskGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="Maven: org.testng:testng:6.14.3" type="70bed36:NamedLibraryElementNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538433346670" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538615172958" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.48203593" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -233,7 +397,67 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="TestNG.CommandTest.MoveTroopsTest">
+  <component name="RunManager" selected="Application.Log">
+    <configuration name="Log" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="riskgame.Log" />
+      <module name="Risk" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="riskgame.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <module name="Risk" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <module name="Risk" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CommandTest.AttackTest_1" type="TestNG" factoryName="TestNG" temporary="true" nameIsGenerated="true">
       <module name="Risk" />
       <extension name="coverage">
@@ -273,9 +497,13 @@
     <list>
       <item itemvalue="TestNG.CommandTest.MoveTroopsTest" />
       <item itemvalue="TestNG.CommandTest.AttackTest_1" />
+      <item itemvalue="Application.Log" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Log" />
+        <item itemvalue="TestNG.CommandTest.MoveTroopsTest" />
+        <item itemvalue="TestNG.CommandTest.AttackTest_1" />
         <item itemvalue="TestNG.CommandTest.MoveTroopsTest" />
         <item itemvalue="TestNG.CommandTest.AttackTest_1" />
       </list>
@@ -292,24 +520,24 @@
       <option name="presentableId" value="Default" />
       <updated>1538431437122</updated>
     </task>
+    <task id="LOCAL-00001" summary="log4j dependencies added to pom.xml">
+      <created>1538611282508</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1538611282508</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added resources root,&#10;added log4j .properties file&#10;added Log class">
+      <created>1538613220726</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1538613220726</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="CommandTest_MoveTroopsTest - 2018.10.01 at 17h 24m 29s.xml">
-      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="CommandTest_MoveTroopsTest - 2018.10.01 at 17h 26m 20s.xml">
-      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="CommandTest_MoveTroopsTest - 2018.10.01 at 17h 29m 41s.xml">
-      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="CommandTest_MoveTroopsTest - 2018.10.01 at 17h 30m 11s.xml">
-      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="CommandTest_MoveTroopsTest - 2018.10.01 at 17h 31m 20s.xml">
-      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
-    </history-entry>
     <history-entry file="CommandTest_MoveTroopsTest - 2018.10.01 at 17h 31m 34s.xml">
       <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
     </history-entry>
@@ -325,50 +553,69 @@
     <history-entry file="CommandTest_MoveTroopsTest - 2018.10.01 at 17h 35m 42s.xml">
       <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
     </history-entry>
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.10.03 at 19h 39m 35s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.10.03 at 19h 42m 32s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.10.03 at 19h 43m 48s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.10.03 at 19h 45m 38s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="CommandTest_MoveTroopsTest - 2018.10.03 at 19h 53m 57s.xml">
+      <configuration name="CommandTest.MoveTroopsTest" configurationId="TestNG" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="4386000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1713" y="0" width="1734" height="1407" extended-state="0" />
+    <frame x="-7" y="-7" width="1477" height="797" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="UI Designer" />
-      <window_info id="Capture Tool" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24970897" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18393235" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" weight="0.32925898" />
-      <window_info anchor="bottom" id="Messages" weight="0.32925898" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Designer" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.46753246" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.46696696" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Maven Projects" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.32925898" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32882884" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32925898" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Maven Projects" order="7" visible="true" weight="0.32980973" />
     </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="log4j dependencies added to pom.xml" />
+    <MESSAGE value="added resources root,&#10;added log4j .properties file&#10;added Log class" />
+    <option name="LAST_COMMIT_MESSAGE" value="added resources root,&#10;added log4j .properties file&#10;added Log class" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="574">
@@ -390,40 +637,215 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/Dice.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/Territory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        <state relative-caret-position="357">
+          <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/commands/Command.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/GameEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
+        <state relative-caret-position="136">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/commands/CommandManager.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/RiskCard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        <state relative-caret-position="51">
+          <caret line="3" column="25" lean-forward="true" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/riskgame/RiskCardTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="39" column="1" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/MoveTroops.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="32" column="77" lean-forward="true" selection-start-line="32" selection-start-column="77" selection-end-line="32" selection-end-column="77" />
+        <state relative-caret-position="544">
+          <caret line="32" column="77" selection-start-line="32" selection-start-column="77" selection-end-line="32" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/commands/Command.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/Dice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/commands/CommandManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/gameobject/player/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+          <folding>
+            <element signature="e#320#331#0" expanded="true" />
+            <element signature="e#586#587#0" expanded="true" />
+            <element signature="e#631#632#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/riskgame/GameTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="101">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/riskgame/CommandTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="119" column="55" selection-start-line="119" selection-start-column="55" selection-end-line="119" selection-end-column="55" />
+        <state relative-caret-position="151">
+          <caret line="122" column="57" selection-start-line="122" selection-start-column="57" selection-end-line="122" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="49" selection-start-line="9" selection-start-column="49" selection-end-line="9" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-255">
+          <caret line="5" column="33" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j2.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="14" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/riskgame/Log.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#243#244#0" expanded="true" />
+            <element signature="e#262#263#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="5" lean-forward="true" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.48203593" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.48203593" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>10</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>Risk</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.48203593" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: org.apache.logging.log4j:log4j-core:2.11.1</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.48203593" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
