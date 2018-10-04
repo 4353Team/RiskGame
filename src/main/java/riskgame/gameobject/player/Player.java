@@ -13,11 +13,23 @@ public class Player {
     List<RiskCard> hand;
     Set<Territory> territories= new HashSet<Territory>();
 
+    public Player(String name) {
+        this.name = name;
+    }
+
+    public Player() {
+
+    }
+
     public void addTerritory(Territory newTerritory) {
         territories.add(newTerritory);
     }
 
     public void removeTerritory(Territory territory) {
         territories.remove(territory);
+    }
+
+    public String getName() {
+        return name;
     }
 }
