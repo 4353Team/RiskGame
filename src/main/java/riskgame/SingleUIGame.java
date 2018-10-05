@@ -1,5 +1,7 @@
 package riskgame;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import riskgame.commands.Command;
 import riskgame.commands.CommandManager;
 import riskgame.gameobject.Territory;
@@ -10,12 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SingleUIGame implements GameEngine {
+    private static final Logger logger = LogManager.getLogger(SingleUIGame.class);
     private final CommandManager commandManager = new CommandManager();
     private UI ui;
     private List<Territory> territories;
     private GameState gameState;
     private Player currentPlayer;
     private List<Player> playerOrderList = new ArrayList<>();
+
     public SingleUIGame() {
     }
 
@@ -100,7 +104,15 @@ public class SingleUIGame implements GameEngine {
             this.gameEngine = gameEngine;
             this.selectedGameMap = selectedGameMap;
             before = gameEngine.gameState;
-            assert before == GameState.INIT_DRAFT;
+        }
+
+        /**
+         * Logs the action of the command
+         */
+        @Override
+        public void log() {
+            logger.info("The game map has been selected!" + System.lineSeparator() +
+                    "The name of the chosen game map is: " + selectedGameMap.getName());
         }
 
         @Override
@@ -129,6 +141,21 @@ public class SingleUIGame implements GameEngine {
             this.list = list;
             before = game.gameState;
             assert before == GameState.SELECT_PLAYERS;
+        }
+
+        /**
+         * Logs the action of the command
+         *
+         * @assumed there will be at least one Player
+         */
+        @Override
+        public void log() {
+            StringBuilder toLog = new StringBuilder("The Players have been decided!" + System.lineSeparator() +
+                    "The first Player to go will be: " + list.get(0).getName());
+            for (int i = 1; i < list.size(); i++) {
+                toLog.append(System.lineSeparator() + "Then, Player: " + list.get(i).getName());
+            }
+            logger.info(toLog);
         }
 
         @Override
@@ -161,6 +188,14 @@ public class SingleUIGame implements GameEngine {
             this.player = player;
             previousOwner = territory.getControlledBy();
             draftOne = new Territory.DraftOneArmy(territory);
+        }
+
+        /**
+         * Logs the action of the command
+         */
+        @Override
+        public void log() {
+            logger.info("Player: " + player.getName() + " is drafting one army to Territory: " + territory.getName());
         }
 
         @Override
