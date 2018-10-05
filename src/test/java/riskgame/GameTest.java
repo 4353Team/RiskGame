@@ -1,6 +1,10 @@
 package riskgame;
 
 import org.testng.annotations.Test;
+import riskgame.amazons3.AmazonS3;
+import riskgame.commands.Command;
+import riskgame.commands.CommandManager;
+import riskgame.gameobject.Territory;
 import riskgame.gameobject.player.HumanPlayer;
 import riskgame.gameobject.player.Player;
 import riskgame.ui.TestUI;
@@ -29,5 +33,32 @@ public class GameTest {
         gameEngine.start();
 
         assertTrue(testUI.map.get(1).getControlledBy() == playerList.get(1));
+
+
+
+
     }
+
+    @Test
+    public void amazonTest() throws  Exception{
+        Player player = new Player();
+        Territory t = new Territory(player);
+        Command command = new Territory.DraftOneArmy(t);
+
+        CommandManager commandManager = new CommandManager();
+
+        commandManager.executeCommand(command);
+        commandManager.executeCommand(command);
+        commandManager.executeCommand(command);
+        //   assertTrue(t.getArmies() == 3);
+        commandManager.undo();
+        AmazonS3 as3 = new AmazonS3(commandManager);
+        as3.saveCommandManagerState();
+        String bucketId = as3.saveFileToAmazon();
+
+//        CommandManager myCommandManager = as3.readCommandManagerState();
+//        System.out.println(myCommandManager.isRedoAvailable());
+
+    }
+
 }
