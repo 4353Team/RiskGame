@@ -1,5 +1,4 @@
-
-
+<h1>RISK</h1>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html id="htmlId">
@@ -222,8 +221,6 @@
 </div>
 
 <div class="footer">
-    
-    <div style="float:right;">generated on 2018-10-04 21:33</div>
 </div>
 </body>
 </html>
