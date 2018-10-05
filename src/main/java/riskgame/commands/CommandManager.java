@@ -39,5 +39,11 @@ public class CommandManager implements Serializable {
         command.execute();
         undos.push(command);
     }
+    public int getUndosCount(){
+        return undos.size();
+    }
 
+    public int getRedosCount(){
+        return redos.size();
+    }
 }

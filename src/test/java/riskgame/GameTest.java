@@ -50,14 +50,15 @@ public class GameTest {
         commandManager.executeCommand(command);
         commandManager.executeCommand(command);
         commandManager.executeCommand(command);
-        //   assertTrue(t.getArmies() == 3);
         commandManager.undo();
         AmazonS3 as3 = new AmazonS3(commandManager);
         as3.saveCommandManagerState();
         String bucketId = as3.saveFileToAmazon();
 
-//        CommandManager myCommandManager = as3.readCommandManagerState();
-//        System.out.println(myCommandManager.isRedoAvailable());
+        CommandManager myCommandManager = as3.readCommandManagerState();
+        assertTrue(commandManager.getUndosCount() == 2);
+        assertTrue(commandManager.getRedosCount() == 1);
+
 
     }
 

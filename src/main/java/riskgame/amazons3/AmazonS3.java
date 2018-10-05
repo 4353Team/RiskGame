@@ -28,7 +28,8 @@ public class AmazonS3 {
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         } catch (IOException e) {
-//            System.out.println("Error initializing stream while saving");
+            e.printStackTrace();
+            System.out.println("Error initializing stream while saving");
         }
 
     }
