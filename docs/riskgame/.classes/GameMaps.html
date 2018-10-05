@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GameMaps</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">riskgame</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GameMaps (riskgame)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameMaps</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (31/ 31)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GameMaps$GameMap</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (35/ 35)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package riskgame;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import riskgame.gameobject.Territory;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.ArrayList;
+<i>6</i>&nbsp;import java.util.List;
+<i>7</i>&nbsp;import java.util.Objects;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class GameMaps {
+<i>10</i>&nbsp;    public static final String TERRITORY_STRAIGHT_LINE = &quot;6 Territory Straight Line&quot;;
+<i>11</i>&nbsp;    public static final String CLASSIC_WORLD = &quot;Classic World&quot;;
+<b class="fc"><i>12</i>&nbsp;    public static List&lt;GameMap&gt; mapList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>13</i>&nbsp;    private static GameMaps instance = null;</b>
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;    private GameMaps() {</b>
+<i>16</i>&nbsp;        //building map1;
+<b class="fc"><i>17</i>&nbsp;        GameMap map1 = new GameMap();</b>
+<b class="fc"><i>18</i>&nbsp;        map1.name = CLASSIC_WORLD;</b>
+<b class="fc"><i>19</i>&nbsp;        mapList.add(map1);</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;        //building map2;
+<b class="fc"><i>22</i>&nbsp;        GameMap map2 = new GameMap();</b>
+<i>23</i>&nbsp;        {
+<b class="fc"><i>24</i>&nbsp;            map2.name = TERRITORY_STRAIGHT_LINE;</b>
+<b class="fc"><i>25</i>&nbsp;            Territory t1 = new Territory(&quot;LeftMost&quot;);</b>
+<b class="fc"><i>26</i>&nbsp;            Territory t2 = new Territory(&quot;Left&quot;);</b>
+<b class="fc"><i>27</i>&nbsp;            Territory t3 = new Territory(&quot;Middle&quot;);</b>
+<b class="fc"><i>28</i>&nbsp;            Territory t4 = new Territory(&quot;Right&quot;);</b>
+<b class="fc"><i>29</i>&nbsp;            Territory t5 = new Territory(&quot;RightMost&quot;);</b>
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;            makeNeighbors(t1, t2);</b>
+<b class="fc"><i>32</i>&nbsp;            makeNeighbors(t2, t3);</b>
+<b class="fc"><i>33</i>&nbsp;            makeNeighbors(t3, t4);</b>
+<b class="fc"><i>34</i>&nbsp;            makeNeighbors(t4, t5);</b>
+<i>35</i>&nbsp;
+<b class="fc"><i>36</i>&nbsp;            map2.territoryList.add(t1);</b>
+<b class="fc"><i>37</i>&nbsp;            map2.territoryList.add(t2);</b>
+<b class="fc"><i>38</i>&nbsp;            map2.territoryList.add(t3);</b>
+<b class="fc"><i>39</i>&nbsp;            map2.territoryList.add(t4);</b>
+<b class="fc"><i>40</i>&nbsp;            map2.territoryList.add(t5);</b>
+<i>41</i>&nbsp;        }
+<i>42</i>&nbsp;
+<b class="fc"><i>43</i>&nbsp;        mapList.add(map2);</b>
+<i>44</i>&nbsp;
+<b class="fc"><i>45</i>&nbsp;    }</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    private void makeNeighbors(Territory t1, Territory t2) {
+<b class="fc"><i>48</i>&nbsp;        t1.addNeighbor(t2);</b>
+<b class="fc"><i>49</i>&nbsp;        t2.addNeighbor(t1);</b>
+<b class="fc"><i>50</i>&nbsp;    }</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public static GameMaps instanceOf() {
+<b class="fc"><i>53</i>&nbsp;        if (instance == null) {</b>
+<b class="fc"><i>54</i>&nbsp;            instance = new GameMaps();</b>
+<i>55</i>&nbsp;        }
+<b class="fc"><i>56</i>&nbsp;        return instance;</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    public List&lt;GameMap&gt; getList() {
+<b class="fc"><i>60</i>&nbsp;        return mapList;</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<b class="fc"><i>63</i>&nbsp;    public class GameMap {</b>
+<i>64</i>&nbsp;        String name;
+<b class="fc"><i>65</i>&nbsp;        List&lt;Territory&gt; territoryList = new ArrayList&lt;&gt;();</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;        public List&lt;Territory&gt; getConfiguredTerritories() {
+<b class="fc"><i>68</i>&nbsp;            return new ArrayList&lt;&gt;(territoryList); // immutable</b>
+<i>69</i>&nbsp;        }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;        public String getName() {
+<b class="fc"><i>72</i>&nbsp;            return name;</b>
+<i>73</i>&nbsp;        }
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-10-04 21:53</div>
+</div>
+</body>
+</html>

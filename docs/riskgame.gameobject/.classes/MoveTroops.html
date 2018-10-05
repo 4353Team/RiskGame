@@ -1,0 +1,186 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MoveTroops</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">riskgame.gameobject</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MoveTroops (riskgame.gameobject)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MoveTroops</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.8%
+  </span>
+  <span class="absValue">
+    (18/ 22)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MoveTroops$InvalidArmyNumberException</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MoveTroops$InvalidTerritoryOwnerException</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (5/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (18/ 24)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package riskgame.gameobject;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.apache.logging.log4j.LogManager;
+<i>4</i>&nbsp;import org.apache.logging.log4j.Logger;
+<i>5</i>&nbsp;import riskgame.commands.Command;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;public class MoveTroops implements Command {
+<b class="fc"><i>8</i>&nbsp;    private final static Logger logger = LogManager.getLogger(MoveTroops.class);</b>
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    private Territory originTerritory;
+<i>11</i>&nbsp;    private Territory destinationTerritory;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    private int numArmies;
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;    public MoveTroops(Territory newOriginTerritory, Territory newDestinationTerritory, int numArmies) {</b>
+<b class="fc"><i>16</i>&nbsp;        this.originTerritory = newOriginTerritory;</b>
+<b class="fc"><i>17</i>&nbsp;        this.destinationTerritory = newDestinationTerritory;</b>
+<b class="fc"><i>18</i>&nbsp;        this.numArmies = numArmies;</b>
+<b class="fc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * Logs the action of the command
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    @Override
+<i>25</i>&nbsp;    public void log() {
+<b class="fc"><i>26</i>&nbsp;        logger.info(numArmies + &quot; troops are being moved from Territory: &quot; + originTerritory + &quot; to Territory: &quot; + destinationTerritory);</b>
+<b class="fc"><i>27</i>&nbsp;    }</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    @Override
+<i>30</i>&nbsp;    public void execute() throws IllegalExecutionException {
+<i>31</i>&nbsp;        // assures that player leaves at least one troop behind
+<b class="fc"><i>32</i>&nbsp;        if (originTerritory.getArmies() - numArmies &lt; 1)</b>
+<b class="nc"><i>33</i>&nbsp;            throw new IllegalExecutionException(new InvalidArmyNumberException());</b>
+<i>34</i>&nbsp;        // assures that player does not try to move troops to a different territory
+<b class="fc"><i>35</i>&nbsp;        if (originTerritory.getControlledBy() != destinationTerritory.getControlledBy())</b>
+<b class="nc"><i>36</i>&nbsp;            throw new IllegalExecutionException(new InvalidTerritoryOwnerException());</b>
+<b class="fc"><i>37</i>&nbsp;        originTerritory.removeArmies(numArmies);</b>
+<b class="fc"><i>38</i>&nbsp;        destinationTerritory.addArmies(numArmies);</b>
+<i>39</i>&nbsp;
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;    @Override
+<i>42</i>&nbsp;    public void undo() throws IllegalUndoException {
+<i>43</i>&nbsp;        // assures that player leaves at least one troop behind
+<b class="fc"><i>44</i>&nbsp;        if (destinationTerritory.getArmies() - numArmies &lt; 1)</b>
+<b class="nc"><i>45</i>&nbsp;            throw new IllegalUndoException(new InvalidArmyNumberException());</b>
+<i>46</i>&nbsp;        // assures that player does not try to move troops to a different territory
+<b class="fc"><i>47</i>&nbsp;        if (destinationTerritory.getControlledBy() != originTerritory.getControlledBy())</b>
+<b class="nc"><i>48</i>&nbsp;            throw new IllegalUndoException(new InvalidTerritoryOwnerException());</b>
+<b class="fc"><i>49</i>&nbsp;        destinationTerritory.removeArmies(numArmies);</b>
+<b class="fc"><i>50</i>&nbsp;        originTerritory.addArmies(numArmies);</b>
+<b class="fc"><i>51</i>&nbsp;    }</b>
+<b class="nc"><i>52</i>&nbsp;    private static class InvalidArmyNumberException extends Throwable {</b>
+<i>53</i>&nbsp;    }
+<b class="nc"><i>54</i>&nbsp;    private static class InvalidTerritoryOwnerException extends Throwable {</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;}
+<i>58</i>&nbsp;//
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-10-04 21:53</div>
+</div>
+</body>
+</html>

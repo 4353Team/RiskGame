@@ -1,0 +1,124 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CommandManager</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">riskgame.commands</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CommandManager (riskgame.commands)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommandManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (5/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.9%
+  </span>
+  <span class="absValue">
+    (17/ 23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package riskgame.commands;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Stack;
+<i>4</i>&nbsp;
+<b class="fc"><i>5</i>&nbsp;public class CommandManager {</b>
+<b class="fc"><i>6</i>&nbsp;    private static boolean log = true;</b>
+<b class="fc"><i>7</i>&nbsp;    private Stack&lt;Command&gt; undos = new Stack&lt;Command&gt;(); // will be the history for the entire game at the end</b>
+<b class="fc"><i>8</i>&nbsp;    private Stack&lt;Command&gt; redos = new Stack&lt;Command&gt;();</b>
+<i>9</i>&nbsp;
+<b class="fc"><i>10</i>&nbsp;    public CommandManager() {</b>
+<b class="fc"><i>11</i>&nbsp;    }</b>
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    public void executeCommand(Command command) throws Command.IllegalExecutionException {
+<b class="fc"><i>14</i>&nbsp;        command.execute();</b>
+<b class="fc"><i>15</i>&nbsp;        if (log) command.log();</b>
+<b class="fc"><i>16</i>&nbsp;        undos.push(command);</b>
+<b class="fc"><i>17</i>&nbsp;        redos.clear();</b>
+<b class="fc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public boolean isUndoAvailable() {
+<b class="fc"><i>21</i>&nbsp;        return !undos.empty();</b>
+<i>22</i>&nbsp;    }
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public boolean isRedoAvailable() {
+<b class="nc"><i>25</i>&nbsp;        return !redos.empty();</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public void undo() throws Command.IllegalUndoException {
+<b class="fc"><i>29</i>&nbsp;        assert (isUndoAvailable());</b>
+<b class="fc"><i>30</i>&nbsp;        Command command = undos.pop();</b>
+<b class="fc"><i>31</i>&nbsp;        command.undo();</b>
+<b class="fc"><i>32</i>&nbsp;        redos.push(command);</b>
+<b class="fc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public void redo() throws Command.IllegalExecutionException {
+<b class="nc"><i>36</i>&nbsp;        assert (isRedoAvailable());</b>
+<b class="nc"><i>37</i>&nbsp;        Command command = redos.pop();</b>
+<b class="nc"><i>38</i>&nbsp;        command.execute();</b>
+<b class="nc"><i>39</i>&nbsp;        undos.push(command);</b>
+<b class="nc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-10-04 21:53</div>
+</div>
+</body>
+</html>

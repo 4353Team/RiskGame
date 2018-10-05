@@ -1,0 +1,85 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">riskgame.ui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UI (riskgame.ui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">UI</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package riskgame.ui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import riskgame.GameEngine;
+<i>4</i>&nbsp;import riskgame.GameMaps;
+<i>5</i>&nbsp;import riskgame.commands.Command;
+<i>6</i>&nbsp;import riskgame.gameobject.Territory;
+<i>7</i>&nbsp;import riskgame.gameobject.player.Player;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.List;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * essentially an Observer (design pattern) with the ability to prompt
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public interface UI {
+<i>15</i>&nbsp;    public void addGame(GameEngine gameEngine);
+<i>16</i>&nbsp;    public void update();
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public GameMaps.GameMap selectMap(GameMaps gameMaps);
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * display exception to player
+<i>22</i>&nbsp;     * @param e the Exception
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    public void error(Exception e);
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * implementation is up to the UI. First player in the returned list goes first.
+<i>28</i>&nbsp;     * @return List of configured players
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    List&lt;Player&gt; selectAndNamePlayers();
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * Only happens during the initial stage, Player currentPlayer picks where to draft their army one at a time.
+<i>34</i>&nbsp;     * @param currentPlayer the Player whose turn it is to pick
+<i>35</i>&nbsp;     * @return the Territory the Player picked to add an army to
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;    Territory getInitDraftPick(Player currentPlayer);
+<i>38</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-10-04 21:53</div>
+</div>
+</body>
+</html>

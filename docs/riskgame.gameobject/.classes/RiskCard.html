@@ -1,0 +1,128 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RiskCard</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">riskgame.gameobject</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RiskCard (riskgame.gameobject)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RiskCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RiskCard$RISK_CARD_TYPE</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package riskgame.gameobject;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;public class RiskCard {
+<b class="nc"><i>4</i>&nbsp;    enum RISK_CARD_TYPE {</b>
+<b class="nc"><i>5</i>&nbsp;        INFANTRY, CAVALRY, ARTILLERY</b>
+<i>6</i>&nbsp;    }
+<i>7</i>&nbsp;//this assures that each card can only be of one type
+<b class="nc"><i>8</i>&nbsp;    public RiskCard(Territory territory, RISK_CARD_TYPE type) {</b>
+<b class="nc"><i>9</i>&nbsp;        this.territory = territory;</b>
+<b class="nc"><i>10</i>&nbsp;        this.type = type;</b>
+<i>11</i>&nbsp;    }
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    final RISK_CARD_TYPE type;
+<i>14</i>&nbsp;    Territory territory;
+<i>15</i>&nbsp;
+<b class="nc"><i>16</i>&nbsp;    RiskCard(RISK_CARD_TYPE type) {</b>
+<b class="nc"><i>17</i>&nbsp;        this.type = type;</b>
+<i>18</i>&nbsp;    }
+<i>19</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-10-04 21:53</div>
+</div>
+</body>
+</html>
