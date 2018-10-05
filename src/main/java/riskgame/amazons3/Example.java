@@ -41,7 +41,7 @@ import java.nio.file.Paths;
 
             String newBucketName = "testbucket42" + System.currentTimeMillis();
             s3Client.createBucket(newBucketName);
-            s3Client.putObject(newBucketName, "text.txt",  new File("/Users/JoshChan/Desktop/text.txt"));
+            s3Client.putObject(newBucketName, "text.txt",  new File("text.txt"));
 
             S3Object testObject = null;
             testObject = s3Client.getObject(new GetObjectRequest(newBucketName, "text.txt"));
