@@ -119,7 +119,5 @@ public class CommandTest {
         commandManager.undo();
         assertTrue(territoryA.getArmies() == numArmiesA);
         assertTrue(territoryC.getArmies() == numArmiesC);
-
-
     }
 }

@@ -1,5 +1,7 @@
 package riskgame.gameobject;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import riskgame.commands.Command;
 import riskgame.gameobject.player.Player;
 
@@ -8,6 +10,7 @@ import java.util.List;
 
 public class Territory {
     public static final Player NoOwner = new Player("NO OWNER");
+    private static final Logger logger = LogManager.getLogger(Territory.class);
     String name;
     List<Territory> neighbors = new ArrayList<Territory>();
     Player controlledBy = NoOwner; // default unowned territory
@@ -42,8 +45,16 @@ public class Territory {
         return this.controlledBy;
     }
 
+    public void setControlledBy(Player controlledBy) {
+        this.controlledBy = controlledBy;
+    }
+
     public int getArmies() {
         return armies;
+    }
+
+    private void setArmies(int armies) {
+        this.armies = armies;
     }
 
     private void changeArmies(int changeInArmies) throws NegativeArmiesException {
@@ -53,6 +64,10 @@ public class Territory {
 
     public void addNeighbor(Territory t2) {
         neighbors.add(t2);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public static class Attack implements Command {
@@ -74,6 +89,13 @@ public class Territory {
             this.defendingTerritory = defending;
         }
 
+        /**
+         * ToDo: move all calculation and randomization code to constructor and keep mutable code
+         * ToDo: split this command into two commands, the second of which chooses how many troops to move to new
+         * ToDo: Territory if conquer is successful
+         *
+         * @throws IllegalExecutionException
+         */
         @Override
         public void execute() throws IllegalExecutionException {
             if (attackingTerritory.getControlledBy() == defendingTerritory.getControlledBy())
@@ -92,7 +114,7 @@ public class Territory {
 
             int lowest = (attackDices > defenseDices) ? defenseDices : attackDices;
             int numberAttackersRemoved = 0;
-            for (int i = 0; i < lowest;i++) {
+            for (int i = 0; i < lowest; i++) {
                 if (attackingNums.get(i) > defendingNums.get(i)) {
                     // attack winner
                     System.out.println(attackingTerritory.getName() + " wins");
@@ -104,6 +126,7 @@ public class Territory {
                         System.out.println(attackingTerritory.getName() + " captures " + defendingTerritory.getName() + "!!");
                         //territoriesCapturedThisTurn += 1;
 
+                        // todo: make a separate command
                         int movetroops = 2;
 
                         System.out.printf("%s decides to move %d troop%s from %s to %s\n", attackingTerritory.getName(), movetroops, (movetroops == 1) ? "" : "s", attackingTerritory.getName(), defendingTerritory.getName());
@@ -138,21 +161,11 @@ public class Territory {
                 defendingTerritory.setControlledBy(defendingPlayerBefore);
             }
         }
-    }
 
-
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setControlledBy(Player controlledBy) {
-        this.controlledBy = controlledBy;
-    }
-
-    private void setArmies(int armies) {
-        this.armies = armies;
+        @Override
+        public void log() {
+            logger.warn("We haven't implemented attack yet!!!");
+        }
     }
 
     public static class DraftOneArmy implements Command {
@@ -160,6 +173,15 @@ public class Territory {
 
         public DraftOneArmy(Territory t) {
             territory = t;
+        }
+
+        /**
+         * Logs the action of the command
+         */
+        @Override
+        public void log() {
+            logger.info("One army drafted to Territory: " + territory.getName() + ", controlled by Player: " +
+                    territory.getControlledBy().getName());
         }
 
         @Override

@@ -1,8 +1,11 @@
 package riskgame.gameobject;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import riskgame.commands.Command;
 
 public class MoveTroops implements Command {
+    private final static Logger logger = LogManager.getLogger(MoveTroops.class);
 
     private Territory originTerritory;
     private Territory destinationTerritory;
@@ -14,6 +17,15 @@ public class MoveTroops implements Command {
         this.destinationTerritory = newDestinationTerritory;
         this.numArmies = numArmies;
     }
+
+    /**
+     * Logs the action of the command
+     */
+    @Override
+    public void log() {
+        logger.info(numArmies + " troops are being moved from Territory: " + originTerritory + " to Territory: " + destinationTerritory);
+    }
+
     @Override
     public void execute() throws IllegalExecutionException {
         // assures that player leaves at least one troop behind
