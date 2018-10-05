@@ -5,9 +5,7 @@
 <html id="htmlId">
 <head>
   
-  <style type="text/css">
-    @import "./.css/coverage.css";
-  </style>
+
 </head>
 
 <body>
