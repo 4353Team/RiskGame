@@ -4,7 +4,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html id="htmlId">
 <head>
-  <title>Coverage Report :: Summary</title>
+  
   <style type="text/css">
     @import "./.css/coverage.css";
   </style>
@@ -15,7 +15,7 @@
 
 <div class="content">
 <div class="breadCrumbs">
-   [ all classes ]
+
 </div>
 
 <h1>Overall Coverage Summary </h1>
