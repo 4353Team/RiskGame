@@ -71,23 +71,37 @@ public class Territory {
     }
 
     public static class Attack implements Command {
-        int attackingArmyBefore;
-        int defendingArmyBefore;
-        Territory gainedTerritoryByAttacker = null;
-        StringBuilder toLog = new StringBuilder();
         private Territory attackingTerritory;
         private Territory defendingTerritory;
+
         private Player defendingPlayerBefore;
+
+        int attackingArmyBefore;
+        int defendingArmyBefore;
+
         private int attackingArmyAfter;
         private int defendingArmyAfter;
+
+        Territory gainedTerritoryByAttacker = null;
 
         public Attack(Territory attacking, Territory defending) {
             this.attackingTerritory = attacking;
             this.defendingTerritory = defending;
+        }
 
+        /**
+         * ToDo: move all calculation and randomization code to constructor and keep mutable code
+         * ToDo: split this command into two commands, the second of which chooses how many troops to move to new
+         * ToDo: Territory if conquer is successful
+         *
+         * @throws IllegalExecutionException
+         */
+        @Override
+        public void execute() throws IllegalExecutionException {
+            if (attackingTerritory.getControlledBy() == defendingTerritory.getControlledBy())
+                throw new IllegalExecutionException(new SelfAttackException());
             attackingArmyBefore = attackingTerritory.getArmies();
             defendingArmyBefore = defendingTerritory.getArmies();
-
             defendingPlayerBefore = defendingTerritory.getControlledBy();
 
             int attackDices = (attackingTerritory.getArmies() - 1) > 3 ? 3 : (attackingTerritory.getArmies() - 1);
@@ -103,51 +117,38 @@ public class Territory {
             for (int i = 0; i < lowest; i++) {
                 if (attackingNums.get(i) > defendingNums.get(i)) {
                     // attack winner
-                    toLog.append(attackingTerritory.getName() + " wins");
-                    defendingArmyAfter = defendingArmyBefore - 1;
+                    System.out.println(attackingTerritory.getName() + " wins");
+                    defendingTerritory.removeArmies(1);
                     if (defendingTerritory.getArmies() == 0) { // if invaded
                         defendingTerritory.setControlledBy(attackingTerritory.getControlledBy());
                         gainedTerritoryByAttacker = defendingTerritory;
                         // occupy territory
-                        toLog.append(attackingTerritory.getName() + " captures " + defendingTerritory.getName() + "!!");
+                        System.out.println(attackingTerritory.getName() + " captures " + defendingTerritory.getName() + "!!");
+                        //territoriesCapturedThisTurn += 1;
 
                         // todo: make a separate command
                         int movetroops = 2;
 
-                        toLog.append(String.format("%s decides to move %d troop%s from %s to %s\n",
-                                attackingTerritory.getName(),
-                                movetroops, (movetroops == 1) ? "" : "s", attackingTerritory.getName(),
-                                defendingTerritory.getName()));
-                        if (attackingArmyAfter - movetroops >= 1) {
+                        System.out.printf("%s decides to move %d troop%s from %s to %s\n", attackingTerritory.getName(), movetroops, (movetroops == 1) ? "" : "s", attackingTerritory.getName(), defendingTerritory.getName());
+                        if (attackingTerritory.getArmies() - movetroops >= 1) {
                             defendingTerritory.setArmies(movetroops);
                             defendingTerritory.setControlledBy(attackingTerritory.getControlledBy());
                             attackingTerritory.getControlledBy().addTerritory(defendingTerritory);
                             defendingTerritory.getControlledBy().removeTerritory(defendingTerritory);
                             attackingTerritory.removeArmies(movetroops);
                         } else
-                            toLog.append("Cannot move " + movetroops + ". You need to leave at least one troop behind.");
+                            System.out.println("Cannot move " + movetroops + ". You need to leave at least one troop behind.");
                     }
                 } else {
                     // defense winner
                     System.out.println("defender" + " wins");
                     if (numberAttackersRemoved < 2)
-                        attackingArmyAfter = attackingArmyBefore - 1;
+                        attackingTerritory.removeArmies(1);
                     numberAttackersRemoved += 1;
                 }
                 attackingArmyAfter = attackingTerritory.getArmies();
                 defendingArmyAfter = defendingTerritory.getArmies();
             }
-        }
-
-        /**
-         * ToDo: move all calculation and randomization code to constructor and keep mutable code
-         *
-         * @throws IllegalExecutionException
-         */
-        @Override
-        public void execute() throws IllegalExecutionException {
-            if (attackingTerritory.getControlledBy() == defendingTerritory.getControlledBy())
-                throw new IllegalExecutionException(new SelfAttackException());
         }
 
         @Override
