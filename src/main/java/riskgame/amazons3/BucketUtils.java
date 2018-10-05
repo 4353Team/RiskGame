@@ -22,7 +22,7 @@ public class BucketUtils {
     public static void deleteAllBuckets(AmazonS3Client s3Client) throws Exception {
         for (Bucket bucket:s3Client.listBuckets()){
 
-            System.out.println("deleting bucket.."+ bucket.getName());
+ //           System.out.println("deleting bucket.."+ bucket.getName());
             BucketUtils.deleteBucket(bucket.getName(), s3Client);
 
         }
@@ -33,7 +33,7 @@ public class BucketUtils {
     public static void deleteBucket(String bucketName,AmazonS3Client s3client) throws IOException {
 
         try {
-            System.out.println("Deleting S3 bucket: " + bucketName);
+         //   System.out.println("Deleting S3 bucket: " + bucketName);
             ObjectListing objectListing = s3client.listObjects(bucketName);
 
             while (true) {

@@ -5,10 +5,11 @@ import org.apache.logging.log4j.Logger;
 import riskgame.commands.Command;
 import riskgame.gameobject.player.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Territory {
+public class Territory implements Serializable {
     public static final Player NoOwner = new Player("NO OWNER");
     private static final Logger logger = LogManager.getLogger(Territory.class);
     String name;
@@ -168,7 +169,7 @@ public class Territory {
         }
     }
 
-    public static class DraftOneArmy implements Command {
+    public static class DraftOneArmy implements Command, Serializable {
         Territory territory;
 
         public DraftOneArmy(Territory t) {

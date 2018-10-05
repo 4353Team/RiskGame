@@ -1,8 +1,9 @@
 package riskgame.commands;
 
+import java.io.*;
 import java.util.Stack;
 
-public class CommandManager {
+public class CommandManager implements Serializable {
     private static boolean log = true;
     private Stack<Command> undos = new Stack<Command>(); // will be the history for the entire game at the end
     private Stack<Command> redos = new Stack<Command>();
@@ -37,5 +38,12 @@ public class CommandManager {
         Command command = redos.pop();
         command.execute();
         undos.push(command);
+    }
+    public int getUndosCount(){
+        return undos.size();
+    }
+
+    public int getRedosCount(){
+        return redos.size();
     }
 }

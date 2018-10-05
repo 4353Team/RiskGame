@@ -3,12 +3,13 @@ package riskgame.gameobject.player;
 import riskgame.gameobject.RiskCard;
 import riskgame.gameobject.Territory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Player {
+public class Player implements Serializable {
     String name;
     List<RiskCard> hand;
     Set<Territory> territories= new HashSet<Territory>();
