@@ -11,7 +11,10 @@ import riskgame.amazons3.Credentials;
 import riskgame.commands.Command;
 import riskgame.commands.CommandManager;
 import riskgame.gameobject.Territory;
+import riskgame.gameobject.player.CreditCardPrompt;
+import riskgame.gameobject.player.NotEnoughCreditException;
 import riskgame.gameobject.player.Player;
+import riskgame.gameobject.player.PlayerCredit;
 import riskgame.ui.UI;
 
 import java.io.*;
@@ -37,14 +40,20 @@ public class SingleUIGame implements GameEngine {
 
     @Override
     public void start() throws Exception {
+
         gameState = GameState.SELECT_MAP;
+
         boolean exit = false;
         while (!exit) {
-            try {
+            try { // every GameState sets the next state
                 switch (gameState) {
+                    // GameState.SELECT_MAP
                     case SELECT_MAP:
-                        GameMaps.GameMap selectedGameMap = ui.selectMap(GameMaps.instanceOf());
+                        // UI's input
+                        GameMaps.GameMap selectedGameMap = ui.selectMap(GameMaps.instanceOf()); // give the UI data to display possible maps
+                        // Use UI's input for new Command
                         Command selectMap = new SelectMap(this, selectedGameMap);
+                        // Execute the Command
                         commandManager.executeCommand(selectMap);
                         break;
                     case SELECT_PLAYERS:
@@ -55,15 +64,16 @@ public class SingleUIGame implements GameEngine {
                     case INIT_DRAFT:
                         // not finished - this is a test essentially
                         int armiesDrafted = 0;
-                        while (armiesDrafted < 50) {
+                        while (armiesDrafted < 50) { // only goes to 50 armies arbitrarily
                             Territory territory = ui.getInitDraftPick(currentPlayer);
                             Command draftOneInit = new DraftOneInit(this, territory, currentPlayer);
-                            commandManager.executeCommand(draftOneInit); // selects the next player in the command as
-                            // well
+                            commandManager.executeCommand(draftOneInit); // selects the next player in the command as well
                             armiesDrafted++;
                         }
                         gameState = GameState.END;
                         break;
+                    // DRAFT, ATTACK, FORTIFY,
+
                     case END:
                         exit = true;
                         break;
@@ -75,6 +85,11 @@ public class SingleUIGame implements GameEngine {
         }
     }
 
+    /**
+     * eventually remove this and replace with just buyUndo()
+     *
+     * @throws Exception
+     */
     @Override
     public void undo() throws Exception {
         commandManager.undo();
@@ -83,6 +98,27 @@ public class SingleUIGame implements GameEngine {
     @Override
     public void redo() throws Exception {
         commandManager.redo();
+    }
+
+    @Override
+    public void buyUndo(PlayerCredit creditToUse) throws NotEnoughCreditException {
+        try {
+            creditToUse.removeCredit(1);
+            commandManager.undo();
+        } catch (CreditCardPrompt creditCardPrompt) {
+            try {
+                int creditToAdd = ui.creditCardPrompt(creditCardPrompt);
+                creditCardPrompt.credit.addCredit(creditToAdd);
+                commandManager.undo();
+
+            } catch (UI.CreditPromptCancelledException ignored) { }
+            catch (Command.IllegalUndoException e) {
+                e.printStackTrace();
+            }
+
+        } catch (Command.IllegalUndoException ignore) {
+            ignore.printStackTrace();
+        }
     }
 
     @Override
@@ -235,7 +271,6 @@ public class SingleUIGame implements GameEngine {
             this.territory = territory;
         }
     }
-
 
 
 }

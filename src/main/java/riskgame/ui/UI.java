@@ -4,6 +4,7 @@ import riskgame.GameEngine;
 import riskgame.GameMaps;
 import riskgame.commands.Command;
 import riskgame.gameobject.Territory;
+import riskgame.gameobject.player.CreditCardPrompt;
 import riskgame.gameobject.player.Player;
 
 import java.util.List;
@@ -35,4 +36,16 @@ public interface UI {
      * @return the Territory the Player picked to add an army to
      */
     Territory getInitDraftPick(Player currentPlayer);
+
+    /**
+     * This should prompt the user with a window containing one input,
+     * a textbox where an integer will be input as to how many credits to buy.
+     * Do not implement any actual credit card functionality.
+     *
+     * @param creditCardPrompt the data needed to show the user
+     * @return the number of credits to add
+     */
+    int creditCardPrompt(CreditCardPrompt creditCardPrompt) throws CreditPromptCancelledException;
+
+    class CreditPromptCancelledException extends Exception { }
 }

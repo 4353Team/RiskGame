@@ -92,8 +92,8 @@ public class Territory implements Serializable {
 
         /**
          * ToDo: move all calculation and randomization code to constructor and keep mutable code
-         * ToDo: split this command into two commands, the second of which chooses how many troops to move to new
-         * ToDo: Territory if conquer is successful
+         * ToDo: split this command into two commands, the second of which, the user chooses how many troops to move to new
+         * ToDo: Territory if conquer is successful (only after conquering the territory)
          *
          * @throws IllegalExecutionException
          */
