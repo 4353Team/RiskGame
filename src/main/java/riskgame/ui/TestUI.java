@@ -3,6 +3,8 @@ package riskgame.ui;
 import riskgame.GameEngine;
 import riskgame.GameMaps;
 import riskgame.gameobject.Territory;
+import riskgame.gameobject.player.CreditCardPrompt;
+import riskgame.gameobject.player.NotEnoughCreditException;
 import riskgame.gameobject.player.Player;
 
 import java.util.List;
@@ -67,6 +69,22 @@ public class TestUI implements UI {
     public Territory getInitDraftPick(Player currentPlayer) {
         int index = playerSetup.indexOf(currentPlayer);
         return map.get(index);
+    }
+
+    /**
+     * always buys 5 more credits than needed
+     * @param creditCardPrompt the data needed to show the user
+     * @return
+     * @throws CreditPromptCancelledException
+     */
+    @Override
+    public int creditCardPrompt(CreditCardPrompt creditCardPrompt) throws CreditPromptCancelledException {
+        return 5 + creditCardPrompt.neededCredit;
+    }
+
+    @Override
+    public void notEnoughCredit(NotEnoughCreditException e) {
+        System.out.println("Not enough credit, need: " + e.creditNeeded + " but have " + e.actualCredit);
     }
 
     private String expectedMap;

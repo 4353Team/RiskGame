@@ -71,6 +71,11 @@ public class Territory implements Serializable {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
     public static class Attack implements Command {
         private Territory attackingTerritory;
         private Territory defendingTerritory;
@@ -92,8 +97,8 @@ public class Territory implements Serializable {
 
         /**
          * ToDo: move all calculation and randomization code to constructor and keep mutable code
-         * ToDo: split this command into two commands, the second of which chooses how many troops to move to new
-         * ToDo: Territory if conquer is successful
+         * ToDo: split this command into two commands, the second of which, the user chooses how many troops to move to new
+         * ToDo: Territory if conquer is successful (only after conquering the territory)
          *
          * @throws IllegalExecutionException
          */

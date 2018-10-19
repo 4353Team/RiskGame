@@ -1,31 +1,33 @@
 package riskgame;
 
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import riskgame.amazons3.BucketUtils;
-import riskgame.amazons3.Credentials;
 import riskgame.commands.Command;
 import riskgame.commands.CommandManager;
+import riskgame.gameobject.RiskCard;
 import riskgame.gameobject.Territory;
+import riskgame.gameobject.player.CreditCardPrompt;
+import riskgame.gameobject.player.NotEnoughCreditException;
 import riskgame.gameobject.player.Player;
+import riskgame.gameobject.player.PlayerCredit;
 import riskgame.ui.UI;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class SingleUIGame implements GameEngine {
     private static final Logger logger = LogManager.getLogger(SingleUIGame.class);
+    public static final int UNDO_PRICE = 1;
+    public static final int RISK_CARD_PRICE = 1;
+
     private final CommandManager commandManager = new CommandManager();
     private UI ui;
     private List<Territory> territories;
     private GameState gameState;
     private Player currentPlayer;
     private List<Player> playerOrderList = new ArrayList<>();
+    private Stack<RiskCard> riskCardStack = new Stack<>();
 
     public SingleUIGame() {
     }
@@ -37,14 +39,20 @@ public class SingleUIGame implements GameEngine {
 
     @Override
     public void start() throws Exception {
+
         gameState = GameState.SELECT_MAP;
+
         boolean exit = false;
         while (!exit) {
-            try {
+            try { // every GameState sets the next state
                 switch (gameState) {
+                    // GameState.SELECT_MAP
                     case SELECT_MAP:
-                        GameMaps.GameMap selectedGameMap = ui.selectMap(GameMaps.instanceOf());
+                        // UI's input
+                        GameMaps.GameMap selectedGameMap = ui.selectMap(GameMaps.instanceOf()); // give the UI data to display possible maps
+                        // Use UI's input for new Command
                         Command selectMap = new SelectMap(this, selectedGameMap);
+                        // Execute the Command
                         commandManager.executeCommand(selectMap);
                         break;
                     case SELECT_PLAYERS:
@@ -55,15 +63,16 @@ public class SingleUIGame implements GameEngine {
                     case INIT_DRAFT:
                         // not finished - this is a test essentially
                         int armiesDrafted = 0;
-                        while (armiesDrafted < 50) {
+                        while (armiesDrafted < 50) { // only goes to 50 armies arbitrarily
                             Territory territory = ui.getInitDraftPick(currentPlayer);
                             Command draftOneInit = new DraftOneInit(this, territory, currentPlayer);
-                            commandManager.executeCommand(draftOneInit); // selects the next player in the command as
-                            // well
+                            commandManager.executeCommand(draftOneInit); // selects the next player in the command as well
                             armiesDrafted++;
                         }
                         gameState = GameState.END;
                         break;
+                    // DRAFT, ATTACK, FORTIFY,
+
                     case END:
                         exit = true;
                         break;
@@ -75,6 +84,11 @@ public class SingleUIGame implements GameEngine {
         }
     }
 
+    /**
+     * eventually remove this and replace with just buyUndo()
+     *
+     * @throws Exception
+     */
     @Override
     public void undo() throws Exception {
         commandManager.undo();
@@ -83,6 +97,43 @@ public class SingleUIGame implements GameEngine {
     @Override
     public void redo() throws Exception {
         commandManager.redo();
+    }
+
+    @Override
+    public void buyUndo(PlayerCredit creditToUse) throws NotEnoughCreditException {
+        try {
+            creditToUse.removeCredit(UNDO_PRICE);
+            commandManager.undo();
+        } catch (CreditCardPrompt creditCardPrompt) {
+            try {
+                int creditToAdd = ui.creditCardPrompt(creditCardPrompt);
+                creditCardPrompt.credit.addCredit(creditToAdd);
+
+            } catch (UI.CreditPromptCancelledException ignored) { }
+
+        } catch (Command.IllegalUndoException ignore) {
+            ignore.printStackTrace();
+        }
+    }
+
+    @Override
+    public void buyRiskCards(PlayerCredit creditToUse, Player buyer) throws NotEnoughCreditException, CreditCardPrompt {
+        try {
+            creditToUse.removeCredit(RISK_CARD_PRICE);
+
+            Command command = new TakeTopOfStackAndGiveToPlayer(this, buyer);
+            commandManager.executeCommand(command);
+
+        } catch (NotEnoughCreditException e) {
+            ui.notEnoughCredit(e);
+        } catch (CreditCardPrompt creditCardPrompt) { // credit card prompt has information on credit
+            try {
+                int creditToAdd = ui.creditCardPrompt(creditCardPrompt); // you ain't getting yo money back :P
+                creditCardPrompt.credit.addCredit(creditToAdd);
+
+            } catch (UI.CreditPromptCancelledException ignored) {
+            }
+        } catch (Command.IllegalExecutionException ignored) { }
     }
 
     @Override
@@ -237,5 +288,37 @@ public class SingleUIGame implements GameEngine {
     }
 
 
+    private class TakeTopOfStackAndGiveToPlayer implements Command {
+        private final SingleUIGame singleUIGame;
+        private final Player player;
+        private RiskCard givenCard;
 
+        Command giveCardCommand;
+
+        public TakeTopOfStackAndGiveToPlayer(SingleUIGame singleUIGame, Player player) {
+            this.singleUIGame = singleUIGame;
+            this.player = player;
+        }
+
+        @Override
+        public void log() {
+
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+            givenCard = singleUIGame.riskCardStack.pop();
+
+            giveCardCommand = new Player.GiveCard(player, givenCard);
+
+            giveCardCommand.execute();
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+            singleUIGame.riskCardStack.push(givenCard);
+
+            giveCardCommand.undo();
+        }
+    }
 }
