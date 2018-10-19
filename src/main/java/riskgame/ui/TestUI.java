@@ -4,6 +4,7 @@ import riskgame.GameEngine;
 import riskgame.GameMaps;
 import riskgame.gameobject.Territory;
 import riskgame.gameobject.player.CreditCardPrompt;
+import riskgame.gameobject.player.NotEnoughCreditException;
 import riskgame.gameobject.player.Player;
 
 import java.util.List;
@@ -79,6 +80,11 @@ public class TestUI implements UI {
     @Override
     public int creditCardPrompt(CreditCardPrompt creditCardPrompt) throws CreditPromptCancelledException {
         return 5 + creditCardPrompt.neededCredit;
+    }
+
+    @Override
+    public void notEnoughCredit(NotEnoughCreditException e) {
+        System.out.println("Not enough credit, need: " + e.creditNeeded + " but have " + e.actualCredit);
     }
 
     private String expectedMap;

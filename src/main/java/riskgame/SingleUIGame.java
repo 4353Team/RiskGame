@@ -108,12 +108,8 @@ public class SingleUIGame implements GameEngine {
             try {
                 int creditToAdd = ui.creditCardPrompt(creditCardPrompt);
                 creditCardPrompt.credit.addCredit(creditToAdd);
-                commandManager.undo();
 
             } catch (UI.CreditPromptCancelledException ignored) { }
-            catch (Command.IllegalUndoException e) {
-                e.printStackTrace();
-            }
 
         } catch (Command.IllegalUndoException ignore) {
             ignore.printStackTrace();
