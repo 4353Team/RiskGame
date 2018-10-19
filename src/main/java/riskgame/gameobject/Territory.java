@@ -71,6 +71,11 @@ public class Territory implements Serializable {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
     public static class Attack implements Command {
         private Territory attackingTerritory;
         private Territory defendingTerritory;

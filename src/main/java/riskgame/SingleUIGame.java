@@ -10,6 +10,7 @@ import riskgame.amazons3.BucketUtils;
 import riskgame.amazons3.Credentials;
 import riskgame.commands.Command;
 import riskgame.commands.CommandManager;
+import riskgame.gameobject.RiskCard;
 import riskgame.gameobject.Territory;
 import riskgame.gameobject.player.CreditCardPrompt;
 import riskgame.gameobject.player.NotEnoughCreditException;
@@ -20,15 +21,20 @@ import riskgame.ui.UI;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class SingleUIGame implements GameEngine {
     private static final Logger logger = LogManager.getLogger(SingleUIGame.class);
+    public static final int UNDO_PRICE = 1;
+    public static final int RISK_CARD_PRICE = 1;
+
     private final CommandManager commandManager = new CommandManager();
     private UI ui;
     private List<Territory> territories;
     private GameState gameState;
     private Player currentPlayer;
     private List<Player> playerOrderList = new ArrayList<>();
+    private Stack<RiskCard> riskCardStack = new Stack<>();
 
     public SingleUIGame() {
     }
@@ -103,7 +109,7 @@ public class SingleUIGame implements GameEngine {
     @Override
     public void buyUndo(PlayerCredit creditToUse) throws NotEnoughCreditException {
         try {
-            creditToUse.removeCredit(1);
+            creditToUse.removeCredit(UNDO_PRICE);
             commandManager.undo();
         } catch (CreditCardPrompt creditCardPrompt) {
             try {
@@ -118,6 +124,20 @@ public class SingleUIGame implements GameEngine {
 
         } catch (Command.IllegalUndoException ignore) {
             ignore.printStackTrace();
+        }
+    }
+
+    @Override
+    public void buyRiskCards(PlayerCredit creditToUse, Player buyer) throws NotEnoughCreditException, CreditCardPrompt {
+        try {
+            creditToUse.removeCredit(RISK_CARD_PRICE);
+
+            //Command giveCard = new Player.GiveCard(buyer,takeTopopOfStack());
+            // aggregate number of risk cards
+        } catch (NotEnoughCreditException e) {
+            e.printStackTrace();
+        } catch (CreditCardPrompt creditCardPrompt) {
+            creditCardPrompt.printStackTrace();
         }
     }
 
