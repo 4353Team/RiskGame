@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 import riskgame.commands.Command;
 import riskgame.commands.CommandManager;
 import riskgame.gameobject.MoveTroops;
+import riskgame.gameobject.RiskCard;
 import riskgame.gameobject.player.Player;
 import riskgame.gameobject.Territory;
 
@@ -120,4 +121,71 @@ public class CommandTest {
         assertTrue(territoryA.getArmies() == numArmiesA);
         assertTrue(territoryC.getArmies() == numArmiesC);
     }
+
+    @Test
+    public void GiveCard() throws Command.IllegalExecutionException {
+        Player player = new Player("ev");
+        Territory territory = new Territory("Russia");
+        RiskCard card = new RiskCard(territory, RiskCard.RISK_CARD_TYPE.CAVALRY);
+        Command command = new Player.GiveCard(player,card);
+        CommandManager commandManager = new CommandManager();
+        commandManager.executeCommand(command);
+        assertTrue(player.getHand().contains(card));
+    }
+
+    @Test
+    public void TakeCard() throws Command.IllegalExecutionException {
+        Player player = new Player("ev");
+        Territory territory = new Territory("Mexico");
+        RiskCard card = new RiskCard(territory, RiskCard.RISK_CARD_TYPE.CAVALRY);
+
+        // giving player a card
+        Command command = new Player.GiveCard(player,card);
+        CommandManager commandManager = new CommandManager();
+        commandManager.executeCommand(command);
+
+        //taking player's card... away (:
+        Command command2 = new Player.TakeCard(player,card);
+        commandManager.executeCommand(command2);
+        assertTrue(!player.getHand().contains(card));
+    }
+
+    @Test
+    public void GiveCardUndo() throws Command.IllegalExecutionException, Command.IllegalUndoException {
+        Player player = new Player("Avocado");
+        Territory territory = new Territory("Mexico");
+        RiskCard card = new RiskCard(territory, RiskCard.RISK_CARD_TYPE.CAVALRY);
+        Command command = new Player.GiveCard(player,card);
+        CommandManager commandManager = new CommandManager();
+        commandManager.executeCommand(command);
+        assertTrue(player.getHand().contains(card));
+        commandManager.undo();
+        assertTrue(!player.getHand().contains(card));
+    }
+
+    @Test
+    public void TakeCardUndo() throws Command.IllegalExecutionException, Command.IllegalUndoException {
+        Player player = new Player("ev");
+        Territory territory = new Territory("Russia");
+        RiskCard card = new RiskCard(territory, RiskCard.RISK_CARD_TYPE.CAVALRY);
+
+        // giving player a card
+        Command command = new Player.GiveCard(player,card);
+        CommandManager commandManager = new CommandManager();
+        commandManager.executeCommand(command);
+
+        //taking player's card... away (:
+        Command command2 = new Player.TakeCard(player,card);
+        commandManager.executeCommand(command2);
+        assertTrue(!player.getHand().contains(card));
+
+        //give player card again
+        commandManager.undo();
+        assertTrue(player.getHand().contains(card));
+    }
+
+
+
+
+
 }
