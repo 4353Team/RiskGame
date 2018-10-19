@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 
-public class Player implements Serializable {
+public class Player implements Serializable, Observer {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(SingleUIGame.class);
     String name;
     List<RiskCard> hand = new ArrayList<>();
@@ -49,6 +49,11 @@ public class Player implements Serializable {
 
     public int getCredit() {
         return credit.getNumCredit();
+    }
+
+    @Override
+    public void update() {
+
     }
 
     /**

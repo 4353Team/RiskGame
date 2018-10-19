@@ -3,32 +3,38 @@ package riskgame.gameobject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import riskgame.commands.Command;
+import riskgame.gameobject.player.Observable;
+import riskgame.gameobject.player.Observer;
 import riskgame.gameobject.player.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Territory implements Serializable {
+public class Territory implements Serializable, Observable {
     public static final Player NoOwner = new Player("NO OWNER");
     private static final Logger logger = LogManager.getLogger(Territory.class);
     String name;
     List<Territory> neighbors = new ArrayList<Territory>();
     Player controlledBy = NoOwner; // default unowned territory
+    ArrayList<Observer> observers;
     int armies;
 
     public Territory(String name) {
         this.name = name;
         NoOwner.addTerritory(this);
         armies = 0;
+        observers = new ArrayList<Observer>();
     }
 
     public Territory(Player p1) {
+        observers = new ArrayList<Observer>();
         controlledBy = p1;
         armies = 0;
     }
 
     public Territory(Player p1, String name) {
+        observers = new ArrayList<Observer>();
         controlledBy = p1;
         armies = 0;
         this.name = name;
@@ -74,6 +80,21 @@ public class Territory implements Serializable {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    @Override
+    public void register(Observer inObserver) {
+        observers.add(inObserver);
+    }
+
+    @Override
+    public void unregister(Observer inObserver) {
+        observers.remove(inObserver);
+    }
+
+    @Override
+    public void notifyObserver(Observer inObserver) {
+
     }
 
     public static class Attack implements Command {
