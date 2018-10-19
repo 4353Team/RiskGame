@@ -13,6 +13,7 @@ public class Player implements Serializable {
     String name;
     List<RiskCard> hand;
     Set<Territory> territories= new HashSet<Territory>();
+    PlayerCredit credit = new ProxyCredit(0);
 
     public Player(String name) {
         this.name = name;
