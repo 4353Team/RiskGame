@@ -19,4 +19,9 @@ public class Credit implements PlayerCredit{
     public void addCredit(int numToAdd) {
         totalCredit = totalCredit + numToAdd;
     }
+
+    @Override
+    public int getNumCredit() {
+        return totalCredit;
+    }
 }

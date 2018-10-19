@@ -28,18 +28,16 @@ public class GameTest {
         testUI.expectMap(GameMaps.TERRITORY_STRAIGHT_LINE);
 
         GameEngine gameEngine = new SingleUIGame();
+
         gameEngine.addUi(testUI);
         testUI.addGame(gameEngine);
+
         gameEngine.start();
 
         assertTrue(testUI.map.get(1).getControlledBy() == playerList.get(1));
+}
 
-
-
-
-    }
-
-    @Test
+    @Test(enabled = false)
     public void amazonTest() throws  Exception{
         Player player = new Player();
         Territory t = new Territory(player);
@@ -58,8 +56,6 @@ public class GameTest {
         CommandManager myCommandManager = as3.readCommandManagerState();
         assertTrue(commandManager.getUndosCount() == 2);
         assertTrue(commandManager.getRedosCount() == 1);
-
-
     }
 
 }
