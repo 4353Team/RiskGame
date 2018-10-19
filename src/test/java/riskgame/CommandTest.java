@@ -5,8 +5,14 @@ import riskgame.commands.Command;
 import riskgame.commands.CommandManager;
 import riskgame.gameobject.MoveTroops;
 import riskgame.gameobject.RiskCard;
+import riskgame.gameobject.player.Credit;
 import riskgame.gameobject.player.Player;
 import riskgame.gameobject.Territory;
+import riskgame.ui.TestUI;
+import riskgame.ui.UI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
@@ -182,6 +188,21 @@ public class CommandTest {
         //give player card again
         commandManager.undo();
         assertTrue(player.getHand().contains(card));
+    }
+
+    @Test
+    public void TransferCredit() throws Command.IllegalExecutionException {
+        Player playerGivingCredit = new Player("PAC",99);
+        int playerGivingCreditNum = playerGivingCredit.getCredit();
+        Player playerReceivingCredit = new Player("Ted Cruz",0);
+        int playerReceivingCreditNUm = playerReceivingCredit.getCredit();
+        UI ui = new TestUI(new ArrayList<Player>());
+
+        Command command = new Player.TransferCredit(playerGivingCredit,playerReceivingCredit,90,ui);
+        CommandManager commandManager = new CommandManager();
+        commandManager.executeCommand(command);
+        assertTrue(playerReceivingCredit.getCredit() == 90);
+        assertTrue(playerGivingCredit.getCredit() == 9);
     }
 
 

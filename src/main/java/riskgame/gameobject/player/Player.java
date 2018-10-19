@@ -5,18 +5,16 @@ import riskgame.SingleUIGame;
 import riskgame.commands.Command;
 import riskgame.gameobject.RiskCard;
 import riskgame.gameobject.Territory;
+import riskgame.ui.UI;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class Player implements Serializable {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(SingleUIGame.class);
     String name;
-    List<RiskCard> hand;
+    List<RiskCard> hand = new ArrayList<>();
     Set<Territory> territories= new HashSet<Territory>();
     PlayerCredit credit = new ProxyCredit(0); // could in theory be set to just regular Credit
 
@@ -26,6 +24,11 @@ public class Player implements Serializable {
 
     public Player() {
 
+    }
+
+    public Player(String  name, int initialCredit) {
+        this.name = name;
+        this.credit = new Credit(initialCredit);
     }
 
     public void addTerritory(Territory newTerritory) {
@@ -38,6 +41,14 @@ public class Player implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public List<RiskCard> getHand() {
+        return hand;
+    }
+
+    public int getCredit() {
+        return credit.getNumCredit();
     }
 
     /**
@@ -100,6 +111,60 @@ public class Player implements Serializable {
                 giveCardCommand.execute();
             } catch (IllegalExecutionException e) {
                 throw new IllegalUndoException(e);
+            }
+        }
+    }
+
+    public static class TransferCredit implements Command {
+        // things that will change:
+        private Player playerGivingCredit;
+        private Player playerReceivingCredit;
+        int creditToTransfer;
+        UI ui;
+
+        public TransferCredit(Player playerGivingCredit, Player playerReceivingCredit, int creditToTransfer, UI ui){
+
+            this.playerGivingCredit = playerGivingCredit;
+            this.playerReceivingCredit = playerReceivingCredit;
+            this.creditToTransfer = creditToTransfer;
+            this.ui = ui;
+        };
+
+        @Override
+        public void log() {
+            logger.info("Player " + playerGivingCredit.getName() + " has given " + playerReceivingCredit.getName());
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+            try {
+                playerGivingCredit.credit.removeCredit(creditToTransfer);
+                playerReceivingCredit.credit.addCredit(creditToTransfer);
+
+            } catch (NotEnoughCreditException e) {
+                ui.notEnoughCredit(e);
+            } catch (CreditCardPrompt creditCardPrompt) {
+                try {
+                    //adding credit to game credit
+                    int creditToAdd = ui.creditCardPrompt(creditCardPrompt);
+                    creditCardPrompt.credit.addCredit(creditToAdd);
+                } catch (UI.CreditPromptCancelledException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+            try {
+                playerReceivingCredit.credit.removeCredit(creditToTransfer);
+                playerGivingCredit.credit.addCredit(creditToTransfer);
+
+
+            } catch (NotEnoughCreditException e) {
+                e.printStackTrace();
+            } catch (CreditCardPrompt creditCardPrompt) {
+                creditCardPrompt.printStackTrace();
             }
         }
     }
