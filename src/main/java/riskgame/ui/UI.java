@@ -5,6 +5,7 @@ import riskgame.GameMaps;
 import riskgame.commands.Command;
 import riskgame.gameobject.Territory;
 import riskgame.gameobject.player.CreditCardPrompt;
+import riskgame.gameobject.player.NotEnoughCreditException;
 import riskgame.gameobject.player.Player;
 
 import java.util.List;
@@ -46,6 +47,8 @@ public interface UI {
      * @return the number of credits to add
      */
     int creditCardPrompt(CreditCardPrompt creditCardPrompt) throws CreditPromptCancelledException;
+
+    void notEnoughCredit(NotEnoughCreditException e);
 
     class CreditPromptCancelledException extends Exception { }
 }
