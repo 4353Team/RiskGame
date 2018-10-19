@@ -1,13 +1,7 @@
 package riskgame;
 
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import riskgame.amazons3.BucketUtils;
-import riskgame.amazons3.Credentials;
 import riskgame.commands.Command;
 import riskgame.commands.CommandManager;
 import riskgame.gameobject.RiskCard;
@@ -18,7 +12,6 @@ import riskgame.gameobject.player.Player;
 import riskgame.gameobject.player.PlayerCredit;
 import riskgame.ui.UI;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -132,13 +125,19 @@ public class SingleUIGame implements GameEngine {
         try {
             creditToUse.removeCredit(RISK_CARD_PRICE);
 
-            //Command giveCard = new Player.GiveCard(buyer,takeTopopOfStack());
-            // aggregate number of risk cards
+            Command command = new TakeTopOfStackAndGiveToPlayer(this, buyer);
+            commandManager.executeCommand(command);
+
         } catch (NotEnoughCreditException e) {
-            e.printStackTrace();
-        } catch (CreditCardPrompt creditCardPrompt) {
-            creditCardPrompt.printStackTrace();
-        }
+            ui.notEnoughCredit(e);
+        } catch (CreditCardPrompt creditCardPrompt) { // credit card prompt has information on credit
+            try {
+                int creditToAdd = ui.creditCardPrompt(creditCardPrompt); // you ain't getting yo money back :P
+                creditCardPrompt.credit.addCredit(creditToAdd);
+
+            } catch (UI.CreditPromptCancelledException ignored) {
+            }
+        } catch (Command.IllegalExecutionException ignored) { }
     }
 
     @Override
@@ -293,4 +292,37 @@ public class SingleUIGame implements GameEngine {
     }
 
 
+    private class TakeTopOfStackAndGiveToPlayer implements Command {
+        private final SingleUIGame singleUIGame;
+        private final Player player;
+        private RiskCard givenCard;
+
+        Command giveCardCommand;
+
+        public TakeTopOfStackAndGiveToPlayer(SingleUIGame singleUIGame, Player player) {
+            this.singleUIGame = singleUIGame;
+            this.player = player;
+        }
+
+        @Override
+        public void log() {
+
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+            givenCard = singleUIGame.riskCardStack.pop();
+
+            giveCardCommand = new Player.GiveCard(player, givenCard);
+
+            giveCardCommand.execute();
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+            singleUIGame.riskCardStack.push(givenCard);
+
+            giveCardCommand.undo();
+        }
+    }
 }

@@ -43,12 +43,12 @@ public class Player implements Serializable {
     /**
      * class to give player risk card earned/bought
      */
-    public class GiveCard implements Command {
+    public static class GiveCard implements Command {
         // things that will change:
         private Player playerToGive;
         private RiskCard card;
 
-        GiveCard(Player playerToGive, RiskCard card){
+        public GiveCard(Player playerToGive, RiskCard card){
 
             this.playerToGive = playerToGive;
             this.card = card;
@@ -67,6 +67,40 @@ public class Player implements Serializable {
         @Override
         public void undo() throws IllegalUndoException {
             playerToGive.hand.remove(card);
+        }
+    }
+
+    /**
+     * just simply contains a giveCardCommand and calls the opposite action on it
+     */
+    public static class TakeCard implements Command {
+        private Command giveCardCommand;
+
+        public TakeCard(Player playerToGive, RiskCard card){
+            giveCardCommand = new GiveCard(playerToGive, card);
+        };
+
+        @Override
+        public void log() {
+
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+            try {
+                giveCardCommand.undo();
+            } catch (IllegalUndoException e) {
+                throw new IllegalExecutionException(e);
+            }
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+            try {
+                giveCardCommand.execute();
+            } catch (IllegalExecutionException e) {
+                throw new IllegalUndoException(e);
+            }
         }
     }
 }
