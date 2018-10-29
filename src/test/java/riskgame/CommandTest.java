@@ -14,7 +14,7 @@ import riskgame.ui.UI;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class CommandTest {
 
@@ -102,9 +102,9 @@ public class CommandTest {
         commandManager.executeCommand(command);
         assertTrue(territoryA.getArmies() < numArmiesA || territoryD.getArmies() < numArmiesD);
         commandManager.undo();
-        assertTrue(territoryA.getArmies() == numArmiesA);
-        assertTrue(territoryD.getArmies() == numArmiesD);
-        assertTrue(territoryD.getControlledBy() == defender);
+        assertEquals(territoryA.getArmies(), numArmiesA);
+        assertEquals(territoryD.getArmies(), numArmiesD);
+        assertSame(territoryD.getControlledBy(), defender);
     }
     @Test
     public void MoveTroopsTest() throws Exception {

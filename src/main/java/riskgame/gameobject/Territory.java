@@ -243,7 +243,58 @@ public class Territory implements Serializable, Observable {
 
     }
 
+    public static class MoveArmies implements Command {
+        private final int armiesToMoveIn;
+        private final Territory fromTerritory;
+        private final Territory toTerritory;
+
+        public MoveArmies(int armiesToMoveIn, Territory fromTerritory, Territory toTerritory) {
+            this.armiesToMoveIn = armiesToMoveIn;
+            this.fromTerritory = fromTerritory;
+            this.toTerritory = toTerritory;
+        }
+
+        @Override
+        public void log() {
+            logger.info("Moving territories....");
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+            fromTerritory.armies -= armiesToMoveIn;
+            toTerritory.armies += armiesToMoveIn;
+            assert (fromTerritory.armies > 0);
+            assert (toTerritory.armies > 0); // ? is this always true
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+            fromTerritory.armies += armiesToMoveIn;
+            toTerritory.armies -= armiesToMoveIn;
+            assert (fromTerritory.armies > 0);
+            assert (toTerritory.armies > 0); // ? is this always true
+        }
+    }
+
     private class NegativeArmiesException extends Throwable {
     }
 
+    public class AttackPick {
+        public final Territory attackingTerritory;
+        public final Territory defendingTerritory;
+        AttackPick(Territory attackingTerritory, Territory defendingTerritory) {
+            this.attackingTerritory = attackingTerritory;
+            this.defendingTerritory = defendingTerritory;
+        }
+
+        public void checksOut() throws AttackPickException {
+
+        }
+
+        public class AttackPickException extends Exception {
+            AttackPickException(String message){
+                super(message);
+            }
+        }
+    }
 }
