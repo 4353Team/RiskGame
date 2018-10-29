@@ -62,7 +62,7 @@ public class CommandTest {
         int numArmiesD = 1;
         territoryD.addArmies(numArmiesD);
 
-        Command command = new Territory.Attack(territoryA, territoryD);
+        Command command = new Territory.Attack(territoryA, territoryD, new SingleUIGame());
 
         CommandManager commandManager = new CommandManager();
 
@@ -76,7 +76,6 @@ public class CommandTest {
         }
         assertTrue(flag);
     }
-    //ss
 
     /**
      * Depends on hardcoded movetroops in Territory.Attack
@@ -94,7 +93,9 @@ public class CommandTest {
         int numArmiesD = 1;
         territoryD.addArmies(numArmiesD);
 
-        Command command = new Territory.Attack(territoryA, territoryD);
+        SingleUIGame dummyGame = new SingleUIGame();
+        dummyGame.gameState = SingleUIGame.GameState.ATTACK;
+        Command command = new Territory.Attack(territoryA, territoryD, dummyGame);
 
         CommandManager commandManager = new CommandManager();
 

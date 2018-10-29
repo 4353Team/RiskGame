@@ -24,7 +24,7 @@ public class SingleUIGame implements GameEngine {
     private final CommandManager commandManager = new CommandManager();
     private UI ui;
     private List<Territory> territories;
-    private GameState gameState;
+    GameState gameState;
     private Player currentPlayer;
     private List<Player> playerOrderList = new ArrayList<>();
     private Stack<RiskCard> riskCardStack = new Stack<>();
@@ -151,7 +151,17 @@ public class SingleUIGame implements GameEngine {
                 (playerOrderList.indexOf(currentPlayer) - 1) % playerOrderList.size());
     }
 
-    private enum GameState {SELECT_MAP, SELECT_PLAYERS, INIT_DRAFT, DRAFT, ATTACK, FORTIFY, END}
+    public void attackWon() {
+        assert gameState == GameState.ATTACK;
+        gameState = GameState.ATTACK_SUCCESSFUL;
+    }
+
+    public void attackWonUndo() {
+        assert gameState == GameState.ATTACK_SUCCESSFUL;
+        gameState = GameState.ATTACK;
+    }
+
+    enum GameState {SELECT_MAP, SELECT_PLAYERS, INIT_DRAFT, DRAFT, ATTACK, ATTACK_SUCCESSFUL, FORTIFY, END}
 
     private class SelectMap implements Command {
         private final SingleUIGame gameEngine;
