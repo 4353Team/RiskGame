@@ -14,7 +14,7 @@ import riskgame.ui.UI;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class CommandTest {
 
@@ -62,7 +62,7 @@ public class CommandTest {
         int numArmiesD = 1;
         territoryD.addArmies(numArmiesD);
 
-        Command command = new Territory.Attack(territoryA, territoryD);
+        Command command = new Territory.Attack(territoryA, territoryD, new SingleUIGame());
 
         CommandManager commandManager = new CommandManager();
 
@@ -76,7 +76,6 @@ public class CommandTest {
         }
         assertTrue(flag);
     }
-    //ss
 
     /**
      * Depends on hardcoded movetroops in Territory.Attack
@@ -94,16 +93,18 @@ public class CommandTest {
         int numArmiesD = 1;
         territoryD.addArmies(numArmiesD);
 
-        Command command = new Territory.Attack(territoryA, territoryD);
+        SingleUIGame dummyGame = new SingleUIGame();
+        dummyGame.gameState = SingleUIGame.GameState.ATTACK;
+        Command command = new Territory.Attack(territoryA, territoryD, dummyGame);
 
         CommandManager commandManager = new CommandManager();
 
         commandManager.executeCommand(command);
         assertTrue(territoryA.getArmies() < numArmiesA || territoryD.getArmies() < numArmiesD);
         commandManager.undo();
-        assertTrue(territoryA.getArmies() == numArmiesA);
-        assertTrue(territoryD.getArmies() == numArmiesD);
-        assertTrue(territoryD.getControlledBy() == defender);
+        assertEquals(territoryA.getArmies(), numArmiesA);
+        assertEquals(territoryD.getArmies(), numArmiesD);
+        assertSame(territoryD.getControlledBy(), defender);
     }
     @Test
     public void MoveTroopsTest() throws Exception {

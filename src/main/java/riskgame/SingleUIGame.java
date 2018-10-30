@@ -24,10 +24,13 @@ public class SingleUIGame implements GameEngine {
     private final CommandManager commandManager = new CommandManager();
     private UI ui;
     private List<Territory> territories;
-    private GameState gameState;
+    GameState gameState;
     private Player currentPlayer;
     private List<Player> playerOrderList = new ArrayList<>();
     private Stack<RiskCard> riskCardStack = new Stack<>();
+
+    private Territory lastAttacking;
+    private Territory lastDefending;
 
     public SingleUIGame() {
     }
@@ -71,7 +74,30 @@ public class SingleUIGame implements GameEngine {
                         }
                         gameState = GameState.END;
                         break;
-                    // DRAFT, ATTACK, FORTIFY,
+                    // DRAFT, FORTIFY, need to be implemented
+                    case ATTACK:
+                        Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer);
+                        try {
+                            attackPick.checksOut(); // check that everything is good, if not it will loop around
+
+                            Command attack = new Territory.Attack(attackPick.attackingTerritory, attackPick.defendingTerritory, this);
+                            commandManager.executeCommand(attack);
+                            lastAttacking = attackPick.attackingTerritory;
+                            lastDefending = attackPick.defendingTerritory;
+
+                        } catch (Territory.AttackPick.AttackPickException exception) {
+                            ui.error(exception); // will try again
+                        }
+                        break;
+                    case ATTACK_SUCCESSFUL:
+                        int armiesToMoveIn = ui.queryArmiesToMove(currentPlayer, lastAttacking, lastDefending);
+                        if (lastAttacking.getArmies() - armiesToMoveIn > 1) { // todo: research if 1 army left in a territory is allowed or is it 2
+                            Command command = new Territory.MoveArmies(armiesToMoveIn, lastAttacking, lastDefending);
+                            commandManager.executeCommand(command);
+                            gameState = GameState.ATTACK; // back to attack state
+                        } else {
+                            ui.error(new Exception("You are not allowed to move that many armies, you must leave 1 army"));
+                        }
 
                     case END:
                         exit = true;
@@ -151,7 +177,17 @@ public class SingleUIGame implements GameEngine {
                 (playerOrderList.indexOf(currentPlayer) - 1) % playerOrderList.size());
     }
 
-    private enum GameState {SELECT_MAP, SELECT_PLAYERS, INIT_DRAFT, DRAFT, ATTACK, FORTIFY, END}
+    public void attackWon() {
+        assert gameState == GameState.ATTACK;
+        gameState = GameState.ATTACK_SUCCESSFUL;
+    }
+
+    public void attackWonUndo() {
+        assert gameState == GameState.ATTACK_SUCCESSFUL;
+        gameState = GameState.ATTACK;
+    }
+
+    enum GameState {SELECT_MAP, SELECT_PLAYERS, INIT_DRAFT, DRAFT, ATTACK, ATTACK_SUCCESSFUL, FORTIFY, END}
 
     private class SelectMap implements Command {
         private final SingleUIGame gameEngine;

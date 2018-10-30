@@ -50,5 +50,9 @@ public interface UI {
 
     void notEnoughCredit(NotEnoughCreditException e);
 
+    Territory.AttackPick getAttackPick(Player currentPlayer);
+
+    int queryArmiesToMove(Player currentPlayer, Territory from, Territory to);
+
     class CreditPromptCancelledException extends Exception { }
 }

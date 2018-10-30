@@ -2,6 +2,8 @@ package riskgame.gameobject;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import riskgame.GameEngine;
+import riskgame.SingleUIGame;
 import riskgame.commands.Command;
 import riskgame.gameobject.player.Observable;
 import riskgame.gameobject.player.Observer;
@@ -101,6 +103,8 @@ public class Territory implements Serializable, Observable {
         private Territory attackingTerritory;
         private Territory defendingTerritory;
 
+        private final SingleUIGame game;
+
         private Player defendingPlayerBefore;
 
         int attackingArmyBefore;
@@ -109,15 +113,32 @@ public class Territory implements Serializable, Observable {
         private int attackingArmyAfter;
         private int defendingArmyAfter;
 
+        private final int attackDices;
+        private final int defenseDices;
+
+        private final List<Integer> attackingNums;
+        private final List<Integer> defendingNums;
+
         Territory gainedTerritoryByAttacker = null;
 
-        public Attack(Territory attacking, Territory defending) {
+        private boolean attackWon = false;
+
+        public Attack(Territory attacking, Territory defending, SingleUIGame game) {
             this.attackingTerritory = attacking;
             this.defendingTerritory = defending;
+            this.game = game;
+            // Randomization MUST be done in the constructor to prevent undo/redo from having different effect
+
+            this.attackDices = (attackingTerritory.getArmies() - 1) > 3 ? 3 : (attackingTerritory.getArmies() - 1);
+            this.defenseDices = (defendingTerritory.getArmies() > 2) ? 2 : 1;
+
+            Dice dice = new Dice();
+
+            attackingNums = dice.roll(attackDices).diceFaces;
+            defendingNums = dice.roll(defenseDices).diceFaces;
         }
 
         /**
-         * ToDo: move all calculation and randomization code to constructor and keep mutable code
          * ToDo: split this command into two commands, the second of which, the user chooses how many troops to move to new
          * ToDo: Territory if conquer is successful (only after conquering the territory)
          *
@@ -130,14 +151,6 @@ public class Territory implements Serializable, Observable {
             attackingArmyBefore = attackingTerritory.getArmies();
             defendingArmyBefore = defendingTerritory.getArmies();
             defendingPlayerBefore = defendingTerritory.getControlledBy();
-
-            int attackDices = (attackingTerritory.getArmies() - 1) > 3 ? 3 : (attackingTerritory.getArmies() - 1);
-            int defenseDices = (defendingTerritory.getArmies() > 2) ? 2 : 1;
-
-            Dice dice = new Dice();
-
-            List<Integer> attackingNums = dice.roll(attackDices).diceFaces;
-            List<Integer> defendingNums = dice.roll(defenseDices).diceFaces;
 
             int lowest = (attackDices > defenseDices) ? defenseDices : attackDices;
             int numberAttackersRemoved = 0;
@@ -152,19 +165,21 @@ public class Territory implements Serializable, Observable {
                         // occupy territory
                         System.out.println(attackingTerritory.getName() + " captures " + defendingTerritory.getName() + "!!");
                         //territoriesCapturedThisTurn += 1;
+                        attackWon = true;
+                        game.attackWon();
 
-                        // todo: make a separate command
-                        int movetroops = 2;
-
-                        System.out.printf("%s decides to move %d troop%s from %s to %s\n", attackingTerritory.getName(), movetroops, (movetroops == 1) ? "" : "s", attackingTerritory.getName(), defendingTerritory.getName());
-                        if (attackingTerritory.getArmies() - movetroops >= 1) {
-                            defendingTerritory.setArmies(movetroops);
-                            defendingTerritory.setControlledBy(attackingTerritory.getControlledBy());
-                            attackingTerritory.getControlledBy().addTerritory(defendingTerritory);
-                            defendingTerritory.getControlledBy().removeTerritory(defendingTerritory);
-                            attackingTerritory.removeArmies(movetroops);
-                        } else
-                            System.out.println("Cannot move " + movetroops + ". You need to leave at least one troop behind.");
+//                        // todo: make a separate command
+//                        int movetroops = 2;
+//
+//                        System.out.printf("%s decides to move %d troop%s from %s to %s\n", attackingTerritory.getName(), movetroops, (movetroops == 1) ? "" : "s", attackingTerritory.getName(), defendingTerritory.getName());
+//                        if (attackingTerritory.getArmies() - movetroops >= 1) {
+//                            defendingTerritory.setArmies(movetroops);
+//                            defendingTerritory.setControlledBy(attackingTerritory.getControlledBy());
+//                            attackingTerritory.getControlledBy().addTerritory(defendingTerritory);
+//                            defendingTerritory.getControlledBy().removeTerritory(defendingTerritory);
+//                            attackingTerritory.removeArmies(movetroops);
+//                        } else
+//                            System.out.println("Cannot move " + movetroops + ". You need to leave at least one troop behind.");
                     }
                 } else {
                     // defense winner
@@ -182,10 +197,12 @@ public class Territory implements Serializable, Observable {
         public void undo() throws IllegalUndoException {
             attackingTerritory.setArmies(attackingArmyBefore);
             defendingTerritory.setArmies(defendingArmyBefore);
-            if (gainedTerritoryByAttacker != null) {
+            assert (gainedTerritoryByAttacker == null) != attackWon; // attackWon should not be true when territoryGainedByAttacker is null and vice versa
+            if (attackWon) { // also gainedTerritoryByAttacker != null
                 attackingTerritory.getControlledBy().removeTerritory(defendingTerritory);
                 defendingPlayerBefore.addTerritory(defendingTerritory);
                 defendingTerritory.setControlledBy(defendingPlayerBefore);
+                game.attackWonUndo();
             }
         }
 
@@ -226,7 +243,58 @@ public class Territory implements Serializable, Observable {
 
     }
 
+    public static class MoveArmies implements Command {
+        private final int armiesToMoveIn;
+        private final Territory fromTerritory;
+        private final Territory toTerritory;
+
+        public MoveArmies(int armiesToMoveIn, Territory fromTerritory, Territory toTerritory) {
+            this.armiesToMoveIn = armiesToMoveIn;
+            this.fromTerritory = fromTerritory;
+            this.toTerritory = toTerritory;
+        }
+
+        @Override
+        public void log() {
+            logger.info("Moving territories....");
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+            fromTerritory.armies -= armiesToMoveIn;
+            toTerritory.armies += armiesToMoveIn;
+            assert (fromTerritory.armies > 0);
+            assert (toTerritory.armies > 0); // ? is this always true
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+            fromTerritory.armies += armiesToMoveIn;
+            toTerritory.armies -= armiesToMoveIn;
+            assert (fromTerritory.armies > 0);
+            assert (toTerritory.armies > 0); // ? is this always true
+        }
+    }
+
     private class NegativeArmiesException extends Throwable {
     }
 
+    public class AttackPick {
+        public final Territory attackingTerritory;
+        public final Territory defendingTerritory;
+        AttackPick(Territory attackingTerritory, Territory defendingTerritory) {
+            this.attackingTerritory = attackingTerritory;
+            this.defendingTerritory = defendingTerritory;
+        }
+
+        public void checksOut() throws AttackPickException {
+
+        }
+
+        public class AttackPickException extends Exception {
+            AttackPickException(String message){
+                super(message);
+            }
+        }
+    }
 }

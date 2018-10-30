@@ -87,6 +87,16 @@ public class TestUI implements UI {
         System.out.println("Not enough credit, need: " + e.creditNeeded + " but have " + e.actualCredit);
     }
 
+    @Override
+    public Territory.AttackPick getAttackPick(Player currentPlayer) {
+        return null;
+    }
+
+    @Override
+    public int queryArmiesToMove(Player currentPlayer, Territory from, Territory to) {
+        return 0;
+    }
+
     private String expectedMap;
     public void expectMap(String territoryStraightLine) {
         expectedMap = territoryStraightLine;
