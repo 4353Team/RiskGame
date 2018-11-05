@@ -44,6 +44,12 @@
 
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.telegram/telegrambots -->
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>4.1</version>
+        </dependency>
         <!--Twitter-->
         <dependency>
             <groupId>org.twitter4j</groupId>
