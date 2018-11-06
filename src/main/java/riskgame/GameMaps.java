@@ -9,6 +9,7 @@ import java.util.Objects;
 public class GameMaps {
     public static final String TERRITORY_STRAIGHT_LINE = "6 Territory Straight Line";
     public static final String CLASSIC_WORLD = "Classic World";
+    public static final String SMALL_WORLD = "Small World";
     public static List<GameMap> mapList = new ArrayList<>();
     private static GameMaps instance = null;
 
@@ -41,6 +42,22 @@ public class GameMaps {
         }
 
         mapList.add(map2);
+
+        GameMap map3 = new GameMap();
+        {
+            map3.name = SMALL_WORLD;
+            Territory panama = new Territory("Panama");
+            Territory colombia = new Territory("Colombia");
+            Territory brazil = new Territory("Brazil");
+
+            makeNeighbors(panama,colombia);
+            makeNeighbors(colombia,brazil);
+
+            map3.territoryList.add(panama);
+            map3.territoryList.add(colombia);
+            map3.territoryList.add(brazil);
+        }
+        mapList.add(map3);
 
     }
 
