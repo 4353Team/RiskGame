@@ -18,4 +18,6 @@ public interface GameEngine {
     public void buyUndo(PlayerCredit creditToUse) throws NotEnoughCreditException, CreditCardPrompt;
     public void buyRiskCards(PlayerCredit creditToUse, Player buyer) throws NotEnoughCreditException, CreditCardPrompt;
     List<Territory> getMap();
+
+    void disableCommandLogs();
 }

@@ -65,10 +65,15 @@ public class SingleUIGame implements GameEngine {
                         break;
                     case INIT_DRAFT:
                         // not finished - this is a test essentially
+                        ui.tellPlayersToClaimTheirFirstTerritories();
                         int armiesDrafted = 0;
                         while (armiesDrafted < 50) { // only goes to 50 armies arbitrarily
-                            Territory territory = ui.getInitDraftPick(currentPlayer);
-                            Command draftOneInit = new DraftOneInit(this, territory, currentPlayer);
+                            Territory pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
+                            while (!(pickedTerritory.getControlledBy() == Territory.NoOwner || pickedTerritory.getControlledBy() == currentPlayer)) {
+                                ui.error(new Exception("Pick a territory that is unoccupied or belongs to you."));
+                                pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
+                            }
+                            Command draftOneInit = new DraftOneInit(this, pickedTerritory, currentPlayer);
                             commandManager.executeCommand(draftOneInit); // selects the next player in the command as well
                             armiesDrafted++;
                         }
@@ -135,7 +140,8 @@ public class SingleUIGame implements GameEngine {
                 int creditToAdd = ui.creditCardPrompt(creditCardPrompt);
                 creditCardPrompt.credit.addCredit(creditToAdd);
 
-            } catch (UI.CreditPromptCancelledException ignored) { }
+            } catch (UI.CreditPromptCancelledException ignored) {
+            }
 
         } catch (Command.IllegalUndoException ignore) {
             ignore.printStackTrace();
@@ -159,12 +165,18 @@ public class SingleUIGame implements GameEngine {
 
             } catch (UI.CreditPromptCancelledException ignored) {
             }
-        } catch (Command.IllegalExecutionException ignored) { }
+        } catch (Command.IllegalExecutionException ignored) {
+        }
     }
 
     @Override
     public List<Territory> getMap() {
         return territories;
+    }
+
+    @Override
+    public void disableCommandLogs() {
+        commandManager.disableLogs();
     }
 
     private void nextPlayer() {

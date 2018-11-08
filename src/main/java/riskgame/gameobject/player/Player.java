@@ -17,6 +17,8 @@ public class Player implements Serializable, Observer {
     List<RiskCard> hand = new ArrayList<>();
     Set<Territory> territories= new HashSet<Territory>();
     PlayerCredit credit = new ProxyCredit(0); // could in theory be set to just regular Credit
+    // number of armies that are not on territories
+    int armies = 0;
 
     public Player(String name) {
         this.name = name;
@@ -51,9 +53,43 @@ public class Player implements Serializable, Observer {
         return credit.getNumCredit();
     }
 
+    public void addArmies(int numArmies){ armies = armies + numArmies;}
+
+    public int getArmies(){ return armies;}
+
     @Override
     public void update() {
 
+    }
+
+    public static class TurnInRiskCards implements Command{
+        Player playerToGive;
+        List<RiskCard> riskCards;
+        Set<Territory> territories;
+        int armies = 0;
+        public TurnInRiskCards(Player playerToGive, List<RiskCard> riskCards){
+            for (int i = 0; i < riskCards.size(); i++) {
+                new GiveCard(playerToGive,riskCards.get(i));
+            }
+            this.playerToGive = playerToGive;
+            this.riskCards = riskCards;
+            this.territories = playerToGive.territories;
+        };
+
+        @Override
+        public void log() {
+
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+
+        }
     }
 
     /**

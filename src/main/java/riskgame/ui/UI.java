@@ -2,7 +2,6 @@ package riskgame.ui;
 
 import riskgame.GameEngine;
 import riskgame.GameMaps;
-import riskgame.commands.Command;
 import riskgame.gameobject.Territory;
 import riskgame.gameobject.player.CreditCardPrompt;
 import riskgame.gameobject.player.NotEnoughCreditException;
@@ -34,9 +33,10 @@ public interface UI {
     /**
      * Only happens during the initial stage, Player currentPlayer picks where to draft their army one at a time.
      * @param currentPlayer the Player whose turn it is to pick
+     * @param territories
      * @return the Territory the Player picked to add an army to
      */
-    Territory getInitDraftPick(Player currentPlayer);
+    Territory getInitDraftPick(Player currentPlayer, List<Territory> territories);
 
     /**
      * This should prompt the user with a window containing one input,
@@ -53,6 +53,8 @@ public interface UI {
     Territory.AttackPick getAttackPick(Player currentPlayer);
 
     int queryArmiesToMove(Player currentPlayer, Territory from, Territory to);
+
+    void tellPlayersToClaimTheirFirstTerritories();
 
     class CreditPromptCancelledException extends Exception { }
 }
