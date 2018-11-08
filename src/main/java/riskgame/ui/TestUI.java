@@ -63,10 +63,11 @@ public class TestUI implements UI {
      * Only happens during the initial stage, Player currentPlayer picks where to draft their army one at a time.
      *
      * @param currentPlayer the Player whose turn it is to pick
+     * @param territories
      * @return the Territory the Player picked to add an army to
      */
     @Override
-    public Territory getInitDraftPick(Player currentPlayer) {
+    public Territory getInitDraftPick(Player currentPlayer, List<Territory> territories) {
         int index = playerSetup.indexOf(currentPlayer);
         return map.get(index);
     }
@@ -95,6 +96,11 @@ public class TestUI implements UI {
     @Override
     public int queryArmiesToMove(Player currentPlayer, Territory from, Territory to) {
         return 0;
+    }
+
+    @Override
+    public void tellPlayersToClaimTheirFirstTerritories() {
+
     }
 
     private String expectedMap;

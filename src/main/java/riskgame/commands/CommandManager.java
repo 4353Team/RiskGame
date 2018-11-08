@@ -46,4 +46,8 @@ public class CommandManager implements Serializable {
     public int getRedosCount(){
         return redos.size();
     }
+
+    public void disableLogs() {
+        log = false;
+    }
 }

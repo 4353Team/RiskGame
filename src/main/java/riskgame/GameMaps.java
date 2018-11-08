@@ -1,17 +1,24 @@
 package riskgame;
 
+import com.amazonaws.services.dynamodbv2.xspec.S;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import riskgame.gameobject.Territory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class GameMaps {
+    private static final Logger logger = LogManager.getLogger(GameMaps.class);
     public static final String TERRITORY_STRAIGHT_LINE = "6 Territory Straight Line";
     public static final String CLASSIC_WORLD = "Classic World";
     public static final String SMALL_WORLD = "Small World";
     public static List<GameMap> mapList = new ArrayList<>();
     private static GameMaps instance = null;
+
+
 
     private GameMaps() {
         //building map1;
@@ -50,8 +57,8 @@ public class GameMaps {
             Territory colombia = new Territory("Colombia");
             Territory brazil = new Territory("Brazil");
 
-            makeNeighbors(panama,colombia);
-            makeNeighbors(colombia,brazil);
+            makeNeighbors(panama, colombia);
+            makeNeighbors(colombia, brazil);
 
             map3.territoryList.add(panama);
             map3.territoryList.add(colombia);
@@ -75,6 +82,14 @@ public class GameMaps {
 
     public List<GameMap> getList() {
         return mapList;
+    }
+
+    public GameMap getGameMap(String gameMap) {
+        Optional<GameMap> optionalGameMap = mapList.stream().filter((map) -> map.getName().equals(gameMap)).findAny();
+        return optionalGameMap.orElseGet(() -> {
+            logger.warn("Couldn't find " + gameMap + " . Setting GameMap to the first map in mapList.");
+            return mapList.get(0);
+        });
     }
 
     public class GameMap {
