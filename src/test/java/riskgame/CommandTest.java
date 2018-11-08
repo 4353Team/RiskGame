@@ -5,14 +5,14 @@ import riskgame.commands.Command;
 import riskgame.commands.CommandManager;
 import riskgame.gameobject.MoveTroops;
 import riskgame.gameobject.RiskCard;
-import riskgame.gameobject.player.Credit;
+import riskgame.gameobject.player.CreditCardPrompt;
+import riskgame.gameobject.player.NotEnoughCreditException;
 import riskgame.gameobject.player.Player;
 import riskgame.gameobject.Territory;
 import riskgame.ui.TestUI;
 import riskgame.ui.UI;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -194,17 +194,82 @@ public class CommandTest {
     @Test
     public void TransferCredit() throws Command.IllegalExecutionException {
         Player playerGivingCredit = new Player("PAC",99);
-        int playerGivingCreditNum = playerGivingCredit.getCredit();
+        int playerGivingCreditNum = playerGivingCredit.getCreditTotal();
         Player playerReceivingCredit = new Player("Ted Cruz",0);
-        int playerReceivingCreditNUm = playerReceivingCredit.getCredit();
-        UI ui = new TestUI(new ArrayList<Player>());
+        int playerReceivingCreditNUm = playerReceivingCredit.getCreditTotal();
+        ArrayList<Player> playerArrayList = new ArrayList<>();
+        playerArrayList.add(playerGivingCredit);
+        playerArrayList.add(playerReceivingCredit);
+        UI ui = new TestUI(playerArrayList);
 
         Command command = new Player.TransferCredit(playerGivingCredit,playerReceivingCredit,90,ui);
         CommandManager commandManager = new CommandManager();
         commandManager.executeCommand(command);
-        assertTrue(playerReceivingCredit.getCredit() == 90);
-        assertTrue(playerGivingCredit.getCredit() == 9);
+        assertTrue(playerReceivingCredit.getCreditTotal() == 90);
+        assertTrue(playerGivingCredit.getCreditTotal() == 9);
     }
+
+    @Test
+    public void userBuyingCard_NotEnoughCredit() {
+        boolean flag = false;
+        Player playerBuyingCard = new Player("Someone", 0);
+        ArrayList<Player> playerArrayList = new ArrayList<>();
+        playerArrayList.add(playerBuyingCard);
+        UI ui = new TestUI(playerArrayList);
+        SingleUIGame game = new SingleUIGame();
+        try {
+            game.buyRiskCards(playerBuyingCard);
+        } catch (NotEnoughCreditException e) {
+            flag = true;
+            e.printStackTrace();
+        } catch (CreditCardPrompt creditCardPrompt) {
+            creditCardPrompt.printStackTrace();
+        }
+
+        assertTrue(flag);
+
+    }
+
+    @Test
+    public void userBuyingCard_HasEnoughCredit() {
+        Player playerBuyingCard = new Player("Someone", 20);
+        ArrayList<Player> playerArrayList = new ArrayList<>();
+        playerArrayList.add(playerBuyingCard);
+        UI ui = new TestUI(playerArrayList);
+        SingleUIGame game = new SingleUIGame();
+        try {
+            game.buyRiskCards(playerBuyingCard);
+        } catch (NotEnoughCreditException e) {
+            e.printStackTrace();
+        } catch (CreditCardPrompt creditCardPrompt) {
+            creditCardPrompt.printStackTrace();
+        }
+
+        assertTrue(playerBuyingCard.getHand().get(0).getType().equals(RiskCard.RISK_CARD_TYPE.CAVALRY));
+    }
+
+    @Test
+    public void playerBuyingUndoAction_HasEnoughCredit(){
+        Player playerBuyingUndo = new Player("Jack",4);
+        ArrayList<Player> playerArrayList = new ArrayList<>();
+        playerArrayList.add(playerBuyingUndo);
+        UI ui = new TestUI(playerArrayList);
+        SingleUIGame game = new SingleUIGame();
+        Territory test = new Territory("Test");
+        try {
+            game.getCommandManager().executeCommand(new Territory.DraftOneArmy(test));
+        } catch (Command.IllegalExecutionException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1, test.getArmies());
+        try {
+            game.buyUndo(playerBuyingUndo);
+        } catch (NotEnoughCreditException e) {
+            e.printStackTrace();
+        }
+        assertEquals(0, test.getArmies());
+    }
+
 
 
 
