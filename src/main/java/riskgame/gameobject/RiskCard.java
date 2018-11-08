@@ -23,7 +23,7 @@ public class RiskCard {
     final RISK_CARD_TYPE type;
     Territory territory;
 
-    RiskCard(RISK_CARD_TYPE type) {
+    public RiskCard(RISK_CARD_TYPE type) {
         this.type = type;
     }
 

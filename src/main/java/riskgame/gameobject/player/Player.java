@@ -49,8 +49,12 @@ public class Player implements Serializable, Observer {
         return hand;
     }
 
-    public int getCredit() {
+    public int getCreditTotal() {
         return credit.getNumCredit();
+    }
+
+    public PlayerCredit getCredit() {
+        return credit;
     }
 
     public void addArmies(int numArmies){ armies = armies + numArmies;}
