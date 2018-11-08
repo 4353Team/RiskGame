@@ -33,6 +33,8 @@ public class SingleUIGame implements GameEngine {
     private Territory lastDefending;
 
     public SingleUIGame() {
+        // add in functionality to create card stack here
+        riskCardStack.push(new RiskCard(RiskCard.RISK_CARD_TYPE.CAVALRY));
     }
 
     @Override
@@ -131,9 +133,9 @@ public class SingleUIGame implements GameEngine {
     }
 
     @Override
-    public void buyUndo(PlayerCredit creditToUse) throws NotEnoughCreditException {
+    public void buyUndo(Player player) throws NotEnoughCreditException {
         try {
-            creditToUse.removeCredit(UNDO_PRICE);
+            player.getCredit().removeCredit(UNDO_PRICE);
             commandManager.undo();
         } catch (CreditCardPrompt creditCardPrompt) {
             try {
@@ -149,7 +151,8 @@ public class SingleUIGame implements GameEngine {
     }
 
     @Override
-    public void buyRiskCards(PlayerCredit creditToUse, Player buyer) throws NotEnoughCreditException, CreditCardPrompt {
+    public void buyRiskCards(Player buyer) throws NotEnoughCreditException, CreditCardPrompt {
+        PlayerCredit creditToUse = buyer.getCredit();
         try {
             creditToUse.removeCredit(RISK_CARD_PRICE);
 
@@ -197,6 +200,10 @@ public class SingleUIGame implements GameEngine {
     public void attackWonUndo() {
         assert gameState == GameState.ATTACK_SUCCESSFUL;
         gameState = GameState.ATTACK;
+    }
+
+    CommandManager getCommandManager() {
+        return commandManager;
     }
 
     enum GameState {SELECT_MAP, SELECT_PLAYERS, INIT_DRAFT, DRAFT, ATTACK, ATTACK_SUCCESSFUL, FORTIFY, END}
