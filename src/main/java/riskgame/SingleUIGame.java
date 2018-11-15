@@ -28,7 +28,7 @@ public class SingleUIGame implements GameEngine {
     GameState gameState;
     private Player currentPlayer;
     private List<Player> playerOrderList = new ArrayList<>();
-    private Stack<RiskCard> riskCardStack = new Stack<>();
+    protected Stack<RiskCard> riskCardStack = new Stack<>();
     private Integer armies = 0;
 
     private Territory lastAttacking;
@@ -187,9 +187,9 @@ public class SingleUIGame implements GameEngine {
 
             Command command = new TakeTopOfStackAndGiveToPlayer(this, buyer);
             commandManager.executeCommand(command);
-
-        } catch (NotEnoughCreditException e) {
-            ui.notEnoughCredit(e);
+//this should be handled when/where buyRiskCards is called
+//        } catch (NotEnoughCreditException e) {
+//            ui.notEnoughCredit(e);
         } catch (CreditCardPrompt creditCardPrompt) { // credit card prompt has information on credit
             try {
                 int creditToAdd = ui.creditCardPrompt(creditCardPrompt); // you ain't getting yo money back :P

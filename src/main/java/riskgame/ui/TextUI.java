@@ -100,7 +100,9 @@ public class TextUI implements UI {
     public Territory getInitDraftPick(Player currentPlayer, List<Territory> territories) {
         outStream.println(currentPlayer.getName() + ", select a territory to occupy");
         displayTerritories(territories);
-        return getTerritory(getNextInt(), territories);
+        Integer pickedTerritory = getNextInt();
+        outStream.println(currentPlayer.getName() + " claimed " + getTerritory(pickedTerritory, territories));
+        return getTerritory(pickedTerritory, territories);
 }
 
     private Territory getTerritory(Integer territoryNumber, List<Territory> territories) {
