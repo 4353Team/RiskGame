@@ -5,10 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import riskgame.gameobject.Territory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class GameMaps {
     private static final Logger logger = LogManager.getLogger(GameMaps.class);
@@ -53,16 +50,25 @@ public class GameMaps {
         GameMap map3 = new GameMap();
         {
             map3.name = SMALL_WORLD;
-            Territory panama = new Territory("Panama");
-            Territory colombia = new Territory("Colombia");
+            Territory centralAmerica = new Territory("Central America");
+            Territory venezuela = new Territory("Venezuela");
+            Territory peru = new Territory("Peru");
             Territory brazil = new Territory("Brazil");
+            Territory argentina = new Territory("Argentina");
 
-            makeNeighbors(panama, colombia);
-            makeNeighbors(colombia, brazil);
+            makeNeighbors(centralAmerica, venezuela);
+            makeNeighbors(venezuela, peru);
+            makeNeighbors(venezuela,brazil);
+            makeNeighbors(peru, brazil);
+            makeNeighbors(peru, argentina);
+            makeNeighbors(brazil,argentina);
 
-            map3.territoryList.add(panama);
-            map3.territoryList.add(colombia);
-            map3.territoryList.add(brazil);
+            map3.territoryList.addAll(Arrays.asList(
+                    centralAmerica,
+                    venezuela,
+                    peru,
+                    brazil,
+                    argentina));
         }
         mapList.add(map3);
 

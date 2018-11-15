@@ -30,6 +30,7 @@ public class SingleUIGame implements GameEngine {
     private List<Player> playerOrderList = new ArrayList<>();
     protected Stack<RiskCard> riskCardStack = new Stack<>();
     private Integer armies = 0;
+    private Integer armiesDrafted = 0;
 
     private Territory lastAttacking;
     private Territory lastDefending;
@@ -94,9 +95,8 @@ public class SingleUIGame implements GameEngine {
                         setNumArmiesForGame();
                         break;
                     case INIT_DRAFT:
-                        // not finished - this is a test essentially
                         ui.tellPlayersToClaimTheirFirstTerritories();
-                        int armiesDrafted = 0;
+
                         while (armiesDrafted < playerOrderList.size()) {
                             Territory pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
                             while (!(pickedTerritory.getControlledBy() == Territory.NoOwner || pickedTerritory.getControlledBy() == currentPlayer)) {
@@ -107,10 +107,18 @@ public class SingleUIGame implements GameEngine {
                             commandManager.executeCommand(draftOneInit); // selects the next player in the command as well
                             armiesDrafted++;
                         }
-                        gameState = GameState.END;
                         break;
                     //After all territories are claimed, each player in turn places one additional army onto any territory he or she already occupies.
-                    // DRAFT, FORTIFY, need to be implemented
+                    case DRAFT:
+                        while(armiesDrafted < armies){
+                            Territory pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
+                            Command draft = new DraftOneInit(this, pickedTerritory,currentPlayer);
+                            commandManager.executeCommand(draft);
+                            armiesDrafted++;
+                        }
+                        gameState = GameState.END;
+                        break;
+                    //FORTIFY needs to be implemented
                     case ATTACK:
                         Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer);
                         try {
@@ -347,6 +355,7 @@ public class SingleUIGame implements GameEngine {
             draftOne.execute();
             territory.setControlledBy(player);
             game.nextPlayer();
+            game.gameState = GameState.DRAFT;
             game.ui.update();
         }
 

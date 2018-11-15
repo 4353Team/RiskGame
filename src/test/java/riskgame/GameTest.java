@@ -50,14 +50,51 @@ public class GameTest {
     public void dummyRealGame_3Players() throws Exception {
 //        Scanner scanner = new Scanner(System.in);
         Scanner scanner = new Scanner(new StringReader(
-                "3\n" + // SMALL_WORLD
+                "3\n" + //choose map SMALL_WORLD
                         "3\n" + // number of players
                         "Kesha\n" +
                         "Ana\n" +
                         "Elizabeth\n " +
-                        "1\n" +
+                        //claiming territories
+                        "5\n" +
                         "2\n" +
-                        "3\n"));
+                        "3\n" +
+                        "1\n" +
+                        "4\n" +
+                        //place more armies in already claimed territories
+                        //3 players means 35 armies
+                        //30 armies left
+                        "3\n" + //30
+                        "5\n" + //29
+                        "2\n" + //28
+                        "3\n" + //27
+                        "5\n" + //26
+                        "2\n" + //25
+                        "3\n" + //24
+                        "5\n" + //23
+                        "2\n" + //22
+                        "3\n" + //21
+                        "5\n" + //20
+                        "2\n" + //19
+                        "3\n" + //18
+                        "5\n" + //17
+                        "2\n" + //16
+                        "3\n" + //15
+                        "5\n" + //14
+                        "2\n" + //13
+                        "3\n" + //12
+                        "5\n" + //11
+                        "2\n" + //10
+                        "3\n" + //09
+                        "5\n" + //08
+                        "2\n" + //07
+                        "3\n" + //06
+                        "5\n" + //05
+                        "2\n" + //04
+                        "3\n" + //03
+                        "5\n" + //02
+                        "2\n" //01
+                ));
 
         GameEngine gameEngine = new SingleUIGame();
         gameEngine.disableCommandLogs();
