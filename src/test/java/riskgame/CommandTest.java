@@ -12,7 +12,10 @@ import riskgame.gameobject.Territory;
 import riskgame.ui.TestUI;
 import riskgame.ui.UI;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -213,30 +216,28 @@ public class CommandTest {
     public void userBuyingCard_NotEnoughCredit() {
         boolean flag = false;
         Player playerBuyingCard = new Player("Someone", 0);
-        ArrayList<Player> playerArrayList = new ArrayList<>();
+        List<Player> playerArrayList = new ArrayList<>();
         playerArrayList.add(playerBuyingCard);
         UI ui = new TestUI(playerArrayList);
         SingleUIGame game = new SingleUIGame();
-        try {
+        game.addUi(ui);
+        // this is just for testing, in the actual game, the risk card stack will be
+        // automatically created based on number of territories
+        game.riskCardStack.push((new RiskCard(RiskCard.RISK_CARD_TYPE.CAVALRY)));
+        assertThrows(NotEnoughCreditException.class, () -> {
             game.buyRiskCards(playerBuyingCard);
-        } catch (NotEnoughCreditException e) {
-            flag = true;
-            e.printStackTrace();
-        } catch (CreditCardPrompt creditCardPrompt) {
-            creditCardPrompt.printStackTrace();
-        }
-
-        assertTrue(flag);
-
+        });
     }
 
     @Test
     public void userBuyingCard_HasEnoughCredit() {
         Player playerBuyingCard = new Player("Someone", 20);
-        ArrayList<Player> playerArrayList = new ArrayList<>();
-        playerArrayList.add(playerBuyingCard);
+        List<Player> playerArrayList = new ArrayList<>(Arrays.asList(playerBuyingCard));
         UI ui = new TestUI(playerArrayList);
         SingleUIGame game = new SingleUIGame();
+        // this is just for testing, in the actual game, the risk card stack will be
+        // automatically created based on number of territories
+        game.riskCardStack.push((new RiskCard(RiskCard.RISK_CARD_TYPE.CAVALRY)));
         try {
             game.buyRiskCards(playerBuyingCard);
         } catch (NotEnoughCreditException e) {

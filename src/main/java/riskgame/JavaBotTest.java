@@ -14,10 +14,10 @@ public class JavaBotTest {
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
         // Register our bot
-        try {
-            botsApi.registerBot(new JavaRiskGameBot());
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            botsApi.registerBot(new JavaRiskGameBot());
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//        }
     }
 }
