@@ -97,7 +97,7 @@ public class SingleUIGame implements GameEngine {
                         // not finished - this is a test essentially
                         ui.tellPlayersToClaimTheirFirstTerritories();
                         int armiesDrafted = 0;
-                        while (armiesDrafted < 50) { // only goes to 50 armies arbitrarily
+                        while (armiesDrafted < playerOrderList.size()) {
                             Territory pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
                             while (!(pickedTerritory.getControlledBy() == Territory.NoOwner || pickedTerritory.getControlledBy() == currentPlayer)) {
                                 ui.error(new Exception("Pick a territory that is unoccupied or belongs to you."));
