@@ -13,6 +13,7 @@ import riskgame.gameobject.player.PlayerCredit;
 import riskgame.ui.UI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
@@ -28,15 +29,40 @@ public class SingleUIGame implements GameEngine {
     private Player currentPlayer;
     private List<Player> playerOrderList = new ArrayList<>();
     private Stack<RiskCard> riskCardStack = new Stack<>();
+    private Integer armies = 0;
 
     private Territory lastAttacking;
     private Territory lastDefending;
 
-    public SingleUIGame() {
-        // add in functionality to create card stack here
-        riskCardStack.push(new RiskCard(RiskCard.RISK_CARD_TYPE.CAVALRY));
-    }
+    public SingleUIGame() {}
 
+    // might add this to GameEngine interface
+    public void createCardStack(){
+        //risk card types
+        List<RiskCard.RISK_CARD_TYPE>riskCardTypes = new ArrayList<>(
+                Arrays.asList(RiskCard.RISK_CARD_TYPE.ARTILLERY,
+                              RiskCard.RISK_CARD_TYPE.CAVALRY,
+                              RiskCard.RISK_CARD_TYPE.INFANTRY));
+        for(int i = 0; i < territories.size(); i++){
+            riskCardStack.push(new RiskCard(territories.get(i),riskCardTypes.get(i%3)));
+        }
+    }
+    // might add this to GameEngine interface
+    public void setNumArmiesForGame(){
+        //If 3 are playing, each player counts out 35 Infantry.
+        //If 4 are playing, each player counts out 30 Infantry.
+        //If 5 are playing, each player counts out 25 Infantry.
+        //If 6 are playing, each player counts out 20 Infantry.
+        int numberOfPlayers = playerOrderList.size();
+        if(numberOfPlayers == 3)
+            armies = 35;
+        else if(numberOfPlayers == 4)
+            armies = 30;
+        else if(numberOfPlayers == 5)
+            armies = 25;
+        else if(numberOfPlayers == 6)
+            armies = 20;
+    }
     @Override
     public void addUi(UI ui) {
         this.ui = ui;
@@ -59,11 +85,13 @@ public class SingleUIGame implements GameEngine {
                         Command selectMap = new SelectMap(this, selectedGameMap);
                         // Execute the Command
                         commandManager.executeCommand(selectMap);
+                        createCardStack();
                         break;
                     case SELECT_PLAYERS:
                         List<Player> list = ui.selectAndNamePlayers();
                         Command setPlayers = new SetPlayers(this, list);
                         commandManager.executeCommand(setPlayers);
+                        setNumArmiesForGame();
                         break;
                     case INIT_DRAFT:
                         // not finished - this is a test essentially
@@ -81,6 +109,7 @@ public class SingleUIGame implements GameEngine {
                         }
                         gameState = GameState.END;
                         break;
+                    //After all territories are claimed, each player in turn places one additional army onto any territory he or she already occupies.
                     // DRAFT, FORTIFY, need to be implemented
                     case ATTACK:
                         Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer);
