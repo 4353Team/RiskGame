@@ -3,6 +3,11 @@ package riskgame;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.telegram.telegrambots.ApiContextInitializer;
+import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import org.testng.annotations.Test;
 
 import riskgame.amazons3.AmazonS3;
@@ -49,7 +54,7 @@ public class GameTest {
     @Test
     public void dummyRealGame_3Players() throws Exception {
 //        Scanner scanner = new Scanner(System.in);
-        Scanner scanner = new Scanner(new StringReader(
+        BufferedReader bufferedReader = new BufferedReader(new StringReader(
                 "3\n" + //choose map SMALL_WORLD
                         "3\n" + // number of players
                         "Kesha\n" +
@@ -100,12 +105,72 @@ public class GameTest {
         gameEngine.disableCommandLogs();
 
         //
-        TextUI textUI = new TextUI(System.out, scanner);
+        TextUI textUI = new TextUI(System.out, bufferedReader);
         gameEngine.addUi(textUI);
         textUI.addGame(gameEngine);
 
         gameEngine.start();
         assertTrue(true);
+    }
+
+    @Test
+    public void telegramGame() throws Exception {
+        // Initialize Api Context
+        ApiContextInitializer.init();
+
+        JavaRiskGameBot bot = new JavaRiskGameBot();
+
+        // Instantiate Telegram Bots API
+        TelegramBotsApi botsApi = new TelegramBotsApi();
+
+        // Register our bot
+        try {
+            botsApi.registerBot(bot);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+
+        UI textUi = new TextUI(bot.getWriter(), bot.getReader());
+        SingleUIGame game = new SingleUIGame();
+        game.addUi(textUi);
+
+
+        new Thread(() -> {
+            try {
+                game.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+    }
+
+    @Test
+    public void tryThis() throws IOException, InterruptedException {
+        PipedOutputStream pipedOutputStream = new PipedOutputStream();
+        final PipedInputStream in = new PipedInputStream(pipedOutputStream);
+
+        PrintStream writer = new PrintStream(pipedOutputStream, true);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                try {
+                    for (String line; (line = reader.readLine()) != null; ) {
+                        System.out.println(line);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
+        for (int i = 0; i < 1000; i++) {
+            writer.println(i);
+            Thread.sleep(1000);
+        }
     }
 
     @Test(enabled = false)

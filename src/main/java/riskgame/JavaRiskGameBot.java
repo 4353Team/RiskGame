@@ -14,11 +14,46 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 public class JavaRiskGameBot extends TelegramLongPollingBot {
+    long lastChatId = -285674678;
+    private final PrintStream writer;
+    private JavaRiskGameBot bot = this;
+    private final BufferedReader reader;
+    private final PrintStream writerToReader;
+
+
+    public JavaRiskGameBot() throws IOException {
+        PipedOutputStream pipedOutputStream = new PipedOutputStream();
+        final PipedInputStream in = new PipedInputStream(pipedOutputStream);
+
+        writer = new PrintStream(pipedOutputStream, true);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                try {
+                    for (String line; (line = reader.readLine()) != null; ) {
+                        bot.sendMessage(line);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        PipedOutputStream pipedOutputStream2 = new PipedOutputStream();
+        final PipedInputStream in2 = new PipedInputStream(pipedOutputStream2);
+
+        writerToReader = new PrintStream(pipedOutputStream2, true);
+        reader = new BufferedReader(new InputStreamReader(in2));
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -49,6 +84,7 @@ public class JavaRiskGameBot extends TelegramLongPollingBot {
             long user_id = update.getMessage().getChat().getId();
             String message_text = update.getMessage().getText();
             long chat_id = update.getMessage().getChatId();
+            this.lastChatId = chat_id;
             String answer = message_text;
             SendMessage message = new SendMessage() // Create a message object object
                     .setChatId(chat_id)
@@ -67,6 +103,8 @@ public class JavaRiskGameBot extends TelegramLongPollingBot {
         // System.out.println(update.getMessage().getFrom().getFirstName());
 
         String command = update.getMessage().getText();
+
+        writerToReader.println(command);
 
         SendMessage message = new SendMessage();
 
@@ -112,9 +150,6 @@ public class JavaRiskGameBot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-
-
-
     }
 
     @Override
@@ -137,5 +172,25 @@ public class JavaRiskGameBot extends TelegramLongPollingBot {
         System.out.println(dateFormat.format(date));
         System.out.println("Message from " + first_name + " " + last_name + ". (id = " + user_id + ") \n Text - " + txt);
         System.out.println("Bot answer: \n Text - " + bot_answer);
+    }
+
+    public void sendMessage(String line) {
+        SendMessage message = new SendMessage() // Create a message object object
+                .setChatId(lastChatId) // assumption there will not be multiple chats concurrently
+                .setText(line);
+
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public PrintStream getWriter() {
+        return writer;
+    }
+
+    public BufferedReader getReader() {
+        return reader;
     }
 }
