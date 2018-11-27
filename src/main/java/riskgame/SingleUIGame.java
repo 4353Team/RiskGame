@@ -35,35 +35,38 @@ public class SingleUIGame implements GameEngine {
     private Territory lastAttacking;
     private Territory lastDefending;
 
-    public SingleUIGame() {}
+    public SingleUIGame() {
+    }
 
     // might add this to GameEngine interface
-    public void createCardStack(){
+    public void createCardStack() {
         //risk card types
-        List<RiskCard.RISK_CARD_TYPE>riskCardTypes = new ArrayList<>(
+        List<RiskCard.RISK_CARD_TYPE> riskCardTypes = new ArrayList<>(
                 Arrays.asList(RiskCard.RISK_CARD_TYPE.ARTILLERY,
-                              RiskCard.RISK_CARD_TYPE.CAVALRY,
-                              RiskCard.RISK_CARD_TYPE.INFANTRY));
-        for(int i = 0; i < territories.size(); i++){
-            riskCardStack.push(new RiskCard(territories.get(i),riskCardTypes.get(i%3)));
+                        RiskCard.RISK_CARD_TYPE.CAVALRY,
+                        RiskCard.RISK_CARD_TYPE.INFANTRY));
+        for (int i = 0; i < territories.size(); i++) {
+            riskCardStack.push(new RiskCard(territories.get(i), riskCardTypes.get(i % 3)));
         }
     }
+
     // might add this to GameEngine interface
-    public void setNumArmiesForGame(){
+    public void setNumArmiesForGame() {
         //If 3 are playing, each player counts out 35 Infantry.
         //If 4 are playing, each player counts out 30 Infantry.
         //If 5 are playing, each player counts out 25 Infantry.
         //If 6 are playing, each player counts out 20 Infantry.
         int numberOfPlayers = playerOrderList.size();
-        if(numberOfPlayers == 3)
+        if (numberOfPlayers == 3)
             armies = 35;
-        else if(numberOfPlayers == 4)
+        else if (numberOfPlayers == 4)
             armies = 30;
-        else if(numberOfPlayers == 5)
+        else if (numberOfPlayers == 5)
             armies = 25;
-        else if(numberOfPlayers == 6)
+        else if (numberOfPlayers == 6)
             armies = 20;
     }
+
     @Override
     public void addUi(UI ui) {
         this.ui = ui;
@@ -110,13 +113,16 @@ public class SingleUIGame implements GameEngine {
                         break;
                     //After all territories are claimed, each player in turn places one additional army onto any territory he or she already occupies.
                     case DRAFT:
-                        while(armiesDrafted < armies){
+                        while (armiesDrafted < armies) {
                             Territory pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
-                            Command draft = new DraftOneInit(this, pickedTerritory,currentPlayer);
+                            Command draft = new DraftOneInit(this, pickedTerritory, currentPlayer);
                             commandManager.executeCommand(draft);
                             armiesDrafted++;
                         }
-                        gameState = GameState.END;
+                        commandManager.executeCommand(new FortifyPhase(this));
+                        break;
+                    case FORTIFY:
+
                         break;
                     //FORTIFY needs to be implemented
                     case ATTACK:
@@ -412,6 +418,32 @@ public class SingleUIGame implements GameEngine {
             singleUIGame.riskCardStack.push(givenCard);
 
             giveCardCommand.undo();
+        }
+    }
+
+    private class FortifyPhase implements Command {
+        private SingleUIGame game;
+        private GameState beforeGameState;
+
+
+        public FortifyPhase(SingleUIGame game) {
+            this.game = game;
+            beforeGameState = GameState.valueOf(game.gameState.name());
+        }
+
+        @Override
+        public void log() {
+            logger.info("Moving to fortify phase");
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+            game.gameState = GameState.FORTIFY;
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+            game.gameState = GameState.valueOf(beforeGameState.name());
         }
     }
 }
