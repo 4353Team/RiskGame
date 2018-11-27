@@ -113,6 +113,13 @@ public class SingleUIGame implements GameEngine {
                         break;
                     //After all territories are claimed, each player in turn places one additional army onto any territory he or she already occupies.
                     case DRAFT:
+                        /*
+                        check if player receives any more armies based on:
+                        //The number of territories player occupies.
+                        //The value of the continents player controls.
+                        //The value of the matched sets of RISK cards you trade in.
+                        //The specific territory pictured on a traded-in card.
+                        */
                         while (armiesDrafted < armies) {
                             Territory pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
                             Command draft = new DraftOneInit(this, pickedTerritory, currentPlayer);
@@ -121,10 +128,6 @@ public class SingleUIGame implements GameEngine {
                         }
                         commandManager.executeCommand(new FortifyPhase(this));
                         break;
-                    case FORTIFY:
-
-                        break;
-                    //FORTIFY needs to be implemented
                     case ATTACK:
                         Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer);
                         try {
@@ -148,6 +151,10 @@ public class SingleUIGame implements GameEngine {
                         } else {
                             ui.error(new Exception("You are not allowed to move that many armies, you must leave 1 army"));
                         }
+                    case FORTIFY:
+                        //FORTIFY needs to be implemented
+                        break;
+
 
                     case END:
                         exit = true;
