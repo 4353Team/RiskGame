@@ -18,13 +18,13 @@ import java.util.Scanner;
 
 public class TextUI implements UI {
     private final PrintStream outStream;
-    private final Scanner reader;
+    private final BufferedReader reader;
     private GameEngine gameEngine;
-    public List<Territory> map;
+    private List<Territory> map;
     private List<Player> playerSetup;
     private static final Logger logger = LogManager.getLogger(TextUI.class);
 
-    public TextUI(PrintStream writer, Scanner reader) {
+    public TextUI(PrintStream writer, BufferedReader reader) {
         this.outStream = writer;
         this.reader = reader;
     }
@@ -61,8 +61,10 @@ public class TextUI implements UI {
     private Integer getNextInt() {
         Integer selection = null;
         try {
-            selection = reader.nextInt();
+            selection = Integer.parseInt(reader.readLine());
         } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return selection;
@@ -82,7 +84,7 @@ public class TextUI implements UI {
 
         for (int i = 0; i < numberOfPlayers; i++) {
             outStream.println("Player " + i + " enter your name: ");
-            playerList.add(new HumanPlayer(reader.next()));
+            playerList.add(new HumanPlayer(getNextString()));
             logger.info(playerList.get(i).getName() + " has been added to the player list.");
         }
 
@@ -93,6 +95,15 @@ public class TextUI implements UI {
             outStream.println((i + 1) + ". " + playerList.get(i).getName());
         }
         return playerList;
+    }
+
+    private String getNextString() {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ""; // todo, handle this better
     }
 
 
