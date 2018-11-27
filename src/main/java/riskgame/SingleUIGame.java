@@ -155,6 +155,8 @@ public class SingleUIGame implements GameEngine {
                         } else {
                             ui.error(new Exception("You are not allowed to move that many armies, you must leave 1 army"));
                         }
+                        break;
+
                     case FORTIFY:
                         //FORTIFY needs to be implemented
                         break;
