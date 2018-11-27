@@ -2,6 +2,7 @@ package riskgame.ui;
 
 import riskgame.GameEngine;
 import riskgame.GameMaps;
+import riskgame.SingleUIGame;
 import riskgame.gameobject.Territory;
 import riskgame.gameobject.player.CreditCardPrompt;
 import riskgame.gameobject.player.NotEnoughCreditException;
@@ -101,6 +102,11 @@ public class TestUI implements UI {
     @Override
     public void tellPlayersToClaimTheirFirstTerritories() {
 
+    }
+
+    @Override
+    public SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer) {
+        return null;
     }
 
     private String expectedMap;

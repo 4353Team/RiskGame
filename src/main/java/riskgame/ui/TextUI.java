@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import riskgame.GameEngine;
 import riskgame.GameMaps;
+import riskgame.SingleUIGame;
 import riskgame.gameobject.Territory;
 import riskgame.gameobject.player.CreditCardPrompt;
 import riskgame.gameobject.player.HumanPlayer;
@@ -152,5 +153,10 @@ public class TextUI implements UI {
     @Override
     public void tellPlayersToClaimTheirFirstTerritories() {
         outStream.println("Time to claim your first territories!");
+    }
+
+    @Override
+    public SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer) {
+        return null;
     }
 }

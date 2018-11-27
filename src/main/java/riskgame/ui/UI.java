@@ -2,6 +2,7 @@ package riskgame.ui;
 
 import riskgame.GameEngine;
 import riskgame.GameMaps;
+import riskgame.SingleUIGame;
 import riskgame.gameobject.Territory;
 import riskgame.gameobject.player.CreditCardPrompt;
 import riskgame.gameobject.player.NotEnoughCreditException;
@@ -55,6 +56,8 @@ public interface UI {
     int queryArmiesToMove(Player currentPlayer, Territory from, Territory to);
 
     void tellPlayersToClaimTheirFirstTerritories();
+
+    SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer);
 
     class CreditPromptCancelledException extends Exception { }
 

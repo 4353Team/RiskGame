@@ -146,6 +146,7 @@ public class SingleUIGame implements GameEngine {
                             commandManager.executeCommand(new FortifyPhase(this));
                         }
                         break;
+
                     case ATTACK_SUCCESSFUL:
                         int armiesToMoveIn = ui.queryArmiesToMove(currentPlayer, lastAttacking, lastDefending);
                         if (lastAttacking.getArmies() - armiesToMoveIn > 1) { // todo: research if 1 army left in a territory is allowed or is it 2
@@ -158,7 +159,13 @@ public class SingleUIGame implements GameEngine {
                         break;
 
                     case FORTIFY:
-                        //FORTIFY needs to be implemented
+                        FortifyPick fortifyPick = ui.getFortifyPick(this.currentPlayer);
+                        while (!verifyFortifyPick(fortifyPick)) {
+                            ui.error(new Exception("Fortify pick invalid"));
+                            fortifyPick = ui.getFortifyPick(this.currentPlayer);
+                        }
+                        commandManager.executeCommand(new FortifyCommand(fortifyPick));
+                        commandManager.executeCommand(new NextPlayerCommand(this));
                         break;
 
 
@@ -171,6 +178,13 @@ public class SingleUIGame implements GameEngine {
                 throw e;
             }
         }
+    }
+
+    private boolean verifyFortifyPick(FortifyPick fortifyPick) {
+        if (fortifyPick.from.getControlledBy() != currentPlayer) return false;
+        if (fortifyPick.to.getControlledBy() != currentPlayer) return false;
+        if (fortifyPick.from.getArmies() - 1 < fortifyPick.howManyArmies) return false;
+        return true;
     }
 
     /**
@@ -457,6 +471,70 @@ public class SingleUIGame implements GameEngine {
         @Override
         public void undo() throws IllegalUndoException {
             game.gameState = GameState.valueOf(beforeGameState.name());
+        }
+    }
+
+    public class FortifyPick {
+        public final Territory from;
+        public final Territory to;
+        public final int howManyArmies;
+
+        FortifyPick(Territory from, Territory to, int howManyArmies) {
+            this.from = from;
+            this.to = to;
+            this.howManyArmies = howManyArmies;
+        }
+    }
+
+    private class NextPlayerCommand implements Command {
+        private final SingleUIGame game;
+        private final Player initalPlayer;
+
+        public NextPlayerCommand(SingleUIGame game) {
+            this.game = game;
+            initalPlayer = game.currentPlayer;
+        }
+
+        @Override
+        public void log() {
+            logger.info("The next player is up...");
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+            game.nextPlayer();
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+            game.previousPlayer();
+        }
+    }
+
+    // note: does not check if it's valid
+    private class FortifyCommand implements Command {
+        private FortifyPick fortifyPick;
+
+        public FortifyCommand(FortifyPick fortifyPick) {
+            this.fortifyPick = fortifyPick;
+        }
+
+        @Override
+        public void log() {
+            logger.info("Moving " + fortifyPick.howManyArmies + " armies from " +
+                    fortifyPick.from.getName() + " to " + fortifyPick.to.getName());
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+            fortifyPick.from.removeArmies(fortifyPick.howManyArmies);
+            fortifyPick.to.addArmies(fortifyPick.howManyArmies);
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+            fortifyPick.from.addArmies(fortifyPick.howManyArmies);
+            fortifyPick.to.removeArmies(fortifyPick.howManyArmies);
         }
     }
 }
