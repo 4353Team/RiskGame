@@ -129,17 +129,21 @@ public class SingleUIGame implements GameEngine {
                         commandManager.executeCommand(new FortifyPhase(this));
                         break;
                     case ATTACK:
-                        Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer);
                         try {
-                            attackPick.checksOut(); // check that everything is good, if not it will loop around
+                            Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer);
+                            try {
+                                attackPick.checksOut(); // check that everything is good, if not it will loop around
 
-                            Command attack = new Territory.Attack(attackPick.attackingTerritory, attackPick.defendingTerritory, this);
-                            commandManager.executeCommand(attack);
-                            lastAttacking = attackPick.attackingTerritory;
-                            lastDefending = attackPick.defendingTerritory;
+                                Command attack = new Territory.Attack(attackPick.attackingTerritory, attackPick.defendingTerritory, this);
+                                commandManager.executeCommand(attack);
+                                lastAttacking = attackPick.attackingTerritory;
+                                lastDefending = attackPick.defendingTerritory;
 
-                        } catch (Territory.AttackPick.AttackPickException exception) {
-                            ui.error(exception); // will try again
+                            } catch (Territory.AttackPick.AttackPickException exception) {
+                                ui.error(exception); // will try again
+                            }
+                        } catch (UI.NoMoreAttackException e) {
+                            commandManager.executeCommand(new FortifyPhase(this));
                         }
                         break;
                     case ATTACK_SUCCESSFUL:
