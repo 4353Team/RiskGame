@@ -21,6 +21,7 @@ public class SingleUIGame implements GameEngine {
     private static final Logger logger = LogManager.getLogger(SingleUIGame.class);
     public static final int UNDO_PRICE = 1;
     public static final int RISK_CARD_PRICE = 1;
+    public static final int maxCommandTime = 30;
 
     private final CommandManager commandManager = new CommandManager();
     private UI ui;
@@ -87,6 +88,13 @@ public class SingleUIGame implements GameEngine {
                         // Execute the Command
                         commandManager.executeCommand(selectMap);
                         createCardStack();
+
+                        long commandStartTime = ((SelectMap) selectMap).commandStartTime;
+                        if (System.currentTimeMillis() > (commandStartTime + maxCommandTime*1000)) {
+                           // ui.error((Exception) new CommandTimeOutException("Your 30s has passed."));
+                           // throw new Command.CommandTimeOutException("Time out.");
+                            System.out.println("Timed out");
+                        }
                         break;
                     case SELECT_PLAYERS:
                         List<Player> list = ui.selectAndNamePlayers();
@@ -246,6 +254,7 @@ public class SingleUIGame implements GameEngine {
     enum GameState {SELECT_MAP, SELECT_PLAYERS, INIT_DRAFT, DRAFT, ATTACK, ATTACK_SUCCESSFUL, FORTIFY, END}
 
     private class SelectMap implements Command {
+        public long commandStartTime;
         private final SingleUIGame gameEngine;
         private final GameMaps.GameMap selectedGameMap;
         private final GameState before;
@@ -254,6 +263,7 @@ public class SingleUIGame implements GameEngine {
             this.gameEngine = gameEngine;
             this.selectedGameMap = selectedGameMap;
             before = gameEngine.gameState;
+            commandStartTime = System.currentTimeMillis();
         }
 
         /**

@@ -46,4 +46,10 @@ public interface Command {
             super(e);
         }
     }
+    class CommandTimeOutException extends Exception {
+        public CommandTimeOutException(Throwable e) {
+            super(e);
+        }
+    }
+
 }
