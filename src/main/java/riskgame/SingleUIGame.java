@@ -107,6 +107,7 @@ public class SingleUIGame implements GameEngine {
                             commandManager.executeCommand(draftOneInit); // selects the next player in the command as well
                             armiesDrafted++;
                         }
+                        gameState = GameState.END;
                         break;
                     //After all territories are claimed, each player in turn places one additional army onto any territory he or she already occupies.
                     case DRAFT:
@@ -116,7 +117,7 @@ public class SingleUIGame implements GameEngine {
                             commandManager.executeCommand(draft);
                             armiesDrafted++;
                         }
-                        gameState = GameState.END;
+
                         break;
                     //FORTIFY needs to be implemented
                     case ATTACK:
