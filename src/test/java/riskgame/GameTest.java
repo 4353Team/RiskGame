@@ -51,7 +51,8 @@ public class GameTest {
         assertTrue(testUI.map.get(1).getControlledBy() == playerList.get(1));
     }
 
-    @Test
+
+    @Test(enabled = false)
     public void dummyRealGame_3Players() throws Exception {
 //        Scanner scanner = new Scanner(System.in);
         BufferedReader bufferedReader = new BufferedReader(new StringReader(
@@ -145,7 +146,7 @@ public class GameTest {
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void tryThis() throws IOException, InterruptedException {
         PipedOutputStream pipedOutputStream = new PipedOutputStream();
         final PipedInputStream in = new PipedInputStream(pipedOutputStream);

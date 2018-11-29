@@ -110,6 +110,7 @@ public class SingleUIGame implements GameEngine {
                             commandManager.executeCommand(draftOneInit); // selects the next player in the command as well
                             armiesDrafted++;
                         }
+                        gameState = GameState.END;
                         break;
                     //After all territories are claimed, each player in turn places one additional army onto any territory he or she already occupies.
                     case DRAFT:
@@ -152,7 +153,7 @@ public class SingleUIGame implements GameEngine {
                         if (lastAttacking.getArmies() - armiesToMoveIn > 1) { // todo: research if 1 army left in a territory is allowed or is it 2
                             Command command = new Territory.MoveArmies(armiesToMoveIn, lastAttacking, lastDefending);
                             commandManager.executeCommand(command);
-                            gameState = GameState.ATTACK; // back to attack state
+                            gameState = GameState.ATTACK; // back to attack state todo: make this a command
                         } else {
                             ui.error(new Exception("You are not allowed to move that many armies, you must leave 1 army"));
                         }
