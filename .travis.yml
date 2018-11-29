@@ -4,4 +4,5 @@ script: "mvn cobertura:cobertura"
 after_success:
   - bash < (curl -s https://codecov.io/bash)
 env:
-  - CODECOV_TOKEN="2be93917-9ce3-48f1-b2cf-97adb971321d"
+  global:
+    - CODECOV_TOKEN="2be93917-9ce3-48f1-b2cf-97adb971321d"
