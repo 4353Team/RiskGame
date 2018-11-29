@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class GameTest {
     private static final Logger logger = LogManager.getLogger(GameTest.class);
@@ -48,7 +48,7 @@ public class GameTest {
 
         gameEngine.start();
 
-        assertTrue(testUI.map.get(1).getControlledBy() == playerList.get(1));
+        assertSame(testUI.map.get(1).getControlledBy(), playerList.get(1));
     }
 
 
@@ -193,8 +193,8 @@ public class GameTest {
         String bucketId = as3.saveFileToAmazon();
 
         CommandManager myCommandManager = as3.readCommandManagerState();
-        assertTrue(commandManager.getUndosCount() == 2);
-        assertTrue(commandManager.getRedosCount() == 1);
+        assertEquals(2, commandManager.getUndosCount());
+        assertEquals(1, commandManager.getRedosCount());
     }
 
 }
