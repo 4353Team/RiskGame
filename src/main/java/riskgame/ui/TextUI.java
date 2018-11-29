@@ -62,7 +62,9 @@ public class TextUI implements UI {
     private Integer getNextInt() {
         Integer selection = null;
         try {
-            selection = Integer.parseInt(reader.readLine());
+            String readLine = reader.readLine();
+            readLine = readLine.replaceAll(" ","");
+            selection = Integer.parseInt(readLine);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {

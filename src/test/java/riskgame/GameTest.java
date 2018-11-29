@@ -52,7 +52,7 @@ public class GameTest {
     }
 
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void dummyRealGame_3Players() throws Exception {
 //        Scanner scanner = new Scanner(System.in);
         BufferedReader bufferedReader = new BufferedReader(new StringReader(
@@ -99,7 +99,9 @@ public class GameTest {
                         "2\n" + //04
                         "3\n" + //03
                         "5\n" + //02
-                        "2\n" //01
+                        "2\n" + //01
+                        //
+                        ""
                 ));
 
         GameEngine gameEngine = new SingleUIGame();
