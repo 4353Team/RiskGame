@@ -66,10 +66,12 @@ public class TextUI implements UI {
             readLine = readLine.replaceAll(" ","");
             selection = Integer.parseInt(readLine);
         } catch (NumberFormatException e) {
+            logger.error("not able to read number: " + e);
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("***Entered: " + selection);
         return selection;
     }
 
@@ -102,7 +104,9 @@ public class TextUI implements UI {
 
     private String getNextString() {
         try {
-            return reader.readLine();
+            String readLine = reader.readLine();
+            System.out.println("***Entered: " + readLine);
+            return readLine;
         } catch (IOException e) {
             e.printStackTrace();
         }
