@@ -23,7 +23,7 @@ public class CommandTest {
 
     @Test
     public void DraftTest_1() throws Exception{
-        Player player = new Player();
+        Player player = new Player(); // remove this comment
         Territory t = new Territory(player);
 
         Command command = new Territory.DraftOneArmy(t);

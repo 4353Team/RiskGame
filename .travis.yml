@@ -1,11 +1,10 @@
 language: java
+sudo: false #faster builds
 
-env:
-- CODECOV_TOKEN="2be93917-9ce3-48f1-b2cf-97adb971321d"
-
-script: "mvn cobertura:cobertura"
+script: 
+  - mvn clean package
+  - mvn cobertura:cobertura
 
 after_success:
-  - bash < (curl -s https://codecov.io/bash)
-
+  - bash <(curl -s https://codecov.io/bash)
 
