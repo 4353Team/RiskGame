@@ -1,4 +1,5 @@
 [![codecov](https://codecov.io/gh/4353Team/RiskGame/branch/develop/graph/badge.svg)](https://codecov.io/gh/4353Team/RiskGame)
+
 [![Build Status](https://travis-ci.org/4353Team/RiskGame.svg?branch=develop)](https://travis-ci.org/4353Team/RiskGame)
 <h1>RISK</h1>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
