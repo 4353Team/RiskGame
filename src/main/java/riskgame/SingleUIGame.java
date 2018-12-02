@@ -100,10 +100,21 @@ public class SingleUIGame implements GameEngine {
                     case INIT_DRAFT:
                         ui.tellPlayersToClaimTheirFirstTerritories();
 
-                        while (armiesDrafted < playerOrderList.size()) {
+                        while (armiesDrafted < territories.size()) {
                             Territory pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
                             while (!(pickedTerritory.getControlledBy() == Territory.NoOwner || pickedTerritory.getControlledBy() == currentPlayer)) {
                                 ui.error(new Exception("Pick a territory that is unoccupied or belongs to you."));
+                                pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
+                            }
+                            Command draftOneInit = new DraftOneInit(this, pickedTerritory, currentPlayer);
+                            commandManager.executeCommand(draftOneInit); // selects the next player in the command as well
+                            armiesDrafted++;
+                        }
+
+                        while(armiesDrafted < armies){
+                            Territory pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
+                            while(!(pickedTerritory.getControlledBy() == currentPlayer)){
+                                ui.error(new Exception("Pick a territory that belongs to you."));
                                 pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
                             }
                             Command draftOneInit = new DraftOneInit(this, pickedTerritory, currentPlayer);
