@@ -214,6 +214,21 @@ public class TextUI implements UI {
         return new Territory.AttackPick(attackFrom, attackTo);
     }
 
+    public SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer, List<Territory>territories){
+        Territory moveFrom;
+        Territory moveTo;
+        Integer troops;
+        displayTerritories(territories);
+        outStream.println(currentPlayer.getName() + ", select a territory to move troops from");
+        moveFrom = getTerritory(getNextInt(), territories);
+        outStream.println(currentPlayer.getName() + ", select a territory to move troops to");
+        moveTo = getTerritory(getNextInt(), territories);
+        outStream.println(currentPlayer.getName() + ", select number of troops to move");
+        troops = getNextInt();
+        outStream.println(currentPlayer.getName() + " is moving " + troops + " armies from " + moveFrom + " to " + moveTo);
+        return new SingleUIGame.FortifyPick(moveFrom, moveTo, troops);
+    }
+
     @Override
     public int queryArmiesToMove(Player currentPlayer, Territory from, Territory to) {
         return 0;

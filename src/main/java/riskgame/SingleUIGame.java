@@ -556,12 +556,12 @@ public class SingleUIGame implements GameEngine {
         }
     }
 
-    public class FortifyPick {
+    public static class FortifyPick {
         public final Territory from;
         public final Territory to;
         public final int howManyArmies;
 
-        FortifyPick(Territory from, Territory to, int howManyArmies) {
+        public FortifyPick(Territory from, Territory to, int howManyArmies) {
             this.from = from;
             this.to = to;
             this.howManyArmies = howManyArmies;
