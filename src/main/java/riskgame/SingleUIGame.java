@@ -110,7 +110,7 @@ public class SingleUIGame implements GameEngine {
                             commandManager.executeCommand(draftOneInit); // selects the next player in the command as well
                             armiesDrafted++;
                         }
-
+                        //After all territories are claimed, each player in turn places one additional army onto any territory he or she already occupies.
                         while(armiesDrafted < armies){
                             Territory pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
                             while(!(pickedTerritory.getControlledBy() == currentPlayer)){
@@ -123,7 +123,7 @@ public class SingleUIGame implements GameEngine {
                         }
                         gameState = GameState.END;
                         break;
-                    //After all territories are claimed, each player in turn places one additional army onto any territory he or she already occupies.
+                    //Getting and placing new armies.
                     case DRAFT:
                         /*
                         check if player receives any more armies based on:
@@ -132,6 +132,11 @@ public class SingleUIGame implements GameEngine {
                         //The value of the matched sets of RISK cards you trade in.
                         //The specific territory pictured on a traded-in card.
                         */
+
+                        //The number of territories player occupies.
+                        //The value of the continents player controls.
+                        //The value of the matched sets of RISK cards you trade in.
+                        //The specific territory pictured on a traded-in card.
                         while (armiesDrafted < armies) {
                             Territory pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
                             Command draft = new DraftOneInit(this, pickedTerritory, currentPlayer);
