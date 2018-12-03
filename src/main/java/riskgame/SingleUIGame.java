@@ -182,7 +182,7 @@ public class SingleUIGame implements GameEngine {
                         if (lastAttacking.getArmies() - armiesToMoveIn > 1) { // todo: research if 1 army left in a territory is allowed or is it 2
                             Command command = new Territory.MoveArmies(armiesToMoveIn, lastAttacking, lastDefending);
                             commandManager.executeCommand(command);
-                            gameState = GameState.ATTACK; // back to attack state todo: make this a command
+                            undoableNextPhase(GameState.ATTACK);
                         } else {
                             ui.error(new Exception("You are not allowed to move that many armies, you must leave 1 army"));
                         }
