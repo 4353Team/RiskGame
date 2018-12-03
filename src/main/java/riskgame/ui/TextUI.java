@@ -133,6 +133,7 @@ public class TextUI implements UI {
             outStream.println(currentPlayer.getName() + ", select a territory to draft to");
             displayTerritories(territories);
             pickedTerritoryNum = getNextInt();
+            outStream.println(currentPlayer.getName() + ", selected " + pickedTerritory.getName());
         }
 
         displayPlayerArmies(currentPlayer);
@@ -148,6 +149,32 @@ public class TextUI implements UI {
     }
 
     private void displayTerritories(List<Territory> territories) {
+        outStream.println("+-------------+-------------------+\n" +
+                "|             |                   |\n" +
+                "|   Alberta   |     Ontario       |\n" +
+                "|      2      |          1        |\n" +
+                "++------------+-------+-----------+-------+\n" +
+                " |                    |                   |\n" +
+                " |    Western         |     Eastern       |\n" +
+                " |   United States    |    United States  |\n" +
+                " |                    |                   |\n" +
+                " |        3           |         4         |\n" +
+                " +-----------------+--+---+---------------+\n" +
+                "                   | C.A  |\n" +
+                "                   |      |\n" +
+                "                   |  5   |\n" +
+                "                   +--+---+----------+\n" +
+                "                      |  Venezuela   |\n" +
+                "                      |      6       |\n" +
+                "               +------+----+---------+------+\n" +
+                "               |           |                |\n" +
+                "               |   Peru    |     Brazil     |\n" +
+                "               |     7     |       8        |\n" +
+                "               +---------+-+---+------------+\n" +
+                "                         |     |\n" +
+                "                         | Arg |\n" +
+                "                         |  9  |\n" +
+                "                         +-----+\n");
         outStream.println("Territory Summary: ");
         for (int i = 0; i < territories.size(); i++) {
             outStream.println("["+territories.get(i).getName()+"]: " +
@@ -157,7 +184,7 @@ public class TextUI implements UI {
     }
 
     private void displayPlayerArmies(Player player){
-        outStream.println("You have " + player.getArmies() + " armies.");
+        outStream.println(player.getName() + " has " + player.getArmies() + " armies.");
     }
 
     @Override

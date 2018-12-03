@@ -124,6 +124,7 @@ public class SingleUIGame implements GameEngine {
                         break;
                     //Getting and placing new armies.
                     case DRAFT:
+                        System.out.println("\n»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»» DRAFT PHASE ««««««««««««««««««««««««««««««««««««««««««««");
                         /*
                         check if player receives any more armies based on a number of factors:
                         */
@@ -143,19 +144,19 @@ public class SingleUIGame implements GameEngine {
                         currentPlayer.addArmies(armiesToReceive);
 
                         //deploy armies
-                        while(ui.askPlayerIfWantToDraft(currentPlayer).equals("Y") && currentPlayer.getArmies() > 0){
+                        String response = "";
+                        while(!response.equals("N") && currentPlayer.getArmies() > 0){
+                            response = ui.askPlayerIfWantToDraft(currentPlayer);
                             Pair<Territory, Integer> draftChoicePair = ui.getDraftPick(currentPlayer, territories);
                             Territory pickedTerritory = draftChoicePair.getKey();
                             Integer armiesToDraft = draftChoicePair.getValue();
                             Command draft = new Draft(this, pickedTerritory, currentPlayer, armiesToDraft);
                             commandManager.executeCommand(draft); // selects the next player in the command as well
                         }
-
-
-
                         gameState = GameState.END;
                         break;
                     case ATTACK:
+                        System.out.println("\n»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»» ATTACK PHASE ««««««««««««««««««««««««««««««««««««««««««««");
                         try {
                             Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer);
                             try {
@@ -409,6 +410,7 @@ public class SingleUIGame implements GameEngine {
             for (int i = 0; i < armies; i++) {
                 draftOne.execute();
             }
+            player.removeArmies(armies);
             game.gameState = GameState.DRAFT;
             game.ui.update();
         }
@@ -418,6 +420,7 @@ public class SingleUIGame implements GameEngine {
             for (int i = 0; i < armies; i++) {
                 draftOne.undo();
             }
+            player.addArmies(armies);
             game.ui.update();
         }
     }
