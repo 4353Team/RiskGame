@@ -173,6 +173,8 @@ public class SingleUIGame implements GameEngine {
                             }
                         } catch (UI.NoMoreAttackException e) {
                             commandManager.executeCommand(new FortifyPhase(this));
+                        } catch (UI.EndGameException e) {
+                            undoableNextPhase(GameState.END);
                         }
                         break;
 
