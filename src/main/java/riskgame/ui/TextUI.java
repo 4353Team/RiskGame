@@ -1,6 +1,5 @@
 package riskgame.ui;
 
-import javafx.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import riskgame.GameEngine;
@@ -51,7 +50,7 @@ public class TextUI implements UI {
             for (int i = 0; i < mapsList.size(); i++) {
                 outStream.println("[" + mapsList.get(i).getName() + "]: " + (i + 1));
             }
-            chosenMap = getNextInt()-1;
+            chosenMap = getNextInt() - 1;
 
         } while (!(chosenMap >= 0 && chosenMap < mapsList.size()));
 
@@ -62,7 +61,7 @@ public class TextUI implements UI {
         Integer selection = null;
         try {
             String readLine = reader.readLine();
-            readLine = readLine.replaceAll(" ","");
+            readLine = readLine.replaceAll(" ", "");
             selection = Integer.parseInt(readLine);
         } catch (NumberFormatException e) {
             logger.error("not able to read number: " + e);
@@ -120,15 +119,15 @@ public class TextUI implements UI {
         Integer pickedTerritory = getNextInt();
         outStream.println(currentPlayer.getName() + " claimed " + getTerritory(pickedTerritory, territories));
         return getTerritory(pickedTerritory, territories);
-}
+    }
 
-    public Pair getDraftPick(Player currentPlayer, List<Territory>territories){
+    public Map.Entry<Territory, Integer> getDraftPick(Player currentPlayer, List<Territory> territories) {
         outStream.println(currentPlayer.getName() + ", select a territory to draft to");
         displayTerritories(territories);
         Integer pickedTerritoryNum = getNextInt();
 
-        Territory pickedTerritory = getTerritory(pickedTerritoryNum,territories);
-        while(!(pickedTerritory.getControlledBy() == currentPlayer)){
+        Territory pickedTerritory = getTerritory(pickedTerritoryNum, territories);
+        while (!(pickedTerritory.getControlledBy() == currentPlayer)) {
             error(new Exception("Pick a territory that belongs to you."));
             outStream.println(currentPlayer.getName() + ", select a territory to draft to");
             displayTerritories(territories);
@@ -140,7 +139,8 @@ public class TextUI implements UI {
         outStream.println(currentPlayer.getName() + ", select number of armies to draft");
         Integer armiesToDraft = getNextInt();
         outStream.println(currentPlayer.getName() + " drafted " + armiesToDraft + " armies to " + pickedTerritory);
-        Pair<Territory, Integer> draftMapping = new Pair<Territory, Integer>(getTerritory(pickedTerritoryNum,territories), armiesToDraft);
+        Map.Entry<Territory, Integer> draftMapping =
+                new AbstractMap.SimpleEntry<Territory, Integer>(getTerritory(pickedTerritoryNum, territories), armiesToDraft);
         return draftMapping;
     }
 
@@ -177,13 +177,13 @@ public class TextUI implements UI {
                 "                         +-----+\n");
         outStream.println("Territory Summary: ");
         for (int i = 0; i < territories.size(); i++) {
-            outStream.println("["+territories.get(i).getName()+"]: " +
-                    (i+1) + " --> " + territories.get(i).getControlledBy().getName() +
+            outStream.println("[" + territories.get(i).getName() + "]: " +
+                    (i + 1) + " --> " + territories.get(i).getControlledBy().getName() +
                     " (" + territories.get(i).getArmies() + " armies)");
         }
     }
 
-    private void displayPlayerArmies(Player player){
+    private void displayPlayerArmies(Player player) {
         outStream.println(player.getName() + " has " + player.getArmies() + " armies.");
     }
 
@@ -213,7 +213,7 @@ public class TextUI implements UI {
     }
 
     @Override
-    public String askPlayerIfWantToDraft(Player currentPlayer){
+    public String askPlayerIfWantToDraft(Player currentPlayer) {
         outStream.println(currentPlayer.getName() + ", do you want to draft more armies? (Y/N)");
         String response = getNextString();
         return response;

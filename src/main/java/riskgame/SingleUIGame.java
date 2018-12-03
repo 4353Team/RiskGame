@@ -1,6 +1,5 @@
 package riskgame;
 
-import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import riskgame.commands.Command;
@@ -147,7 +146,7 @@ public class SingleUIGame implements GameEngine {
                         String response = "";
                         while(!response.equals("N") && currentPlayer.getArmies() > 0){
                             response = ui.askPlayerIfWantToDraft(currentPlayer);
-                            Pair<Territory, Integer> draftChoicePair = ui.getDraftPick(currentPlayer, territories);
+                            Map.Entry<Territory, Integer> draftChoicePair = ui.getDraftPick(currentPlayer, territories);
                             Territory pickedTerritory = draftChoicePair.getKey();
                             Integer armiesToDraft = draftChoicePair.getValue();
                             Command draft = new Draft(this, pickedTerritory, currentPlayer, armiesToDraft);
