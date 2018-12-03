@@ -108,8 +108,7 @@ public class GameTest {
                         "Y\n" + //first player chooses to draft
                         "7\n" + //select territory to draft to
                         "1\n" + //draft 1 army
-                        "N\n" +
-                        "N\n" +
+                        "N\n" + //does not want to draft anymore
                         ""
 
                 ));
