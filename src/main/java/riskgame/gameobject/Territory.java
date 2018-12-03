@@ -287,8 +287,11 @@ public class Territory implements Serializable, Observable {
             this.defendingTerritory = defendingTerritory;
         }
 
-        public void checksOut() throws AttackPickException {
-
+        public void checksOut(Player player) throws AttackPickException {
+            if (attackingTerritory.getControlledBy() != player) throw new AttackPickException("Please choose a " +
+                    "territory you own to attack from");
+            if (attackingTerritory.getControlledBy() == player) throw new AttackPickException("You may not attack " +
+                    "yourself");
         }
 
         public class AttackPickException extends Exception {

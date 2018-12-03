@@ -161,7 +161,7 @@ public class SingleUIGame implements GameEngine {
                         try {
                             Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer);
                             try {
-                                attackPick.checksOut(); // check that everything is good, if not it will loop around
+                                attackPick.checksOut(currentPlayer); // check that everything is good, if not it will loop around
 
                                 Command attack = new Territory.Attack(attackPick.attackingTerritory, attackPick.defendingTerritory, this);
                                 commandManager.executeCommand(attack);
