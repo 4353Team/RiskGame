@@ -18,7 +18,7 @@ public interface UI {
     public void addGame(GameEngine gameEngine);
     public void update();
 
-    public GameMaps.GameMap selectMap(GameMaps gameMaps);
+    public GameMaps.GameMap selectMap(GameMaps gameMaps) throws EndGameException, NoMoreAttackException;
 
     /**
      * display exception to player
@@ -59,7 +59,7 @@ public interface UI {
 
     void tellPlayersToClaimTheirFirstTerritories();
     String askPlayerIfToDraft(Player currentPlayer);
-    String askPlayerIfToAttack(Player currentPlayer);
+    String askPlayerIfToAttack(Player currentPlayer) throws NoMoreAttackException, EndGameException;
 
     SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer);
 

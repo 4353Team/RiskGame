@@ -40,7 +40,7 @@ public class TextUI implements UI {
     }
 
     @Override
-    public GameMaps.GameMap selectMap(GameMaps gameMaps) {
+    public GameMaps.GameMap selectMap(GameMaps gameMaps) throws EndGameException, NoMoreAttackException {
         Integer chosenMap = null;
         List<GameMaps.GameMap> mapsList = gameMaps.getList();
 
@@ -232,9 +232,11 @@ public class TextUI implements UI {
     }
 
     @Override
-    public String askPlayerIfToAttack(Player currentPlayer){
+    public String askPlayerIfToAttack(Player currentPlayer) throws NoMoreAttackException, EndGameException {
         outStream.println(currentPlayer.getName() + ", do you want to attack? (Y/N)");
         String response = getNextString();
+        if (response.contains("END")) throw  new EndGameException();
+        if (response.contains("N")) throw  new NoMoreAttackException();
         return response;
     }
 
