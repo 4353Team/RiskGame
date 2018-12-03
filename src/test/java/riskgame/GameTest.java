@@ -127,6 +127,78 @@ public class GameTest {
         assertTrue(true);
     }
 
+    @Test(enabled = true)
+    public void dummyRealGame_3Players_gotofortify() throws Exception {
+//        Scanner scanner = new Scanner(System.in);
+        BufferedReader bufferedReader = new BufferedReader(new StringReader(
+                "3\n" + //choose map SMALL_WORLD
+                        "3\n" + // number of players
+                        "Kesha\n" +
+                        "Ana\n" +
+                        "Elizabeth\n " +
+                        //claiming territories
+                        "5\n" + //35
+                        "2\n" + //34
+                        "3\n" + //33
+                        "1\n" + //32
+                        "4\n" + //31
+                        "9\n" + //30
+                        "7\n" + //29
+                        "8\n" + //28
+                        "6\n" + //27
+                        //place more armies in already claimed territories
+                        //3 players means 35 armies
+                        //30 armies left
+                        "5\n" + //26
+                        "2\n" + //25
+                        "3\n" + //24
+                        "1\n" + //23
+                        "4\n" + //22
+                        "9\n" + //21
+                        "7\n" + //20
+                        "8\n" + //19
+                        "6\n" + //18
+                        "5\n" + //17
+                        "2\n" + //16
+                        "3\n" + //15
+                        "1\n" + //14
+                        "4\n" + //13
+                        "9\n" + //12
+                        "7\n" + //11
+                        "8\n" + //10
+                        "6\n" + //09
+                        "5\n" + //08
+                        "2\n" + //07
+                        "3\n" + //06
+                        "1\n" + //05
+                        "4\n" + //04
+                        "9\n" + //03
+                        "7\n" + //02
+                        "8\n" + //01
+                        //
+                        "Y\n" + //first player chooses to draft
+                        "7\n" + //select territory to draft to
+                        "1\n" + //draft 1 army
+                        // tries to attack self
+                        "Y\n" +
+                        "7\n" +
+                        "1\n" +
+                        // first attack
+                        "N\n"
+        ));
+
+        GameEngine gameEngine = new SingleUIGame();
+        gameEngine.disableCommandLogs();
+
+        //
+        TextUI textUI = new TextUI(System.out, bufferedReader);
+        gameEngine.addUi(textUI);
+        textUI.addGame(gameEngine);
+
+        gameEngine.start();
+        assertTrue(true);
+    }
+
     @Test
     public void telegramGame() throws Exception {
         // Initialize Api Context
