@@ -1,5 +1,6 @@
 package riskgame.ui;
 
+import javafx.util.Pair;
 import riskgame.GameEngine;
 import riskgame.GameMaps;
 import riskgame.SingleUIGame;
@@ -73,6 +74,11 @@ public class TestUI implements UI {
         return map.get(index);
     }
 
+    @Override
+    public Pair getDraftPick(Player currentPlayer, List<Territory> territories) {
+        return null;
+    }
+
     /**
      * always buys 5 more credits than needed
      * @param creditCardPrompt the data needed to show the user
@@ -102,6 +108,11 @@ public class TestUI implements UI {
     @Override
     public void tellPlayersToClaimTheirFirstTerritories() {
 
+    }
+
+    @Override
+    public String askPlayerIfWantToDraft(Player currentPlayer) {
+        return null;
     }
 
     @Override

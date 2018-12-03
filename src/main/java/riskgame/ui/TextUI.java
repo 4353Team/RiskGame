@@ -1,5 +1,6 @@
 package riskgame.ui;
 
+import javafx.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import riskgame.GameEngine;
@@ -12,10 +13,7 @@ import riskgame.gameobject.player.NotEnoughCreditException;
 import riskgame.gameobject.player.Player;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class TextUI implements UI {
     private final PrintStream outStream;
@@ -24,6 +22,7 @@ public class TextUI implements UI {
     private List<Territory> map;
     private List<Player> playerSetup;
     private static final Logger logger = LogManager.getLogger(TextUI.class);
+    private Player currentPlayer;
 
     public TextUI(PrintStream writer, BufferedReader reader) {
         this.outStream = writer;
@@ -123,6 +122,27 @@ public class TextUI implements UI {
         return getTerritory(pickedTerritory, territories);
 }
 
+    public Pair getDraftPick(Player currentPlayer, List<Territory>territories){
+        outStream.println(currentPlayer.getName() + ", select a territory to draft to");
+        displayTerritories(territories);
+        Integer pickedTerritoryNum = getNextInt();
+
+        Territory pickedTerritory = getTerritory(pickedTerritoryNum,territories);
+        while(!(pickedTerritory.getControlledBy() == currentPlayer)){
+            error(new Exception("Pick a territory that belongs to you."));
+            outStream.println(currentPlayer.getName() + ", select a territory to draft to");
+            displayTerritories(territories);
+            pickedTerritoryNum = getNextInt();
+        }
+
+        displayPlayerArmies(currentPlayer);
+        outStream.println(currentPlayer.getName() + ", select number of armies to draft");
+        Integer armiesToDraft = getNextInt();
+        outStream.println(currentPlayer.getName() + " drafted " + armiesToDraft + " armies to " + pickedTerritory);
+        Pair<Territory, Integer> draftMapping = new Pair<Territory, Integer>(getTerritory(pickedTerritoryNum,territories), armiesToDraft);
+        return draftMapping;
+    }
+
     private Territory getTerritory(Integer territoryNumber, List<Territory> territories) {
         return territories.get(territoryNumber - 1);
     }
@@ -134,6 +154,10 @@ public class TextUI implements UI {
                     (i+1) + " --> " + territories.get(i).getControlledBy().getName() +
                     " (" + territories.get(i).getArmies() + " armies)");
         }
+    }
+
+    private void displayPlayerArmies(Player player){
+        outStream.println("You have " + player.getArmies() + " armies.");
     }
 
     @Override
@@ -159,6 +183,13 @@ public class TextUI implements UI {
     @Override
     public void tellPlayersToClaimTheirFirstTerritories() {
         outStream.println("Time to claim your first territories!");
+    }
+
+    @Override
+    public String askPlayerIfWantToDraft(Player currentPlayer){
+        outStream.println(currentPlayer.getName() + ", do you want to draft more armies? (Y/N)");
+        String response = getNextString();
+        return response;
     }
 
     @Override

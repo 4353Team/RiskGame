@@ -1,5 +1,6 @@
 package riskgame.ui;
 
+import javafx.util.Pair;
 import riskgame.GameEngine;
 import riskgame.GameMaps;
 import riskgame.SingleUIGame;
@@ -38,6 +39,7 @@ public interface UI {
      * @return the Territory the Player picked to add an army to
      */
     Territory getInitDraftPick(Player currentPlayer, List<Territory> territories);
+    Pair getDraftPick(Player currentPlayer, List<Territory> territories);
 
     /**
      * This should prompt the user with a window containing one input,
@@ -56,6 +58,7 @@ public interface UI {
     int queryArmiesToMove(Player currentPlayer, Territory from, Territory to);
 
     void tellPlayersToClaimTheirFirstTerritories();
+    String askPlayerIfWantToDraft(Player currentPlayer);
 
     SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer);
 

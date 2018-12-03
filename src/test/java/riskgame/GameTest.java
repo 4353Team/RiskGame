@@ -100,12 +100,18 @@ public class GameTest {
                         "9\n" + //07
                         "7\n" + //06
                         "8\n" + //05
-                        "6\n" + //04
-                        "5\n" + //03
-                        "4\n" + //02
-                        "8\n" + //01
+//                        "6\n" + //04
+//                        "5\n" + //03
+//                        "4\n" + //02
+//                        "8\n" + //01
                         //
+                        "Y\n" + //first player chooses to draft
+                        "7\n" + //select territory to draft to
+                        "1\n" + //draft 1 army
+                        "N\n" +
+                        "N\n" +
                         ""
+
                 ));
 
         GameEngine gameEngine = new SingleUIGame();

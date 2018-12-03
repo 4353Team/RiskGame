@@ -1,5 +1,6 @@
 package riskgame;
 
+import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import riskgame.commands.Command;
@@ -12,10 +13,7 @@ import riskgame.gameobject.player.Player;
 import riskgame.gameobject.player.PlayerCredit;
 import riskgame.ui.UI;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class SingleUIGame implements GameEngine {
     private static final Logger logger = LogManager.getLogger(SingleUIGame.class);
@@ -122,7 +120,7 @@ public class SingleUIGame implements GameEngine {
                             commandManager.executeCommand(draftOneInit); // selects the next player in the command as well
                             armiesDrafted++;
                         }
-                        gameState = GameState.END;
+                        currentPlayer = playerOrderList.get(0); //Whoever placed the first army opens the game.
                         break;
                     //Getting and placing new armies.
                     case DRAFT:
@@ -133,7 +131,7 @@ public class SingleUIGame implements GameEngine {
 
                         //The number of territories player occupies.
                         int territoriesOwned = currentPlayer.getNumTerritories();
-                        armiesToReceive = armiesToReceive + territoriesOwned/3;
+                        armiesToReceive = armiesToReceive + (territoriesOwned/3);
 
                         //The value of the continents player controls.
 
@@ -141,7 +139,21 @@ public class SingleUIGame implements GameEngine {
                         //The value of the matched sets of RISK cards you trade in.
                         //The specific territory pictured on a traded-in card.
 
+                        //receive armies
+                        currentPlayer.addArmies(armiesToReceive);
 
+                        //deploy armies
+                        while(ui.askPlayerIfWantToDraft(currentPlayer).equals("Y") && currentPlayer.getArmies() > 0){
+                            Pair<Territory, Integer> draftChoicePair = ui.getDraftPick(currentPlayer, territories);
+                            Territory pickedTerritory = draftChoicePair.getKey();
+                            Integer armiesToDraft = draftChoicePair.getValue();
+                            Command draft = new Draft(this, pickedTerritory, currentPlayer, armiesToDraft);
+                            commandManager.executeCommand(draft); // selects the next player in the command as well
+                        }
+
+
+
+                        gameState = GameState.END;
                         break;
                     case ATTACK:
                         try {
@@ -373,6 +385,43 @@ public class SingleUIGame implements GameEngine {
         }
     }
 
+    private class Draft implements Command{
+        private final Territory territory;
+        private final Player player;
+        private final Command draftOne;
+        private SingleUIGame game;
+        private final Integer armies;
+
+        public Draft(SingleUIGame game, Territory territory, Player player, Integer armies){
+            this.game = game;
+            this.territory = territory;
+            this.player = player;
+            this.armies = armies;
+            draftOne = new Territory.DraftOneArmy(territory);
+        }
+        @Override
+        public void log() {
+            logger.info("Player: " + player.getName() + " is drafting " + armies + " armies to Territory: " + territory.getName());
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+            for (int i = 0; i < armies; i++) {
+                draftOne.execute();
+            }
+            game.gameState = GameState.DRAFT;
+            game.ui.update();
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+            for (int i = 0; i < armies; i++) {
+                draftOne.undo();
+            }
+            game.ui.update();
+        }
+    }
+
     private class DraftOneInit implements Command {
         private final Territory territory;
         private final Player player;
@@ -402,6 +451,7 @@ public class SingleUIGame implements GameEngine {
                 throw new IllegalExecutionException(new OtherPlayerControlsTerritoryException(player, territory));
             draftOne.execute();
             territory.setControlledBy(player);
+            player.addTerritory(territory);
             game.nextPlayer();
             game.gameState = GameState.DRAFT;
             game.ui.update();
@@ -411,6 +461,7 @@ public class SingleUIGame implements GameEngine {
         public void undo() throws IllegalUndoException {
             draftOne.undo();
             territory.setControlledBy(previousOwner);
+            player.removeTerritory(territory);
             game.previousPlayer();
             game.ui.update();
         }
