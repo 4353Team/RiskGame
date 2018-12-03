@@ -58,7 +58,8 @@ public interface UI {
     int queryArmiesToMove(Player currentPlayer, Territory from, Territory to);
 
     void tellPlayersToClaimTheirFirstTerritories();
-    String askPlayerIfWantToDraft(Player currentPlayer);
+    String askPlayerIfToDraft(Player currentPlayer);
+    String askPlayerIfToAttack(Player currentPlayer);
 
     SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer);
 

@@ -213,8 +213,15 @@ public class TextUI implements UI {
     }
 
     @Override
-    public String askPlayerIfWantToDraft(Player currentPlayer){
+    public String askPlayerIfToDraft(Player currentPlayer){
         outStream.println(currentPlayer.getName() + ", do you want to draft more armies? (Y/N)");
+        String response = getNextString();
+        return response;
+    }
+
+    @Override
+    public String askPlayerIfToAttack(Player currentPlayer){
+        outStream.println(currentPlayer.getName() + ", do you want to attack? (Y/N");
         String response = getNextString();
         return response;
     }

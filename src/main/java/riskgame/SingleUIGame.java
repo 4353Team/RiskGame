@@ -146,7 +146,7 @@ public class SingleUIGame implements GameEngine {
                         //deploy armies
                         String response = "";
                         while(!response.equals("N") && currentPlayer.getArmies() > 0){
-                            response = ui.askPlayerIfWantToDraft(currentPlayer);
+                            response = ui.askPlayerIfToDraft(currentPlayer);
                             Pair<Territory, Integer> draftChoicePair = ui.getDraftPick(currentPlayer, territories);
                             Territory pickedTerritory = draftChoicePair.getKey();
                             Integer armiesToDraft = draftChoicePair.getValue();
@@ -157,6 +157,7 @@ public class SingleUIGame implements GameEngine {
                         break;
                     case ATTACK:
                         System.out.println("\n»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»» ATTACK PHASE ««««««««««««««««««««««««««««««««««««««««««««");
+                        ui.askPlayerIfToAttack(currentPlayer);
                         try {
                             Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer);
                             try {

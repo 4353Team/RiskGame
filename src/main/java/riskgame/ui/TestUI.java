@@ -111,7 +111,12 @@ public class TestUI implements UI {
     }
 
     @Override
-    public String askPlayerIfWantToDraft(Player currentPlayer) {
+    public String askPlayerIfToDraft(Player currentPlayer) {
+        return null;
+    }
+
+    @Override
+    public String askPlayerIfToAttack(Player currentPlayer) {
         return null;
     }
 
