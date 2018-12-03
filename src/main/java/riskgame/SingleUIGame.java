@@ -198,6 +198,7 @@ public class SingleUIGame implements GameEngine {
                         }
                         commandManager.executeCommand(new FortifyCommand(fortifyPick));
                         commandManager.executeCommand(new NextPlayerCommand(this));
+                        undoableNextPhase(GameState.DRAFT);
                         break;
 
 
