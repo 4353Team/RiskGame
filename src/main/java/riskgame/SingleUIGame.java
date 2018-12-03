@@ -120,6 +120,7 @@ public class SingleUIGame implements GameEngine {
                             armiesDrafted++;
                         }
                         currentPlayer = playerOrderList.get(0); //Whoever placed the first army opens the game.
+                        undoableNextPhase(GameState.DRAFT);
                         break;
                     //Getting and placing new armies.
                     case DRAFT:
@@ -152,7 +153,7 @@ public class SingleUIGame implements GameEngine {
                             Command draft = new Draft(this, pickedTerritory, currentPlayer, armiesToDraft);
                             commandManager.executeCommand(draft); // selects the next player in the command as well
                         }
-                        gameState = GameState.END;
+                        undoableNextPhase(GameState.ATTACK);
                         break;
                     case ATTACK:
                         System.out.println("\n»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»» ATTACK PHASE ««««««««««««««««««««««««««««««««««««««««««««");
@@ -173,6 +174,7 @@ public class SingleUIGame implements GameEngine {
                         } catch (UI.NoMoreAttackException e) {
                             commandManager.executeCommand(new FortifyPhase(this));
                         }
+                        undoableNextPhase(GameState.END);
                         break;
 
                     case ATTACK_SUCCESSFUL:
@@ -341,6 +343,15 @@ public class SingleUIGame implements GameEngine {
         }
     }
 
+    private void undoableNextPhase(GameState nextGameState) {
+        Command nextPhase = new NextPhase(this, nextGameState);
+        try {
+            commandManager.executeCommand(nextPhase);
+        } catch (Command.IllegalExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
     private class SetPlayers implements Command {
 
         private final SingleUIGame game;
@@ -456,7 +467,6 @@ public class SingleUIGame implements GameEngine {
             territory.setControlledBy(player);
             player.addTerritory(territory);
             game.nextPlayer();
-            game.gameState = GameState.DRAFT;
             game.ui.update();
         }
 
@@ -604,6 +614,33 @@ public class SingleUIGame implements GameEngine {
         public void undo() throws IllegalUndoException {
             fortifyPick.from.addArmies(fortifyPick.howManyArmies);
             fortifyPick.to.removeArmies(fortifyPick.howManyArmies);
+        }
+    }
+
+    private class NextPhase implements Command {
+        final GameState previousState;
+        final SingleUIGame game;
+        final GameState nextState;
+
+        public NextPhase(SingleUIGame game, GameState nextGameState) {
+            this.game = game;
+            nextState = nextGameState;
+            previousState = game.gameState;
+        }
+
+        @Override
+        public void log() {
+            logger.info("Game state moving from: " + previousState.name() + " to " + nextState.name());
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+            game.gameState = nextState;
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+            game.gameState = previousState;
         }
     }
 }

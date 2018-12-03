@@ -221,7 +221,7 @@ public class TextUI implements UI {
 
     @Override
     public String askPlayerIfToAttack(Player currentPlayer){
-        outStream.println(currentPlayer.getName() + ", do you want to attack? (Y/N");
+        outStream.println(currentPlayer.getName() + ", do you want to attack? (Y/N)");
         String response = getNextString();
         return response;
     }
