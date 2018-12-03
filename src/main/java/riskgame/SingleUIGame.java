@@ -110,7 +110,8 @@ public class SingleUIGame implements GameEngine {
                             commandManager.executeCommand(draftOneInit); // selects the next player in the command as well
                             armiesDrafted++;
                         }
-                        //After all territories are claimed, each player in turn places one additional army onto any territory he or she already occupies.
+                        //After all territories are claimed,
+                        // each player in turn places one additional army onto any territory he or she already occupies.
                         while(armiesDrafted < armies){
                             Territory pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
                             while(!(pickedTerritory.getControlledBy() == currentPlayer)){
@@ -126,24 +127,21 @@ public class SingleUIGame implements GameEngine {
                     //Getting and placing new armies.
                     case DRAFT:
                         /*
-                        check if player receives any more armies based on:
-                        //The number of territories player occupies.
-                        //The value of the continents player controls.
-                        //The value of the matched sets of RISK cards you trade in.
-                        //The specific territory pictured on a traded-in card.
+                        check if player receives any more armies based on a number of factors:
                         */
+                        int armiesToReceive = 0;
 
                         //The number of territories player occupies.
+                        int territoriesOwned = currentPlayer.getNumTerritories();
+                        armiesToReceive = armiesToReceive + territoriesOwned/3;
+
                         //The value of the continents player controls.
+
+
                         //The value of the matched sets of RISK cards you trade in.
                         //The specific territory pictured on a traded-in card.
-                        while (armiesDrafted < armies) {
-                            Territory pickedTerritory = ui.getInitDraftPick(currentPlayer, territories);
-                            Command draft = new DraftOneInit(this, pickedTerritory, currentPlayer);
-                            commandManager.executeCommand(draft);
-                            armiesDrafted++;
-                        }
-                        commandManager.executeCommand(new FortifyPhase(this));
+
+
                         break;
                     case ATTACK:
                         try {

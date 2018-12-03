@@ -9,7 +9,6 @@ import riskgame.ui.UI;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.logging.Logger;
 
 public class Player implements Serializable, Observer {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(SingleUIGame.class);
@@ -61,38 +60,50 @@ public class Player implements Serializable, Observer {
 
     public int getArmies(){ return armies;}
 
+    public int getNumTerritories(){return territories.size();}
+
     @Override
     public void update() {
 
     }
 
+    //Trading In Cards for Armies
     public static class TurnInRiskCards implements Command{
-        Player playerToGive;
-        List<RiskCard> riskCards;
-        Set<Territory> territories;
+        private final List<RiskCard> cards;
+        private final Player player;
+        private SingleUIGame game;
+        Command giveCardCommand;
+        Command takeCardCommand;
+
         int armies = 0;
-        public TurnInRiskCards(Player playerToGive, List<RiskCard> riskCards){
-            for (int i = 0; i < riskCards.size(); i++) {
-                new GiveCard(playerToGive,riskCards.get(i));
-            }
-            this.playerToGive = playerToGive;
-            this.riskCards = riskCards;
-            this.territories = playerToGive.territories;
-        };
+        public TurnInRiskCards(SingleUIGame game, List<RiskCard> cards, Player player) {
+            this.game = game;
+            this.cards = cards;
+            this.player = player;
+        }
 
         @Override
         public void log() {
-
+            logger.info(player + "is attempting to trade in the following Risk Cards:\n");
+            for (int i = 0; i < cards.size(); i++) {
+                logger.info("Card " + i+1 + " --> " + cards.get(i).toString() + "\n");
+            }
         }
 
         @Override
         public void execute() throws IllegalExecutionException {
-
+            if(RiskCard.isValidTrade(cards)){
+                for (RiskCard card: cards) {
+                    giveCardCommand = new GiveCard(player,card);
+                }
+            }
         }
 
         @Override
         public void undo() throws IllegalUndoException {
-
+            for (RiskCard card: cards) {
+                takeCardCommand = new TakeCard(player,card);
+            }
         }
     }
 

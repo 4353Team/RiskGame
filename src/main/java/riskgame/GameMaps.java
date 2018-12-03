@@ -50,12 +50,22 @@ public class GameMaps {
         GameMap map3 = new GameMap();
         {
             map3.name = SMALL_WORLD;
+            Territory ontario = new Territory("Ontario");
+            Territory alberta = new Territory("Alberta");
+            Territory easternUnitedStates = new Territory("Eastern United States");
+            Territory westernUnitedStates = new Territory("Western United States");
             Territory centralAmerica = new Territory("Central America");
             Territory venezuela = new Territory("Venezuela");
             Territory peru = new Territory("Peru");
             Territory brazil = new Territory("Brazil");
             Territory argentina = new Territory("Argentina");
 
+            makeNeighbors(ontario, easternUnitedStates);
+            makeNeighbors(ontario, westernUnitedStates);
+            makeNeighbors(alberta, westernUnitedStates);
+            makeNeighbors(westernUnitedStates, easternUnitedStates);
+            makeNeighbors(easternUnitedStates, centralAmerica);
+            makeNeighbors(westernUnitedStates, centralAmerica);
             makeNeighbors(centralAmerica, venezuela);
             makeNeighbors(venezuela, peru);
             makeNeighbors(venezuela,brazil);
@@ -64,6 +74,10 @@ public class GameMaps {
             makeNeighbors(brazil,argentina);
 
             map3.territoryList.addAll(Arrays.asList(
+                    ontario,
+                    alberta,
+                    westernUnitedStates,
+                    easternUnitedStates,
                     centralAmerica,
                     venezuela,
                     peru,
