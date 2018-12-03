@@ -279,10 +279,10 @@ public class Territory implements Serializable, Observable {
     private class NegativeArmiesException extends Throwable {
     }
 
-    public class AttackPick {
+    public static class AttackPick {
         public final Territory attackingTerritory;
         public final Territory defendingTerritory;
-        AttackPick(Territory attackingTerritory, Territory defendingTerritory) {
+        public AttackPick(Territory attackingTerritory, Territory defendingTerritory) {
             this.attackingTerritory = attackingTerritory;
             this.defendingTerritory = defendingTerritory;
         }

@@ -53,7 +53,7 @@ public interface UI {
 
     void notEnoughCredit(NotEnoughCreditException e);
 
-    Territory.AttackPick getAttackPick(Player currentPlayer) throws NoMoreAttackException;
+    Territory.AttackPick getAttackPick(Player currentPlayer, List<Territory>territories) throws NoMoreAttackException;
 
     int queryArmiesToMove(Player currentPlayer, Territory from, Territory to);
 

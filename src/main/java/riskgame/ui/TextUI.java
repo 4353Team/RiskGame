@@ -198,8 +198,18 @@ public class TextUI implements UI {
     }
 
     @Override
-    public Territory.AttackPick getAttackPick(Player currentPlayer) {
-        return null;
+    public Territory.AttackPick getAttackPick(Player currentPlayer, List<Territory>territories) {
+        Territory attackFrom;
+        Territory attackTo;
+        outStream.println(currentPlayer.getName() + ", select a territory to attack from/with.");
+        displayTerritories(territories);
+        attackFrom = getTerritory(getNextInt(), territories);
+        outStream.println(currentPlayer.getName() + " chose " + attackFrom.getName() + " to attack from.");
+        outStream.println(currentPlayer.getName() + " select a territory to attack!");
+        displayTerritories(territories);
+        attackTo = getTerritory(getNextInt(), territories);
+        outStream.println(currentPlayer.getName() + " has selected to attack " + attackTo);
+        return new Territory.AttackPick(attackFrom, attackTo);
     }
 
     @Override

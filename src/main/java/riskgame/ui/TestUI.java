@@ -96,7 +96,7 @@ public class TestUI implements UI {
     }
 
     @Override
-    public Territory.AttackPick getAttackPick(Player currentPlayer) {
+    public Territory.AttackPick getAttackPick(Player currentPlayer, List<Territory> territories) throws NoMoreAttackException {
         return null;
     }
 
