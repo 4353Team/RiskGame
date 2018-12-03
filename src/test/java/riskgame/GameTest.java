@@ -30,7 +30,7 @@ import static org.testng.Assert.*;
 public class GameTest {
     private static final Logger logger = LogManager.getLogger(GameTest.class);
 
-    @Test
+    @Test(enabled = false)
     public void dummyUiGame_3_players() throws Exception {
         List<Player> playerList = new ArrayList<>();
         playerList.add(new HumanPlayer("Player 1"));
