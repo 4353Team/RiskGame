@@ -58,6 +58,8 @@ public class Player implements Serializable, Observer {
 
     public void addArmies(int numArmies){ armies = armies + numArmies;}
 
+    public void removeArmies(int numArmies){ armies = armies - numArmies;}
+
     public int getArmies(){ return armies;}
 
     public int getNumTerritories(){return territories.size();}

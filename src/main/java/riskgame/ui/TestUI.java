@@ -1,6 +1,5 @@
 package riskgame.ui;
 
-import javafx.util.Pair;
 import riskgame.GameEngine;
 import riskgame.GameMaps;
 import riskgame.SingleUIGame;
@@ -10,6 +9,7 @@ import riskgame.gameobject.player.NotEnoughCreditException;
 import riskgame.gameobject.player.Player;
 
 import java.util.List;
+import java.util.Map;
 
 public class TestUI implements UI {
     private GameEngine gameEngine;
@@ -75,7 +75,7 @@ public class TestUI implements UI {
     }
 
     @Override
-    public Pair getDraftPick(Player currentPlayer, List<Territory> territories) {
+    public Map.Entry<Territory, Integer> getDraftPick(Player currentPlayer, List<Territory> territories) {
         return null;
     }
 
@@ -96,7 +96,7 @@ public class TestUI implements UI {
     }
 
     @Override
-    public Territory.AttackPick getAttackPick(Player currentPlayer) {
+    public Territory.AttackPick getAttackPick(Player currentPlayer, List<Territory> territories) throws NoMoreAttackException {
         return null;
     }
 
@@ -111,12 +111,17 @@ public class TestUI implements UI {
     }
 
     @Override
-    public String askPlayerIfWantToDraft(Player currentPlayer) {
+    public String askPlayerIfToDraft(Player currentPlayer) {
         return null;
     }
 
     @Override
-    public SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer) {
+    public String askPlayerIfToAttack(Player currentPlayer) {
+        return null;
+    }
+
+    @Override
+    public SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer, List<Territory>territories) {
         return null;
     }
 

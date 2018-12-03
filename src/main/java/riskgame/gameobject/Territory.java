@@ -152,13 +152,21 @@ public class Territory implements Serializable, Observable {
             defendingArmyBefore = defendingTerritory.getArmies();
             defendingPlayerBefore = defendingTerritory.getControlledBy();
 
+            defendingArmyAfter = defendingArmyBefore;
+            attackingArmyAfter = attackingArmyBefore;
+
             int lowest = (attackDices > defenseDices) ? defenseDices : attackDices;
-            int numberAttackersRemoved = 0;
+            attackingNums.sort(Integer::compareTo);
+            defendingNums.sort(Integer::compareTo);
+            //int numberAttackersRemoved = 0;
+            System.out.println("Roll Results:");
             for (int i = 0; i < lowest; i++) {
                 if (attackingNums.get(i) > defendingNums.get(i)) {
-                    // attack winner
-                    System.out.println(attackingTerritory.getName() + " wins");
-                    defendingTerritory.removeArmies(1);
+                    System.out.println("Roll " + (i + 1) + " -->  " + attackingTerritory.getControlledBy().getName() + " rolled a " +
+                            attackingNums.get(i) + " | " + defendingTerritory.getControlledBy().getName() + " " +
+                            "rolled a " + defendingNums.get(i) + "  " +
+                            "WINNER: " + attackingTerritory.getControlledBy().getName());
+                    defendingArmyAfter -= 1;
                     if (defendingTerritory.getArmies() == 0) { // if invaded
                         defendingTerritory.setControlledBy(attackingTerritory.getControlledBy());
                         gainedTerritoryByAttacker = defendingTerritory;
@@ -167,29 +175,42 @@ public class Territory implements Serializable, Observable {
                         //territoriesCapturedThisTurn += 1;
                         attackWon = true;
                         game.attackWon();
-
-//                        // todo: make a separate command
-//                        int movetroops = 2;
-//
-//                        System.out.printf("%s decides to move %d troop%s from %s to %s\n", attackingTerritory.getName(), movetroops, (movetroops == 1) ? "" : "s", attackingTerritory.getName(), defendingTerritory.getName());
-//                        if (attackingTerritory.getArmies() - movetroops >= 1) {
-//                            defendingTerritory.setArmies(movetroops);
-//                            defendingTerritory.setControlledBy(attackingTerritory.getControlledBy());
-//                            attackingTerritory.getControlledBy().addTerritory(defendingTerritory);
-//                            defendingTerritory.getControlledBy().removeTerritory(defendingTerritory);
-//                            attackingTerritory.removeArmies(movetroops);
-//                        } else
-//                            System.out.println("Cannot move " + movetroops + ". You need to leave at least one troop behind.");
+                        break;
                     }
                 } else {
-                    // defense winner
-                    System.out.println("defender" + " wins");
-                    if (numberAttackersRemoved < 2)
-                        attackingTerritory.removeArmies(1);
-                    numberAttackersRemoved += 1;
+                    System.out.println("Roll " + (i + 1) + " -->  " + attackingTerritory.getControlledBy().getName() + " rolled a " +
+                            attackingNums.get(i) + " | " + defendingTerritory.getControlledBy().getName() + " " +
+                            "rolled a " + defendingNums.get(i) + "  " +
+                            "WINNER: " + defendingTerritory.getControlledBy().getName());
+                    attackingArmyAfter -= 1;
                 }
-                attackingArmyAfter = attackingTerritory.getArmies();
-                defendingArmyAfter = defendingTerritory.getArmies();
+                // attack winner
+//                    System.out.println(attackingTerritory.getName() + " wins");
+//                    defendingTerritory.removeArmies(1);
+//                    if (defendingTerritory.getArmies() == 0) { // if invaded
+//                        defendingTerritory.setControlledBy(attackingTerritory.getControlledBy());
+//                        gainedTerritoryByAttacker = defendingTerritory;
+//                        // occupy territory
+//                        System.out.println(attackingTerritory.getName() + " captures " + defendingTerritory.getName() + "!!");
+//                        //territoriesCapturedThisTurn += 1;
+//                        attackWon = true;
+//                        game.attackWon();
+//                    }
+//                } else {
+//                    // defense winner
+//                    System.out.println("defender" + " wins");
+//                    if (numberAttackersRemoved < 2)
+//                        attackingTerritory.removeArmies(1);
+//                    numberAttackersRemoved += 1;
+                //}
+            }
+            attackingTerritory.setArmies(attackingArmyAfter);
+            defendingTerritory.setArmies(defendingArmyAfter);
+            if (attackingArmyAfter != attackingArmyBefore) System.out.println(attackingTerritory.getControlledBy().getName() + " lost " + (attackingArmyBefore - attackingArmyAfter) + " armies");
+            if (defendingTerritory.getControlledBy() == attackingTerritory.getControlledBy()) {
+                System.out.println(attackingTerritory.getControlledBy().getName() + " gained " + defendingTerritory.getName());
+            } else if (defendingArmyAfter != defendingArmyBefore) {
+                System.out.println(defendingTerritory.getControlledBy().getName() + " lost " + (defendingArmyBefore - defendingArmyAfter) + " armies");
             }
         }
 
@@ -279,20 +300,24 @@ public class Territory implements Serializable, Observable {
     private class NegativeArmiesException extends Throwable {
     }
 
-    public class AttackPick {
+    public static class AttackPick {
         public final Territory attackingTerritory;
         public final Territory defendingTerritory;
-        AttackPick(Territory attackingTerritory, Territory defendingTerritory) {
+
+        public AttackPick(Territory attackingTerritory, Territory defendingTerritory) {
             this.attackingTerritory = attackingTerritory;
             this.defendingTerritory = defendingTerritory;
         }
 
-        public void checksOut() throws AttackPickException {
-
+        public void checksOut(Player player) throws AttackPickException {
+            if (attackingTerritory.getControlledBy() != player) throw new AttackPickException("Please choose a " +
+                    "territory you own to attack from");
+            if (defendingTerritory.getControlledBy() == player) throw new AttackPickException("You may not attack " +
+                    "yourself");
         }
 
         public class AttackPickException extends Exception {
-            AttackPickException(String message){
+            AttackPickException(String message) {
                 super(message);
             }
         }

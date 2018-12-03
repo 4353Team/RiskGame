@@ -1,6 +1,5 @@
 package riskgame.ui;
 
-import javafx.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import riskgame.GameEngine;
@@ -41,7 +40,7 @@ public class TextUI implements UI {
     }
 
     @Override
-    public GameMaps.GameMap selectMap(GameMaps gameMaps) {
+    public GameMaps.GameMap selectMap(GameMaps gameMaps) throws EndGameException, NoMoreAttackException {
         Integer chosenMap = null;
         List<GameMaps.GameMap> mapsList = gameMaps.getList();
 
@@ -51,7 +50,7 @@ public class TextUI implements UI {
             for (int i = 0; i < mapsList.size(); i++) {
                 outStream.println("[" + mapsList.get(i).getName() + "]: " + (i + 1));
             }
-            chosenMap = getNextInt()-1;
+            chosenMap = getNextInt() - 1;
 
         } while (!(chosenMap >= 0 && chosenMap < mapsList.size()));
 
@@ -62,7 +61,7 @@ public class TextUI implements UI {
         Integer selection = null;
         try {
             String readLine = reader.readLine();
-            readLine = readLine.replaceAll(" ","");
+            readLine = readLine.replaceAll(" ", "");
             selection = Integer.parseInt(readLine);
         } catch (NumberFormatException e) {
             logger.error("not able to read number: " + e);
@@ -120,26 +119,28 @@ public class TextUI implements UI {
         Integer pickedTerritory = getNextInt();
         outStream.println(currentPlayer.getName() + " claimed " + getTerritory(pickedTerritory, territories));
         return getTerritory(pickedTerritory, territories);
-}
+    }
 
-    public Pair getDraftPick(Player currentPlayer, List<Territory>territories){
+    public Map.Entry<Territory, Integer> getDraftPick(Player currentPlayer, List<Territory> territories) {
         outStream.println(currentPlayer.getName() + ", select a territory to draft to");
         displayTerritories(territories);
         Integer pickedTerritoryNum = getNextInt();
 
-        Territory pickedTerritory = getTerritory(pickedTerritoryNum,territories);
-        while(!(pickedTerritory.getControlledBy() == currentPlayer)){
+        Territory pickedTerritory = getTerritory(pickedTerritoryNum, territories);
+        while (!(pickedTerritory.getControlledBy() == currentPlayer)) {
             error(new Exception("Pick a territory that belongs to you."));
             outStream.println(currentPlayer.getName() + ", select a territory to draft to");
             displayTerritories(territories);
             pickedTerritoryNum = getNextInt();
+            outStream.println(currentPlayer.getName() + ", selected " + pickedTerritory.getName());
         }
 
         displayPlayerArmies(currentPlayer);
         outStream.println(currentPlayer.getName() + ", select number of armies to draft");
         Integer armiesToDraft = getNextInt();
         outStream.println(currentPlayer.getName() + " drafted " + armiesToDraft + " armies to " + pickedTerritory);
-        Pair<Territory, Integer> draftMapping = new Pair<Territory, Integer>(getTerritory(pickedTerritoryNum,territories), armiesToDraft);
+        Map.Entry<Territory, Integer> draftMapping =
+                new AbstractMap.SimpleEntry<Territory, Integer>(getTerritory(pickedTerritoryNum, territories), armiesToDraft);
         return draftMapping;
     }
 
@@ -148,16 +149,42 @@ public class TextUI implements UI {
     }
 
     private void displayTerritories(List<Territory> territories) {
+        outStream.println("+-------------+-------------------+\n" +
+                "|             |                   |\n" +
+                "|   Alberta   |     Ontario       |\n" +
+                "|      2      |          1        |\n" +
+                "++------------+-------+-----------+-------+\n" +
+                " |                    |                   |\n" +
+                " |    Western         |     Eastern       |\n" +
+                " |   United States    |    United States  |\n" +
+                " |                    |                   |\n" +
+                " |        3           |         4         |\n" +
+                " +-----------------+--+---+---------------+\n" +
+                "                   | C.A  |\n" +
+                "                   |      |\n" +
+                "                   |  5   |\n" +
+                "                   +--+---+----------+\n" +
+                "                      |  Venezuela   |\n" +
+                "                      |      6       |\n" +
+                "               +------+----+---------+------+\n" +
+                "               |           |                |\n" +
+                "               |   Peru    |     Brazil     |\n" +
+                "               |     7     |       8        |\n" +
+                "               +---------+-+---+------------+\n" +
+                "                         |     |\n" +
+                "                         | Arg |\n" +
+                "                         |  9  |\n" +
+                "                         +-----+\n");
         outStream.println("Territory Summary: ");
         for (int i = 0; i < territories.size(); i++) {
-            outStream.println("["+territories.get(i).getName()+"]: " +
-                    (i+1) + " --> " + territories.get(i).getControlledBy().getName() +
+            outStream.println("[" + territories.get(i).getName() + "]: " +
+                    (i + 1) + " --> " + territories.get(i).getControlledBy().getName() +
                     " (" + territories.get(i).getArmies() + " armies)");
         }
     }
 
-    private void displayPlayerArmies(Player player){
-        outStream.println("You have " + player.getArmies() + " armies.");
+    private void displayPlayerArmies(Player player) {
+        outStream.println(player.getName() + " has " + player.getArmies() + " armies.");
     }
 
     @Override
@@ -171,8 +198,35 @@ public class TextUI implements UI {
     }
 
     @Override
-    public Territory.AttackPick getAttackPick(Player currentPlayer) {
-        return null;
+    public Territory.AttackPick getAttackPick(Player currentPlayer, List<Territory>territories) {
+        Territory attackFrom;
+        Territory attackTo;
+        outStream.println(currentPlayer.getName() + ", select a territory to attack from/with.");
+        displayTerritories(territories);
+        outStream.println("[Don't want to attack]: N");
+        attackFrom = getTerritory(getNextInt(), territories);
+        outStream.println(currentPlayer.getName() + " chose " + attackFrom.getName() + " to attack from.");
+        outStream.println(currentPlayer.getName() + " select a territory to attack!");
+        displayTerritories(territories);
+        outStream.println("[Don't want to attack]: N");
+        attackTo = getTerritory(getNextInt(), territories);
+        outStream.println(currentPlayer.getName() + " has selected to attack " + attackTo);
+        return new Territory.AttackPick(attackFrom, attackTo);
+    }
+
+    public SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer, List<Territory>territories){
+        Territory moveFrom;
+        Territory moveTo;
+        Integer troops;
+        displayTerritories(territories);
+        outStream.println(currentPlayer.getName() + ", select a territory to move troops from");
+        moveFrom = getTerritory(getNextInt(), territories);
+        outStream.println(currentPlayer.getName() + ", select a territory to move troops to");
+        moveTo = getTerritory(getNextInt(), territories);
+        outStream.println(currentPlayer.getName() + ", select number of troops to move");
+        troops = getNextInt();
+        outStream.println(currentPlayer.getName() + " is moving " + troops + " armies from " + moveFrom + " to " + moveTo);
+        return new SingleUIGame.FortifyPick(moveFrom, moveTo, troops);
     }
 
     @Override
@@ -186,14 +240,18 @@ public class TextUI implements UI {
     }
 
     @Override
-    public String askPlayerIfWantToDraft(Player currentPlayer){
+    public String askPlayerIfToDraft(Player currentPlayer) {
         outStream.println(currentPlayer.getName() + ", do you want to draft more armies? (Y/N)");
         String response = getNextString();
         return response;
     }
 
     @Override
-    public SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer) {
-        return null;
+    public String askPlayerIfToAttack(Player currentPlayer) throws NoMoreAttackException, EndGameException {
+        outStream.println(currentPlayer.getName() + ", do you want to attack? (Y/N)");
+        String response = getNextString();
+        if (response.contains("END")) throw  new EndGameException();
+        if (response.contains("N")) throw  new NoMoreAttackException();
+        return response;
     }
 }

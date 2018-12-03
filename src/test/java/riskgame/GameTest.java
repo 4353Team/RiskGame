@@ -1,6 +1,7 @@
 package riskgame;
 
 
+import com.amazonaws.annotation.NotThreadSafe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.ApiContextInitializer;
@@ -27,6 +28,7 @@ import java.util.Scanner;
 
 import static org.testng.Assert.*;
 
+@NotThreadSafe
 public class GameTest {
     private static final Logger logger = LogManager.getLogger(GameTest.class);
 
@@ -47,10 +49,8 @@ public class GameTest {
         testUI.addGame(gameEngine);
 
         gameEngine.start();
-
         assertSame(testUI.map.get(1).getControlledBy(), playerList.get(1));
     }
-
 
     @Test(enabled = true)
     public void dummyRealGame_3Players() throws Exception {
@@ -62,56 +62,142 @@ public class GameTest {
                         "Ana\n" +
                         "Elizabeth\n " +
                         //claiming territories
-                        "5\n" +
-                        "2\n" +
-                        "3\n" +
-                        "1\n" +
-                        "4\n" +
-                        "9\n" +
-                        "7\n" +
-                        "8\n" +
-                        "6\n" +
+                        "5\n" + //35
+                        "2\n" + //34
+                        "3\n" + //33
+                        "1\n" + //32
+                        "4\n" + //31
+                        "9\n" + //30
+                        "7\n" + //29
+                        "8\n" + //28
+                        "6\n" + //27
                         //place more armies in already claimed territories
                         //3 players means 35 armies
                         //30 armies left
-                        "5\n" + //30
-                        "2\n" + //29
-                        "3\n" + //28
-                        "1\n" + //27
-                        "4\n" + //26
-                        "9\n" + //25
-                        "7\n" + //24
-                        "8\n" + //23
-                        "6\n" + //22
-                        "5\n" + //21
-                        "2\n" + //20
-                        "3\n" + //19
-                        "1\n" + //18
-                        "4\n" + //17
-                        "9\n" + //16
-                        "7\n" + //15
-                        "8\n" + //14
-                        "6\n" + //13
-                        "5\n" + //12
-                        "2\n" + //11
-                        "3\n" + //10
-                        "1\n" + //09
-                        "4\n" + //08
-                        "9\n" + //07
-                        "7\n" + //06
-                        "8\n" + //05
-//                        "6\n" + //04
-//                        "5\n" + //03
-//                        "4\n" + //02
-//                        "8\n" + //01
+                        "5\n" + //26
+                        "2\n" + //25
+                        "3\n" + //24
+                        "1\n" + //23
+                        "4\n" + //22
+                        "9\n" + //21
+                        "7\n" + //20
+                        "8\n" + //19
+                        "6\n" + //18
+                        "5\n" + //17
+                        "2\n" + //16
+                        "3\n" + //15
+                        "1\n" + //14
+                        "4\n" + //13
+                        "9\n" + //12
+                        "7\n" + //11
+                        "8\n" + //10
+                        "6\n" + //09
+                        "5\n" + //08
+                        "2\n" + //07
+                        "3\n" + //06
+                        "1\n" + //05
+                        "4\n" + //04
+                        "9\n" + //03
+                        "7\n" + //02
+                        "8\n" + //01
                         //
                         "Y\n" + //first player chooses to draft
                         "7\n" + //select territory to draft to
                         "1\n" + //draft 1 army
-                        "N\n" + //does not want to draft anymore
-                        ""
-
+                        // tries to attack self
+                        "Y\n" +
+                        "7\n" +
+                        "1\n" +
+                        // first attack
+                        "Y\n" +
+                        "7\n" +
+                        "9\n" +
+                        "END\n"
                 ));
+
+        GameEngine gameEngine = new SingleUIGame();
+        gameEngine.disableCommandLogs();
+
+        //
+        TextUI textUI = new TextUI(System.out, bufferedReader);
+        gameEngine.addUi(textUI);
+        textUI.addGame(gameEngine);
+
+        gameEngine.start();
+        assertTrue(true);
+    }
+
+    @Test(enabled = true)
+    public void dummyRealGame_3Players_gotofortify() throws Exception {
+//        Scanner scanner = new Scanner(System.in);
+        BufferedReader bufferedReader = new BufferedReader(new StringReader(
+                "3\n" + //choose map SMALL_WORLD
+                        "3\n" + // number of players
+                        "Kesha\n" +
+                        "Ana\n" +
+                        "Elizabeth\n " +
+                        //claiming territories
+                        "5\n" + //35
+                        "2\n" + //34
+                        "3\n" + //33
+                        "1\n" + //32
+                        "4\n" + //31
+                        "9\n" + //30
+                        "7\n" + //29
+                        "8\n" + //28
+                        "6\n" + //27
+                        //place more armies in already claimed territories
+                        //3 players means 35 armies
+                        //30 armies left
+                        "5\n" + //26
+                        "2\n" + //25
+                        "3\n" + //24
+                        "1\n" + //23
+                        "4\n" + //22
+                        "9\n" + //21
+                        "7\n" + //20
+                        "8\n" + //19
+                        "6\n" + //18
+                        "5\n" + //17
+                        "2\n" + //16
+                        "3\n" + //15
+                        "1\n" + //14
+                        "4\n" + //13
+                        "9\n" + //12
+                        "7\n" + //11
+                        "8\n" + //10
+                        "6\n" + //09
+                        "5\n" + //08
+                        "2\n" + //07
+                        "3\n" + //06
+                        "1\n" + //05
+                        "4\n" + //04
+                        "9\n" + //03
+                        "7\n" + //02
+                        "8\n" + //01
+                        //
+                        "Y\n" + //first player chooses to draft
+                        "7\n" + //select territory to draft to
+                        "1\n" + //draft 1 army
+                        // tries to attack self
+                        "Y\n" +
+                        "7\n" +
+                        "1\n" +
+                        // first attack
+                        "N\n" +
+                        //fortify
+                        "5\n" + //select a territory to move troops from
+                        "5\n" + //tries to move army to same territory its already on
+                        "100\n" +
+                        "5\n" + //select a territory to move troops from
+                        "1\n" + //select a territory to move troops to
+                        "1\n" + //number of troops to move
+                        //DRAFT 2
+                        "Y\n" +
+                        "4\n" +
+                        "1\n" + //armies to draft to territory 4
+                        "END\n"
+        ));
 
         GameEngine gameEngine = new SingleUIGame();
         gameEngine.disableCommandLogs();

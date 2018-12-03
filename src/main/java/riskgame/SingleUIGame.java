@@ -1,6 +1,5 @@
 package riskgame;
 
-import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import riskgame.commands.Command;
@@ -121,9 +120,11 @@ public class SingleUIGame implements GameEngine {
                             armiesDrafted++;
                         }
                         currentPlayer = playerOrderList.get(0); //Whoever placed the first army opens the game.
+                        undoableNextPhase(GameState.DRAFT);
                         break;
                     //Getting and placing new armies.
                     case DRAFT:
+                        System.out.println("\n»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»» DRAFT PHASE ««««««««««««««««««««««««««««««««««««««««««««");
                         /*
                         check if player receives any more armies based on a number of factors:
                         */
@@ -143,23 +144,24 @@ public class SingleUIGame implements GameEngine {
                         currentPlayer.addArmies(armiesToReceive);
 
                         //deploy armies
-                        while(ui.askPlayerIfWantToDraft(currentPlayer).equals("Y") && currentPlayer.getArmies() > 0){
-                            Pair<Territory, Integer> draftChoicePair = ui.getDraftPick(currentPlayer, territories);
+                        String response = "";
+                        while(!response.equals("N") && currentPlayer.getArmies() > 0){
+                            response = ui.askPlayerIfToDraft(currentPlayer);
+                            Map.Entry<Territory, Integer> draftChoicePair = ui.getDraftPick(currentPlayer, territories);
                             Territory pickedTerritory = draftChoicePair.getKey();
                             Integer armiesToDraft = draftChoicePair.getValue();
                             Command draft = new Draft(this, pickedTerritory, currentPlayer, armiesToDraft);
                             commandManager.executeCommand(draft); // selects the next player in the command as well
                         }
-
-
-
-                        gameState = GameState.END;
+                        undoableNextPhase(GameState.ATTACK);
                         break;
                     case ATTACK:
+                        System.out.println("\n»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»» ATTACK PHASE ««««««««««««««««««««««««««««««««««««««««««««");
                         try {
-                            Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer);
+                            ui.askPlayerIfToAttack(currentPlayer);
+                            Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer, territories);
                             try {
-                                attackPick.checksOut(); // check that everything is good, if not it will loop around
+                                attackPick.checksOut(currentPlayer); // check that everything is good, if not it will loop around
 
                                 Command attack = new Territory.Attack(attackPick.attackingTerritory, attackPick.defendingTerritory, this);
                                 commandManager.executeCommand(attack);
@@ -171,6 +173,8 @@ public class SingleUIGame implements GameEngine {
                             }
                         } catch (UI.NoMoreAttackException e) {
                             commandManager.executeCommand(new FortifyPhase(this));
+                        } catch (UI.EndGameException e) {
+                            undoableNextPhase(GameState.END);
                         }
                         break;
 
@@ -179,20 +183,23 @@ public class SingleUIGame implements GameEngine {
                         if (lastAttacking.getArmies() - armiesToMoveIn > 1) { // todo: research if 1 army left in a territory is allowed or is it 2
                             Command command = new Territory.MoveArmies(armiesToMoveIn, lastAttacking, lastDefending);
                             commandManager.executeCommand(command);
-                            gameState = GameState.ATTACK; // back to attack state todo: make this a command
+                            undoableNextPhase(GameState.ATTACK);
                         } else {
                             ui.error(new Exception("You are not allowed to move that many armies, you must leave 1 army"));
                         }
                         break;
 
                     case FORTIFY:
-                        FortifyPick fortifyPick = ui.getFortifyPick(this.currentPlayer);
+                        System.out.println("\n»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»» FORTIFY PHASE ««««««««««««««««««««««««««««««««««««««««««««");
+                        undoableNextPhase(GameState.END);
+                        FortifyPick fortifyPick = ui.getFortifyPick(this.currentPlayer, territories);
                         while (!verifyFortifyPick(fortifyPick)) {
                             ui.error(new Exception("Fortify pick invalid"));
-                            fortifyPick = ui.getFortifyPick(this.currentPlayer);
+                            fortifyPick = ui.getFortifyPick(this.currentPlayer,territories);
                         }
                         commandManager.executeCommand(new FortifyCommand(fortifyPick));
                         commandManager.executeCommand(new NextPlayerCommand(this));
+                        undoableNextPhase(GameState.DRAFT);
                         break;
 
 
@@ -340,6 +347,15 @@ public class SingleUIGame implements GameEngine {
         }
     }
 
+    private void undoableNextPhase(GameState nextGameState) {
+        Command nextPhase = new NextPhase(this, nextGameState);
+        try {
+            commandManager.executeCommand(nextPhase);
+        } catch (Command.IllegalExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
     private class SetPlayers implements Command {
 
         private final SingleUIGame game;
@@ -409,6 +425,7 @@ public class SingleUIGame implements GameEngine {
             for (int i = 0; i < armies; i++) {
                 draftOne.execute();
             }
+            player.removeArmies(armies);
             game.gameState = GameState.DRAFT;
             game.ui.update();
         }
@@ -418,6 +435,7 @@ public class SingleUIGame implements GameEngine {
             for (int i = 0; i < armies; i++) {
                 draftOne.undo();
             }
+            player.addArmies(armies);
             game.ui.update();
         }
     }
@@ -453,7 +471,6 @@ public class SingleUIGame implements GameEngine {
             territory.setControlledBy(player);
             player.addTerritory(territory);
             game.nextPlayer();
-            game.gameState = GameState.DRAFT;
             game.ui.update();
         }
 
@@ -540,12 +557,12 @@ public class SingleUIGame implements GameEngine {
         }
     }
 
-    public class FortifyPick {
+    public static class FortifyPick {
         public final Territory from;
         public final Territory to;
         public final int howManyArmies;
 
-        FortifyPick(Territory from, Territory to, int howManyArmies) {
+        public FortifyPick(Territory from, Territory to, int howManyArmies) {
             this.from = from;
             this.to = to;
             this.howManyArmies = howManyArmies;
@@ -601,6 +618,33 @@ public class SingleUIGame implements GameEngine {
         public void undo() throws IllegalUndoException {
             fortifyPick.from.addArmies(fortifyPick.howManyArmies);
             fortifyPick.to.removeArmies(fortifyPick.howManyArmies);
+        }
+    }
+
+    private class NextPhase implements Command {
+        final GameState previousState;
+        final SingleUIGame game;
+        final GameState nextState;
+
+        public NextPhase(SingleUIGame game, GameState nextGameState) {
+            this.game = game;
+            nextState = nextGameState;
+            previousState = game.gameState;
+        }
+
+        @Override
+        public void log() {
+            logger.info("Game state moving from: " + previousState.name() + " to " + nextState.name());
+        }
+
+        @Override
+        public void execute() throws IllegalExecutionException {
+            game.gameState = nextState;
+        }
+
+        @Override
+        public void undo() throws IllegalUndoException {
+            game.gameState = previousState;
         }
     }
 }

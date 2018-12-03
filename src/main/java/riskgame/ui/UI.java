@@ -1,6 +1,5 @@
 package riskgame.ui;
 
-import javafx.util.Pair;
 import riskgame.GameEngine;
 import riskgame.GameMaps;
 import riskgame.SingleUIGame;
@@ -10,6 +9,7 @@ import riskgame.gameobject.player.NotEnoughCreditException;
 import riskgame.gameobject.player.Player;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * essentially an Observer (design pattern) with the ability to prompt
@@ -18,7 +18,7 @@ public interface UI {
     public void addGame(GameEngine gameEngine);
     public void update();
 
-    public GameMaps.GameMap selectMap(GameMaps gameMaps);
+    public GameMaps.GameMap selectMap(GameMaps gameMaps) throws EndGameException, NoMoreAttackException;
 
     /**
      * display exception to player
@@ -39,7 +39,7 @@ public interface UI {
      * @return the Territory the Player picked to add an army to
      */
     Territory getInitDraftPick(Player currentPlayer, List<Territory> territories);
-    Pair getDraftPick(Player currentPlayer, List<Territory> territories);
+    Map.Entry<Territory, Integer> getDraftPick(Player currentPlayer, List<Territory> territories);
 
     /**
      * This should prompt the user with a window containing one input,
@@ -53,17 +53,21 @@ public interface UI {
 
     void notEnoughCredit(NotEnoughCreditException e);
 
-    Territory.AttackPick getAttackPick(Player currentPlayer) throws NoMoreAttackException;
+    Territory.AttackPick getAttackPick(Player currentPlayer, List<Territory>territories) throws NoMoreAttackException, EndGameException;
 
     int queryArmiesToMove(Player currentPlayer, Territory from, Territory to);
 
     void tellPlayersToClaimTheirFirstTerritories();
-    String askPlayerIfWantToDraft(Player currentPlayer);
+    String askPlayerIfToDraft(Player currentPlayer);
+    String askPlayerIfToAttack(Player currentPlayer) throws NoMoreAttackException, EndGameException;
 
-    SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer);
+    SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer, List<Territory>territories);
 
     class CreditPromptCancelledException extends Exception { }
 
     class NoMoreAttackException extends Exception {
+    }
+
+    class EndGameException extends Exception {
     }
 }
