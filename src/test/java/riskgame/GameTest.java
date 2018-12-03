@@ -111,8 +111,8 @@ public class GameTest {
                         // first attack
                         "Y\n" +
                         "7\n" +
-                        "9\n"
-
+                        "9\n" +
+                        "END\n"
                 ));
 
         GameEngine gameEngine = new SingleUIGame();
