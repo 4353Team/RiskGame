@@ -61,7 +61,7 @@ public interface UI {
     String askPlayerIfToDraft(Player currentPlayer);
     String askPlayerIfToAttack(Player currentPlayer) throws NoMoreAttackException, EndGameException;
 
-    SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer);
+    SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer, List<Territory>territories);
 
     class CreditPromptCancelledException extends Exception { }
 

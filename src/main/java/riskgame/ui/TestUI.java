@@ -121,7 +121,7 @@ public class TestUI implements UI {
     }
 
     @Override
-    public SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer) {
+    public SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer, List<Territory>territories) {
         return null;
     }
 

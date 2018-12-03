@@ -1,6 +1,7 @@
 package riskgame;
 
 
+import com.amazonaws.annotation.NotThreadSafe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.ApiContextInitializer;
@@ -27,10 +28,11 @@ import java.util.Scanner;
 
 import static org.testng.Assert.*;
 
+@NotThreadSafe
 public class GameTest {
     private static final Logger logger = LogManager.getLogger(GameTest.class);
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void dummyUiGame_3_players() throws Exception {
         List<Player> playerList = new ArrayList<>();
         playerList.add(new HumanPlayer("Player 1"));
@@ -47,10 +49,8 @@ public class GameTest {
         testUI.addGame(gameEngine);
 
         gameEngine.start();
-
         assertSame(testUI.map.get(1).getControlledBy(), playerList.get(1));
     }
-
 
     @Test(enabled = true)
     public void dummyRealGame_3Players() throws Exception {
@@ -184,7 +184,19 @@ public class GameTest {
                         "7\n" +
                         "1\n" +
                         // first attack
-                        "N\n"
+                        "N\n" +
+                        //fortify
+                        "5\n" + //select a territory to move troops from
+                        "5\n" + //tries to move army to same territory its already on
+                        "100\n" +
+                        "5\n" + //select a territory to move troops from
+                        "1\n" + //select a territory to move troops to
+                        "1\n" + //number of troops to move
+                        //DRAFT 2
+                        "Y\n" +
+                        "4\n" +
+                        "1\n" + //armies to draft to territory 4
+                        "END\n"
         ));
 
         GameEngine gameEngine = new SingleUIGame();

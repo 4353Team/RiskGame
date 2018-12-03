@@ -190,11 +190,12 @@ public class SingleUIGame implements GameEngine {
                         break;
 
                     case FORTIFY:
+                        System.out.println("\n»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»» FORTIFY PHASE ««««««««««««««««««««««««««««««««««««««««««««");
                         undoableNextPhase(GameState.END);
-                        FortifyPick fortifyPick = ui.getFortifyPick(this.currentPlayer);
+                        FortifyPick fortifyPick = ui.getFortifyPick(this.currentPlayer, territories);
                         while (!verifyFortifyPick(fortifyPick)) {
                             ui.error(new Exception("Fortify pick invalid"));
-                            fortifyPick = ui.getFortifyPick(this.currentPlayer);
+                            fortifyPick = ui.getFortifyPick(this.currentPlayer,territories);
                         }
                         commandManager.executeCommand(new FortifyCommand(fortifyPick));
                         commandManager.executeCommand(new NextPlayerCommand(this));

@@ -254,9 +254,4 @@ public class TextUI implements UI {
         if (response.contains("N")) throw  new NoMoreAttackException();
         return response;
     }
-
-    @Override
-    public SingleUIGame.FortifyPick getFortifyPick(Player currentPlayer) {
-        return null;
-    }
 }
