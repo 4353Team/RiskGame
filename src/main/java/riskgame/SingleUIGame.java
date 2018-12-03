@@ -174,7 +174,6 @@ public class SingleUIGame implements GameEngine {
                         } catch (UI.NoMoreAttackException e) {
                             commandManager.executeCommand(new FortifyPhase(this));
                         }
-                        undoableNextPhase(GameState.END);
                         break;
 
                     case ATTACK_SUCCESSFUL:
@@ -189,6 +188,7 @@ public class SingleUIGame implements GameEngine {
                         break;
 
                     case FORTIFY:
+                        undoableNextPhase(GameState.END);
                         FortifyPick fortifyPick = ui.getFortifyPick(this.currentPlayer);
                         while (!verifyFortifyPick(fortifyPick)) {
                             ui.error(new Exception("Fortify pick invalid"));

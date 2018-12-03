@@ -167,19 +167,6 @@ public class Territory implements Serializable, Observable {
                         //territoriesCapturedThisTurn += 1;
                         attackWon = true;
                         game.attackWon();
-
-//                        // todo: make a separate command
-//                        int movetroops = 2;
-//
-//                        System.out.printf("%s decides to move %d troop%s from %s to %s\n", attackingTerritory.getName(), movetroops, (movetroops == 1) ? "" : "s", attackingTerritory.getName(), defendingTerritory.getName());
-//                        if (attackingTerritory.getArmies() - movetroops >= 1) {
-//                            defendingTerritory.setArmies(movetroops);
-//                            defendingTerritory.setControlledBy(attackingTerritory.getControlledBy());
-//                            attackingTerritory.getControlledBy().addTerritory(defendingTerritory);
-//                            defendingTerritory.getControlledBy().removeTerritory(defendingTerritory);
-//                            attackingTerritory.removeArmies(movetroops);
-//                        } else
-//                            System.out.println("Cannot move " + movetroops + ". You need to leave at least one troop behind.");
                     }
                 } else {
                     // defense winner
@@ -290,7 +277,7 @@ public class Territory implements Serializable, Observable {
         public void checksOut(Player player) throws AttackPickException {
             if (attackingTerritory.getControlledBy() != player) throw new AttackPickException("Please choose a " +
                     "territory you own to attack from");
-            if (attackingTerritory.getControlledBy() == player) throw new AttackPickException("You may not attack " +
+            if (defendingTerritory.getControlledBy() == player) throw new AttackPickException("You may not attack " +
                     "yourself");
         }
 

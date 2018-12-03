@@ -104,11 +104,14 @@ public class GameTest {
                         "Y\n" + //first player chooses to draft
                         "7\n" + //select territory to draft to
                         "1\n" + //draft 1 army
-                        //
+                        // tries to attack self
                         "Y\n" +
                         "7\n" +
                         "1\n" +
-                        ""
+                        // first attack
+                        "Y\n" +
+                        "7\n" +
+                        "9\n"
 
                 ));
 
