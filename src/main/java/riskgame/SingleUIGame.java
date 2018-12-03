@@ -159,7 +159,7 @@ public class SingleUIGame implements GameEngine {
                         System.out.println("\n»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»» ATTACK PHASE ««««««««««««««««««««««««««««««««««««««««««««");
                         ui.askPlayerIfToAttack(currentPlayer);
                         try {
-                            Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer);
+                            Territory.AttackPick attackPick = ui.getAttackPick(currentPlayer, territories);
                             try {
                                 attackPick.checksOut(currentPlayer); // check that everything is good, if not it will loop around
 

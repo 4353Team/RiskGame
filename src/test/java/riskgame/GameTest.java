@@ -105,7 +105,7 @@ public class GameTest {
                         "7\n" + //select territory to draft to
                         "1\n" + //draft 1 army
                         //
-                        "Y\n" +
+                        "Y\n" + //wants to attack
                         ""
 
                 ));

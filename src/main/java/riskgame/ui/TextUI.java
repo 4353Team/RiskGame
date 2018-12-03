@@ -203,10 +203,12 @@ public class TextUI implements UI {
         Territory attackTo;
         outStream.println(currentPlayer.getName() + ", select a territory to attack from/with.");
         displayTerritories(territories);
+        outStream.println("[Don't want to attack]: N");
         attackFrom = getTerritory(getNextInt(), territories);
         outStream.println(currentPlayer.getName() + " chose " + attackFrom.getName() + " to attack from.");
         outStream.println(currentPlayer.getName() + " select a territory to attack!");
         displayTerritories(territories);
+        outStream.println("[Don't want to attack]: N");
         attackTo = getTerritory(getNextInt(), territories);
         outStream.println(currentPlayer.getName() + " has selected to attack " + attackTo);
         return new Territory.AttackPick(attackFrom, attackTo);
